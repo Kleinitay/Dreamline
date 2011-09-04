@@ -197,6 +197,7 @@ padding-top:14px;
 }
 #header_sec .signin ul {
 float:right;
+width:300px;
 }
 #header_sec .signin li {
 float:left;
