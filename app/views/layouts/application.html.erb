@@ -24,14 +24,14 @@
 						<ul>
 							<li class="create_account"><a href="/users/new">Create Account</a></li>
 							<!--div id="header"-->
-								<li class="sign_in" id="header">
-									<% if signed_in? -%>
-	  								<%= link_to "Sign out", sign_out_path, :method => :delete %>
-	  							<% else -%>
-	  								<%= link_to "Sign in", sign_in_path %>
-									<% end -%>
-								</li>
-								<li class="upload_btn"><a href="#">Upload New Video</a></li>	
+							<li class="sign_in" id="header">
+								<% if signed_in? -%>
+	  							<%= link_to "Sign out", sign_out_path, :method => :delete %>
+	  						<% else -%>
+	  							<%= link_to "Sign in", sign_in_path %>
+								<% end -%>
+							</li>
+							<li class="upload_btn"><a href="#">Upload New Video</a></li>	
 							<!--/div-->
 	  					<div id="flash">
 	    					<% flash.each do |key, value| -%>
