@@ -25,7 +25,6 @@
 							<li class="create_account"><a href="/users/new">Create Account</a></li>
 							<!--div id="header"-->
 								<li class="sign_in" id="header">
-									<!--a href="views/users/signin.html.erb">Sign In</a-->
 									<% if signed_in? -%>
 	  								<%= link_to "Sign out", sign_out_path, :method => :delete %>
 	  							<% else -%>
