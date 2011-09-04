@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  	<%= stylesheet_link_tag :all %>
+  	<%= javascript_include_tag :defaults %>
+		<%= javascript_include_tag "jquery.min","cufon-yui", "arial", "switch" %>
+  	<%= csrf_meta_tag %>
+		<%= yield :head %>
+	</head>
+	<body>
+		<!--Header Section -->
+		<div id="outer_header">
+			<div id="header_sec">
+				<a href="index.html"><img src="images/logo.png" alt="" id="logo" /></a>
+					<div id="nav">
+						<ul id="navbar">
+							<li><a href="/" class="active">Home</a></li>
+							<li><a href="videolisting.html">My Videos</a></li>						
+						</ul>
+					</div>
+
+					<div class="signin">
+						<ul>
+							<li class="create_account"><a href="#">Creat Account</a></li>
+							<!--div id="header"-->
+								<li class="sign_in" id="header">
+									<!--a href="views/users/signin.html.erb">Sign In</a-->
+									<% if signed_in? -%>
+	  								<%= link_to "Sign out", sign_out_path, :method => :delete %>
+	  							<% else -%>
+	  								<%= link_to "Sign in", sign_in_path %>
+									<% end -%>
+								</li>
+								<li class="upload_btn"><a href="#">Upload New Video</a></li>	
+							<!--/div-->
+	  					<div id="flash">
+	    					<% flash.each do |key, value| -%>
+	      					<div id="flash_<%= key %>"><%=h value %></div>
+	    					<% end %>
+	  					</div>
+						</ul>
+					</div>
+					<br class="clear" />
+				</div>
+			</div>
+			<!--Header Section  End-->
+
+			<%= yield %>
+
+			<!--Footer -->
+			<div id="outer-bottom-footer">
+				<div id="outer-footer">
+					<div id="footer_sec">
+						<div class="about-us">
+							<h2>About Us</h2>
+							<ul>
+								<li><a href="#">Our Story</a></li>
+								<li><a href="#">Privacy and Security</a></li>
+								<li><a href="#">Terms of Use</a></li>
+								<li><a href="#">Media Contact</a></li>
+								<li><a href="#">FAQ's</a></li>
+								<li><a href="#">Contact Us</a></li>
+							</ul>
+						</div>
+						<div class="rules-policy">
+							<h2>Rules &amp; Policies</h2>
+							<ul>
+								<li><a href="#">Rules &amp; Policies</a></li>
+								<li><a href="#">Usage Rules</a></li>
+								<li><a href="#">Copyright</a></li>
+								<li><a href="#">Privacy</a></li>
+								<li><a href="#">Terms of Use</a></li>
+								<li><a href="#">Contact Advertise</a></li>
+							</ul>
+						</div>
+						<div class="social-network">
+							<h2>Follow Us</h2>
+							<ul>
+								<li><a href="#" class="so1">www.facebook.com</a></li>
+								<li><a href="#" class="so2">www.Twitter.com</a></li>
+								<li><a href="#" class="so3">www.MySpace.com</a></li>
+								<li><a href="#" class="so4">www.Youtube.com</a></li>
+								<li><a href="#" class="so5">www.Google.com</a></li>
+							</ul>
+						</div>
+
+						<div class="news-letter">
+							<h2>News letter Sign Up</h2>
+							<p>Get exclusive offers, sales and special deals delivered to your inbox!</p>
+							<ul>
+								<li><label><input type="radio" checked="checked" name="news" />Weekly </label><label><input type="radio"  name="news" />Monthly </label></li>
+							</ul>
+							<span class="subsc-input"><input type="text" value="Enter Email Address Here" name="newsletter"  onfocus="if(this.value == 'Enter Email Address Here') { this.value = ''; }" onblur="if(this.value == '') { this.value = 'Enter Email Address Here'; }" /><a href="#">Submit</a></span>
+						</div>
+						<br class="clear" />
+					</div>
+				</div>
+			</div>
+			<!--Footer Ends -->
+
+			<!--bottom Footer -->
+			<div id="bottom-footer">
+				<p>&copy; 2011 <a href="#">VidStream</a> All Rights Reserved</p>
+				<a href="#" id="goTop">Go to Top</a>
+				<br class="clear" />
+			</div>
+			<!--Bottom Footer Ends -->
+		</body>
+</html>
