@@ -11,15 +11,33 @@
     </div>
   <% end %>
 
-  <div class="text_field">
-    <%= f.label :email %><br />
-    <%= f.text_field :email, :type => "email" %>
+	<div class="signin-form">
+		<ul>
+			<li>
+    			<%= f.label :email %>
+					<span><%= f.text_field :email, :type => "email" %></span>
+			</li>
+			<li>
+    		<%= f.label :password %>
+				<span><%= f.password_field :password %></span>	
+			</li>			
+			<li>
+				<div><label class="remem-me"><input type="checkbox"  />Remember Me </label></div>
+			</li>
+			<li>
+				<div><a href="#" class="fb-connect">Connect With Fb</a></div>
+			</li>
+			<li>
+			   <%= f.submit %>
+			</li>
+		</ul>
+		<ul>
+			<li>
+				<div>
+		    	<%= link_to "Sign in", sign_in_path %>
+				</div>
+		  </li>
+		</ul>			
   </div>
-  <div class="password_field">
-    <%= f.label :password %><br />
-    <%= f.password_field :password %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+ 
 <% end %>
