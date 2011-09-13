@@ -1,0 +1,10 @@
+pkg
+*.DS_Store
+*.swp
+*.swo
+*~
+!.keep
+.bundle
+db/*.sqlite3
+log/*.log
+tmp/
