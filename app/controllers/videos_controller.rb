@@ -5,6 +5,7 @@ class VideosController < ApplicationController
 		@video = Video.find(video_id) if video_id != 0
 		if !@video then render_404 and return end
 	  check_video_redirection(@video)
+	  @user = @video.user
 	end
 	
 	def list
