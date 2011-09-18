@@ -24,7 +24,9 @@ class Video < ActiveRecord::Base
     sort = order_by == "latest" ? "created_at" : "views_count"  
     vs = Video.all(:limit => 10, :order => sort + " desc")
     vs.each do |v|
-      v[:user_nick] = v.user.nick
+      user = v.user
+      v[:user_id] = user.id
+      v[:user_nick] = user.nick
       v[:thumb] = "#{directory(v.id)}/thumbnail.jpg"
       v[:src] = "#{directory(v.id)}/#{v.id}.avi"
     end
