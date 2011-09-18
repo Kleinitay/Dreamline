@@ -63,7 +63,7 @@
 			<div class="video-info">
 				<div class="left-info-box">
 					<ul>
-						<li class="nobg">Uploaded by <a href="#"><%=@user.nick %></a> on <%=@video.created_at %>Jun 4, 2010, 08:20 PM </li>
+						<li class="nobg">Uploaded by <a href="#"><%=@user.nick %></a> on <%= @video.created_at.strftime("%b %d, %Y, %I:%m %p") %></li>
 						<li>Category: <a href="#">Music</a></li>
 					</ul>
 					<p>Video Details: <strong>1280x720, 127.61MB</strong></p>
