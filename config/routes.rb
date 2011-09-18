@@ -2,14 +2,15 @@ Dreamline::Application.routes.draw do
   resources :users
   
   root :to => "application#home"
-  #match 'sign_in'
-  match 'video/:id' => 'videos#show_video', :as => :video
+  
+  match 'video/latest' => 'videos#list', :as => :latest_videos, :order=> "latest"
+  match 'video/most_popular' => 'videos#list', :as => :most_popular_videos, :order=> "popular"
+  match 'video/:id' => 'videos#show_video', :as => :video, :requirements => { :id => /([0-9]*)?/ }
   #ActionController::Routing::Routes.draw do |map|
   #		map.video "/video/:id", :controller => 'videos', :action => 'show_video'
   # end
   
-  match 'videos/latest' => 'videos#list', :as => :latest_videos, :order=> "latest"
-  match 'videos/most_popular' => 'videos#list', :as => :most_popular_videos, :order=> "popular"
+
   
 # ___________________Clearance routes______________________________________________________
   
