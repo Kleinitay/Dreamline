@@ -10,110 +10,55 @@
 	</div>
 
 	<div class="wrapper_list_view">
-		<%# Movieeeeeeeeeee %>
-		<div class="description-box nopadding">
-			<div class="video-box"><a href="#">
-				<img src="images/img-v1.jpg" alt="" />
-				<span class="time-video">01:25</span>
-				<span class="add-playlist">Add</span></a>
-			</div>
-			<div class="description-video">
-				<div class="heading-date">
-					<h5><a href="videodetail.html">Duis molestie nunc nec felis sollicitudin</a></h5>
-					<span>8 months ago</span>
-				</div>
-				<div class="text-desc">
-					<p>Duis molestie nunc nec felis sollicitudin sed ornare lorem varius. Quisque eleifend lacus eget lectus elementum vel ultrices justo porta. Etiam bibendum. Quisque eleifend lacus eget lectus elementum vel ultrices justo porta. Etiam bibendum.</p>
-				</div>
-				<div class="total-views"><strong>12,194,298 </strong> views</div>
-				<div class="bottom-panel">
-					<ul> 
-						<li class="nobg">by: <a href="#">Alex Anderson</a></li>
-						<li><strong>2,114,568</strong> Views</li>
-						<li>96 Comments</li>
-					</ul>
-					<div class="rating-stars"><em>&nbsp;</em><em>&nbsp;</em><em>&nbsp;</em><em>&nbsp;</em><em class="low-rate">&nbsp;</em></div>
-						<a href="#" class="share-btn">Share This</a>
-					</div>
-				</div>
-			</div>
-			<%# End Movieeeeeeeeeee %>
-				
-				<%# Movieeeeeeeeeee %>
-			<div class="description-box">
-				<div class="video-box"><a href="#">
-					<img src="images/img-v3.jpg" alt="" />
-						<span class="time-video">01:25</span>
-						<span class="add-playlist">Add</span></a>
-				</div>
-				<div class="description-video">
-					<div class="heading-date">
-						<h5><a href="videodetail.html">Duis molestie nunc nec felis sollicitudin</a></h5>
-							<span>8 months ago</span>
-					</div>
-					<div class="text-desc">
-						<p>Duis molestie nunc nec felis sollicitudin sed ornare lorem varius. Quisque eleifend lacus eget lectus elementum vel ultrices justo porta. Etiam bibendum. Quisque eleifend lacus eget lectus elementum vel ultrices justo porta. Etiam bibendum.</p>
-					</div>
-					<div class="total-views"><strong>12,194,298 </strong> views</div>
-					<div class="bottom-panel">
-						<ul> 
-							<li class="nobg">by: <a href="#">Alex Anderson</a></li>
-							<li><strong>2,114,568</strong> Views</li>
-							<li>96 Comments</li>
-						</ul>
-						<div class="rating-stars"><em>&nbsp;</em><em>&nbsp;</em><em>&nbsp;</em><em>&nbsp;</em><em class="low-rate">&nbsp;</em></div>
-						<a href="#" class="share-btn">Share This</a>
-					</div>
-				</div>
-			</div>
-			<%# End Movieeeeeeeeeee %>
-
-			<%# Movieeeeeeeeeee %>
-			<div class="description-box">
+		<% @videos.each do |v| %>
+			<div class="description-box nopadding">
 				<div class="video-box">
-					<a href="#">
-						<img src="images/img-v1.jpg" alt="" />
-						<span class="time-video">01:25</span>
-						<span class="add-playlist">Add</span></a>
+					<a href="<%= v.uri %>">
+						<img src= "<%= v.thumb %>" alt="<% v.title %>" />
+						<span class="time-video">01:25!!!</span>
+					</a>
 				</div>
 				<div class="description-video">
 					<div class="heading-date">
-						<h5><a href="videodetail.html">Duis molestie nunc nec felis sollicitudin</a></h5>
+						<h5><a href="<%= v.uri %>"><%= v.title %></a></h5>
 						<span>8 months ago</span>
 					</div>
 					<div class="text-desc">
-						<p>Duis molestie nunc nec felis sollicitudin sed ornare lorem varius. Quisque eleifend lacus eget lectus elementum vel ultrices justo porta. Etiam bibendum. Quisque eleifend lacus eget lectus elementum vel ultrices justo porta. Etiam bibendum.</p>
+						<p>Add real description here!!!. <br/>
+							Duis molestie nunc nec felis sollicitudin sed ornare lorem varius. Quisque eleifend lacus eget lectus elementum vel ultrices justo porta. Etiam bibendum. Quisque eleifend lacus eget lectus elementum vel ultrices justo porta. Etiam bibendum.</p>
 					</div>
-					<div class="total-views"><strong>12,194,298 </strong> views</div>
+					<div class="total-views"><strong>????????????????????????? </strong> views</div>
 					<div class="bottom-panel">
-						<ul>
-							<li class="nobg">by: <a href="#">Alex Anderson</a></li>
-							<li><strong>2,114,568</strong> Views</li>
-							<li>96 Comments</li>
+						<ul> 
+							<li class="nobg">by: <a href="/user/<%= v.user_id %>"><%= v.user_nick %></a></li>
+							<li><strong><%= v.views_count %></strong> Views</li>
+							<li>96!!!!! Comments</li>
 						</ul>
-						<div class="rating-stars"><em>&nbsp;</em><em>&nbsp;</em><em>&nbsp;</em><em>&nbsp;</em><em class="low-rate">&nbsp;</em></div>
-						<a href="#" class="share-btn">Share This</a>
+						<!-- rating... -->
+						<!--div class="rating-stars"><em>&nbsp;</em><em>&nbsp;</em><em>&nbsp;</em><em>&nbsp;</em><em class="low-rate">&nbsp;</em></div-->
+							<a href="#" class="share-btn">!!Share This</a>
+						</div>
 					</div>
-					<%# End Movieeeeeeeeeee %>
 				</div>
-			</div>
+			<% end %>
 		</div>
+	</div>
 
-		<div class="pager">
-			<ul>
-				<li><a href="#" class="pre">Previous</a></li>
-				<li><a href="#" class="active">1</a></li>
-				<li><a href="#">2</a></li>
-				<li><a href="#">3</a></li>
-				<li><a href="#">4</a></li>
-				<li><a href="#">5</a></li>
-				<li><a href="#">6</a></li>
-				<li><a href="#">7</a></li>
-				<li><span>...</span></li>
-				<li><a href="#">44</a></li>
-				<li><a href="#" class="next">Next</a></li>
-				<li><a href="#">Next</a></li>
-			</ul>
-		</div>
+
+	<div class="pager">
+		<ul>
+			<li><a href="#" class="pre">Previous</a></li>
+			<li><a href="#" class="active">1</a></li>
+			<li><a href="#">2</a></li>
+			<li><a href="#">3</a></li>
+			<li><a href="#">4</a></li>
+			<li><a href="#">5</a></li>
+			<li><a href="#">6</a></li>
+			<li><a href="#">7</a></li>
+			<li><span>...</span></li>
+			<li><a href="#">44</a></li>
+			<li><a href="#" class="next">Next</a></li>
+			<li><a href="#">Next</a></li>
+		</ul>
 	</div>
 </div>
