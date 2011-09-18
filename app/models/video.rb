@@ -18,9 +18,11 @@ class Video < ActiveRecord::Base
    string_id = (video_id.to_s).rjust(9,"0")
    "#{VIDEO_PATH}#{string_id[0..2]}/#{string_id[3..5]}/#{string_id[6..8]}" 
   end
-  
-  def self.get_latest
-    vs = Video.all(:limit => 10)
+
+# Moozly: the functions gets videos for showing in a list by sort order - latest or most popular  
+  def self.get_videos_by_sort(order_by)
+    sort = order_by == "latest" ? "created_at" : "views_count"  
+    vs = Video.all(:limit => 10, :order => sort + " desc")
     vs.each do |v|
       v[:user_nick] = v.user.nick
       v[:thumb] = "#{directory(v.id)}/thumbnail.jpg"

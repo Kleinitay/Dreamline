@@ -11,11 +11,10 @@ class VideosController < ApplicationController
 	def list
 	  if params[:order] == "popular"
 	    @order = "most popular"
-	    @videos = Video.get_by_popular
 	  else
       @order = "latest"
-	    @videos = Video.get_latest
-   end
+    end
+    @videos = Video.get_videos_by_sort(@order)
   end
 
   def check_video_redirection(video)
