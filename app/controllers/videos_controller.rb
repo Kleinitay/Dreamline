@@ -9,19 +9,14 @@ class VideosController < ApplicationController
 	end
 	
 	def list
-	  #Moozly: add support in:
-#	  if params[:order] == "popular"
-#	    @order = "most popular"
-#	    @videos = get_videos_by_popular  
-#	  else
-#	    @order = "latest"
-#	    @videos = get_videos_by_latest
-#   end
-	  #in the meantime:
-	  @order = "latest"
-	  @videos = []
+	  if params[:order] == "popular"
+	    @order = "most popular"
+	    @videos = Video.get_by_popular
+	  else
+      @order = "latest"
+	    @videos = Video.get_latest
+   end
   end
-
 
   def check_video_redirection(video)
     if request.path != video.uri
