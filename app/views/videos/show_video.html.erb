@@ -63,7 +63,7 @@
 				<div class="left-info-box">
 					<ul>
 						<li class="nobg">Uploaded by <a href="#"><%=@user.nick %></a> on <%= @video.created_at.strftime("%b %d, %Y, %I:%m %p") %></li>
-						<li>Category: <a href="#">Music!!!!</a></li>
+						<li>Category: <a href="<%= @video.category_uri %>"><%= @video.category_title %></a></li>
 					</ul>
 				</div>
 				<div class="right-info-box">

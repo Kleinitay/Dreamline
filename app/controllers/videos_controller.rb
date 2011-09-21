@@ -2,19 +2,23 @@ class VideosController < ApplicationController
 	
 	def show_video
 		video_id = params[:id].to_i
-		@video = Video.find(video_id) if video_id != 0
+		@video = Video.for_view(video_id) if video_id != 0
 		if !@video then render_404 and return end
 	  check_video_redirection(@video)
 	  @user = @video.user
 	end
 	
 	def list
-	  if params[:order] == "popular"
-	    @order = "most popular"
-	  else
-      @order = "latest"
+	  @videos = []
+	  @order = params[:order]
+	  case
+      when @order == "popular" || @order == "latest"
+        @videos = Video.get_videos_by_sort(@order)
+	    when Video::CATEGORIES.values.include?(@order)
+	      @videos = Video.get_videos_by_category(@order)
+	    else
+	      render_404 and return
     end
-    @videos = Video.get_videos_by_sort(@order)
   end
 
   def check_video_redirection(video)
