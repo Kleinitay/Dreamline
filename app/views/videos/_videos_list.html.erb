@@ -30,7 +30,9 @@
 					<div class="bottom-panel">
 						<ul> 
 							<li class="nobg">by: <a href="/user/<%= v.user_id %>"><%= v.user_nick %></a></li>
-							<li><strong>Category: </strong> <a href=<%= v.category_uri %>><%= v.category_title %></a></li>
+							<% if !@category %>
+								<li><strong>Category: </strong> <a href=<%= v.category_uri %>><%= v.category_title %></a></li>
+							<% end %>
 							<li><strong><%= v.views_count %></strong> Views</li>
 							<li>96!!!!! Comments</li>
 						</ul>
