@@ -1,15 +1,14 @@
-Dreamline::Application.routes.draw do
+Dreamline::Application.routes.draw do |map|
   resources :users
   
   root :to => "application#home"
-  
-  match 'video/latest' => 'videos#list', :as => :latest_videos, :order=> "latest"
-  match 'video/most_popular' => 'videos#list', :as => :most_popular_videos, :order=> "popular"
-  match 'video/:id' => 'videos#show_video', :as => :video, :requirements => { :id => /([0-9]*)?/ }
-  #ActionController::Routing::Routes.draw do |map|
-  #		map.video "/video/:id", :controller => 'videos', :action => 'show_video'
-  # end
-  
+
+  match 'video/latest'        => 'videos#list', :as => :latest_videos, :order=> "latest"
+  match 'video/most_popular'  => 'videos#list', :as => :most_popular_videos, :order=> "popular"
+  Video::CATEGORIES.values.each do |order|
+    match "video/#{order}"    => 'videos#list', :as => :category, :order => "#{order}"
+  end
+  match 'video/:id'           => 'videos#show_video', :as => :video, :requirements => { :id => /([0-9]*)?/ }
 
   
 # ___________________Clearance routes______________________________________________________
