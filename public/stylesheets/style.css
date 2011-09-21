@@ -1508,18 +1508,18 @@ color:#00555a;
 }
 .panel-left li a.panl-1 {
 background:url(../images/bg-panl-1.png) no-repeat 15px 11px;
-width:40px;
+width:80px;
 padding-left:35px;
 }
 .panel-left li a.panl-2 {
-background:url(../images/bg-panl-2.png) no-repeat center center;
-width:35px;
-text-indent:-9999px;
+background:url(../images/bg-panl-2.png) no-repeat 15px 11px;
+width:80px;
+padding-left:35px;
 
 }
 .panel-left li a.panl-3 {
 background:url(../images/bg-panl-3.png) no-repeat 13px 10px;
-width:96px;
+width:40px;
 padding-left:35px;
 }
 .panel-left li a.panl-4 {
