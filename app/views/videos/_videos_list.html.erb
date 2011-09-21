@@ -24,13 +24,13 @@
 						<span>8 months ago</span>
 					</div>
 					<div class="text-desc">
-						<p>Add real description here!!!. <br/>
-							Duis molestie nunc nec felis sollicitudin sed ornare lorem varius. Quisque eleifend lacus eget lectus elementum vel ultrices justo porta. Etiam bibendum. Quisque eleifend lacus eget lectus elementum vel ultrices justo porta. Etiam bibendum.</p>
+						<p><%= v.description %></p>
 					</div>
 					<div class="total-views"><strong>????????????????????????? </strong> views</div>
 					<div class="bottom-panel">
 						<ul> 
 							<li class="nobg">by: <a href="/user/<%= v.user_id %>"><%= v.user_nick %></a></li>
+							<li><strong>Category: </strong> <a href=<%= v.category_uri %>><%= v.category_title %></a></li>
 							<li><strong><%= v.views_count %></strong> Views</li>
 							<li>96!!!!! Comments</li>
 						</ul>
