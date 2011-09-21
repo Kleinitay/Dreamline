@@ -2,6 +2,7 @@ class User < ActiveRecord::Base
   include Clearance::User
   
   has_many :videos
+  has_many :comments
   
   IMAGES_PATH = '/images/user_images/'
   
