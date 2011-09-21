@@ -10,7 +10,16 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110822125231) do
+ActiveRecord::Schema.define(:version => 20110921070414) do
+
+  create_table "comments", :force => true do |t|
+    t.text     "content"
+    t.integer  "video_id",   :null => false
+    t.integer  "user_id",    :null => false
+    t.integer  "status"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "users", :force => true do |t|
     t.string   "email",                             :null => false
@@ -41,6 +50,10 @@ ActiveRecord::Schema.define(:version => 20110822125231) do
     t.integer  "views_count", :default => 0
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "duration",                   :null => false
+    t.integer  "category",                   :null => false
+    t.string   "description"
+    t.string   "keywords"
   end
 
   add_index "videos", ["user_id"], :name => "by_user_id"
