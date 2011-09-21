@@ -16,9 +16,11 @@ class VideosController < ApplicationController
         @videos = Video.get_videos_by_sort(@order)
 	    when Video::CATEGORIES.values.include?(@order)
 	      @videos = Video.get_videos_by_category(@order)
+	      @category = true
 	    else
 	      render_404 and return
     end
+    @page_title = @order == "popular" ? "Most Popular" : @order.titleize
   end
 
   def check_video_redirection(video)

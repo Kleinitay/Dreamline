@@ -1,5 +1,5 @@
 <head>
-	<title>Tagmido: Latest Videos</title>
+	<title>Tagmido: <%= @page_title %> Videos</title>
 </head>
 <body>
 	<!--Content Section -->
@@ -10,7 +10,10 @@
 				<div id="nav-slider">
 					<ul>	
 						<li class= <%= @order == "latest" ? "active" : "nobg" %> ><a href="/video/latest">Latest Videos </a></li>
-						<li class= <%= @order != "latest" ? "active" : "nobg" %>><a href="/video/most_popular"> Most Papular</a></li>
+						<li class= <%= @order == "popular" ? "active" : "nobg" %>><a href="/video/most_popular"> Most Papular</a></li>
+						<% if @category %>
+						 <li class='active'><a href=#> <%= @page_title %> </a></li>
+						<% end %>
 					</ul>
 				</div>
 				<%= render :partial => "videos/player_frame" %>	
