@@ -14,8 +14,8 @@ class VideosController < ApplicationController
 	  case
       when @order == "popular" || @order == "latest"
         @videos = Video.get_videos_by_sort(@order)
-	    when Video::CATEGORIES.values.include?(@order)
-	      @videos = Video.get_videos_by_category(@order)
+	    when key = Video::CATEGORIES.key(@order)
+	      @videos = Video.get_videos_by_category(key)
 	      @category = true
 	    else
 	      render_404 and return

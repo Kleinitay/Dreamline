@@ -47,9 +47,8 @@ class Video < ActiveRecord::Base
   end
 
 # Moozly: the functions gets videos for showing in a list by the video category
- def self.get_videos_by_category(category)
-   category = CATEGORIES[category]
-   vs = Video.find(:all, :conditions => {:category => category}, :order => "created_at desc", :limit => 10)
+ def self.get_videos_by_category(category_id)
+   vs = Video.find(:all, :conditions => {:category => category_id}, :order => "created_at desc", :limit => 10)
    populate_videos_with_common_data(vs) if vs
  end
 
