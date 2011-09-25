@@ -20,4 +20,8 @@
   18:   sports
   19:   trips
   20:   other
-    
+
+#user_status
+# 1: pre active
+# 2: active
+# 0: banned
