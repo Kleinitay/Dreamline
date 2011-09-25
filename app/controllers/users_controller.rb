@@ -84,9 +84,9 @@ class UsersController < ApplicationController
   def videos
     @user = User.find(params[:id])
     if !@user then render_404 and return end
-    @page_title = "#{@user.nick}'s"
     @user_videos = true
     @own_videos = current_user == @user ? true : false
+    @page_title = @own_videos ? "My" : "#{@user.nick}'s"
     @videos = Video.get_videos_by_user(@user.id)
     render "/videos/user_videos_list"
   end

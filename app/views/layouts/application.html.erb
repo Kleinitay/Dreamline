@@ -15,11 +15,12 @@
 				<a href="/"><img src="/images/logo.png" alt="" id="logo" /></a>
 					<div id="nav">
 						<ul id="navbar">
-							<li><a href="/" class="active">Home</a></li>
+							<li><a href="/" class=<%= @home ? "active" : "nobg" %> >Home</a></li>
 							<% if signed_in? %>
-								<li><a href="/user/<%= current_user.id %>/videos">My Videos</a></li>
+								<li><a href="/user/<%= current_user.id %>/videos" class=<%= @user_videos ? "active" : "nobg" %> >My Videos</a></li>
 							<% end %>
-							<li><a href="/video/latest">Latest Videos</a></li>
+							<li><a href="/video/latest" 			class=<%= @order == "latest" ? "active" : "nobg" %> >Latest Videos</a></li>
+							<li><a href="/video/most_popular" class=<%= @order == "popular" ? "active" : "nobg" %> >Most Popular</a></li>
 						</ul>
 					</div>
 

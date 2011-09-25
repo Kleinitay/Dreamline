@@ -3,9 +3,10 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   
   def home
-  	@order = "latest"
-#  	@videos = Videos.get_by_latest
-  @videos = []
+    #@order = "latest"
+    @home = true
+    #@videos = Videos.get_by_latest
+    @videos = []
   end
   
   def render_404
