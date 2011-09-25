@@ -58,6 +58,16 @@ class Video < ActiveRecord::Base
    populate_videos_with_common_data(vs) if vs
  end
 
+ def self.get_videos_by_user(user_id)
+  vs = Video.find(:all, :conditions => {:user_id => user_id}, :limit => 10, :order => "created_at desc")
+  if vs
+    vs.each do |v|
+      v[:thumb] = v.thumb_src
+      v[:src] = "#{directory(v.id)}/#{v.id}.avi"
+      v[:category_title] = v.category_title
+    end
+  end
+ end
 
  def self.populate_videos_with_common_data(vs, name = false)
    vs.each do |v|
