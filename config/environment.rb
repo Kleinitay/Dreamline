@@ -5,3 +5,4 @@ CommonData = YAML::load(File.read('config/common_data.yml'))
 
 # Initialize the rails application
 Dreamline::Application.initialize!
+
