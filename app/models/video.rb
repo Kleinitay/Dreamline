@@ -6,6 +6,7 @@ class Video < ActiveRecord::Base
   # Check Why doesn't work??
   
   VIDEO_PATH = "/videos/"
+  DEFAULT_IMG_PATH = "#{VIDEO_PATH}default_img/"
   CATEGORIES = CommonData[:video_categories]
   
   def add_new_video(user_id,title)
@@ -33,6 +34,11 @@ class Video < ActiveRecord::Base
    "#{VIDEO_PATH}#{string_id[0..2]}/#{string_id[3..5]}/#{string_id[6..8]}" 
   end
 
+  def thumb_src
+    thumb = "#{Video.directory(id)}/thumbnail.jpg"
+    FileTest.exists?("#{RAILS_ROOT}/public/#{thumb}") ? thumb : "#{DEFAULT_IMG_PATH}thumbnail.jpg"
+  end
+  
   def self.for_view(id)
     video = Video.find(id)
     video[:category_title] = video.category_title 
@@ -58,14 +64,11 @@ class Video < ActiveRecord::Base
      user = v.user
      v[:user_id] = user.id
      v[:user_nick] = user.nick
-     v[:thumb] = "#{directory(v.id)}/thumbnail.jpg"
+     v[:thumb] = v.thumb_src
      v[:src] = "#{directory(v.id)}/#{v.id}.avi"
      v[:category_title] = v.category_title if name
    end
  end
-
-
-
 
 
 end
