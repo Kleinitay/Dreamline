@@ -2,13 +2,19 @@ Dreamline::Application.routes.draw do |map|
   resources :users
   
   root :to => "application#home"
-
+# ___________________ Videos ______________________________________________________
   match 'video/latest'        => 'videos#list', :as => :latest_videos, :order=> "latest"
   match 'video/most_popular'  => 'videos#list', :as => :most_popular_videos, :order=> "popular"
   Video::CATEGORIES.values.each do |order|
     match "video/#{order}"    => 'videos#list', :as => :category, :order => "#{order}"
   end
   match 'video/:id'           => 'videos#show_video', :as => :video, :requirements => { :id => /([0-9]*)?/ }
+
+# ___________________ Users ______________________________________________________
+
+  match 'user/:id'  => 'users#profile', :as => :user_profile
+  match 'user/:id/videos'  => 'users#videos', :as => :user_videos
+  
 
   
 # ___________________Clearance routes______________________________________________________
