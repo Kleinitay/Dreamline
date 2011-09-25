@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110921070414) do
+ActiveRecord::Schema.define(:version => 20110925061328) do
 
   create_table "comments", :force => true do |t|
     t.text     "content"
@@ -32,6 +32,7 @@ ActiveRecord::Schema.define(:version => 20110921070414) do
     t.string   "salt",               :limit => 128
     t.string   "confirmation_token", :limit => 128
     t.string   "remember_token",     :limit => 128
+    t.integer  "status",                            :null => false
   end
 
   add_index "users", ["email"], :name => "index_users_on_email"
@@ -56,6 +57,7 @@ ActiveRecord::Schema.define(:version => 20110921070414) do
     t.string   "keywords"
   end
 
+  add_index "videos", ["category"], :name => "by_category"
   add_index "videos", ["user_id"], :name => "by_user_id"
 
 end
