@@ -55,7 +55,6 @@ class Video < ActiveRecord::Base
 
  def self.populate_videos_with_common_data(vs, name = false)
    vs.each do |v|
-     puts v.user
      user = v.user
      v[:user_id] = user.id
      v[:user_nick] = user.nick
