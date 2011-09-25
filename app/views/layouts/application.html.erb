@@ -23,14 +23,15 @@
 
 					<div class="signin">
 						<ul>
-							<li class="create_account"><a href="/users/new">Create Account</a></li>
-							<!--div id="header"-->
-							<li class="sign_in" id="header">
-								<% if signed_in? -%>
+								<% if signed_in? %>
+									<li class="create_account"><a href="/users/<%= current_user.id %>">Hi <%= current_user.nick %></a></li>
+									<li class="sign_in" id="header">
 	  							<%= link_to "Sign out", sign_out_path, :method => :delete %>
-	  						<% else -%>
+	  						<% else %>
+								<li class="create_account"><a href="/users/new">Create Account</a></li>
+								<li class="sign_in" id="header">
 	  							<%= link_to "Sign in", sign_in_path %>
-								<% end -%>
+								<% end %>
 							</li>
 							<li class="upload_btn"><a href="#">Upload New Video</a></li>	
 							<!--/div-->
