@@ -1,0 +1,26 @@
+<div class="trending-box">
+	<div class="heading-top">
+		<h2><%= @sidebar_list_title %></h2>
+	</div>
+	<ul>
+		<% @sidebar_videos.each do |v| %>
+			<li>
+				<div class="video-box-trending">
+					<a href="<%= v.uri %>">
+						<img src="<%= v.thumb %>" alt="<% v.title %>" />
+					</a>	
+					<span class="time-video"><%= nice_duration(v.duration) %></span>
+					<span class="add-playlist"></span>
+				</div>
+				<div class="text-desc-tre">
+					<h5><a href="<%= v.uri %>"><%= v.title %></a></h5>
+					<p><strong><%= v.views_count %></strong> views </p>
+					<span>By <a href="/user/<%= v.user_id %>/profile"><%= v.user_nick %></a></span>
+				</div>
+			</li>
+		<% end %>
+	</ul>
+	<div class="heading-top">
+			<a href="/videos/<%= @sidebar_order %>">View More</a>
+	</div>
+</div>
