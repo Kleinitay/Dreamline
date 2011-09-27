@@ -4,7 +4,7 @@ Dreamline::Application.routes.draw do |map|
   root :to => "application#home"
 # ___________________ Videos ______________________________________________________
   match 'video/latest'        => 'videos#list', :as => :latest_videos, :order=> "latest"
-  match 'video/most_popular'  => 'videos#list', :as => :most_popular_videos, :order=> "popular"
+  match 'video/most_popular'  => 'videos#list', :as => :most_popular_videos, :order=> "most popular"
   Video::CATEGORIES.values.each do |order|
     match "video/#{order}"    => 'videos#list', :as => :category, :order => "#{order}"
   end

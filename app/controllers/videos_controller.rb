@@ -12,7 +12,7 @@ class VideosController < ApplicationController
 	  @videos = []
 	  @order = params[:order]
 	  case
-      when @order == "popular" || @order == "latest"
+      when @order == "most popular" || @order == "latest"
         @videos = Video.get_videos_by_sort(@order, false)
 	    when key = Video::CATEGORIES.key(@order)
 	      @videos = Video.get_videos_by_category(key)
@@ -20,7 +20,8 @@ class VideosController < ApplicationController
 	    else
 	      render_404 and return
     end
-    @page_title = @order == "popular" ? "Most Popular" : @order.titleize
+    #@page_title = @order == "popular" ? "Most Popular" : @order.titleize
+    @page_title = @order.titleize
     get_sidebar_data
 
   end
@@ -33,7 +34,7 @@ class VideosController < ApplicationController
 
   def get_sidebar_data
     if @order == "latest"
-      @sidebar_order = "popular"
+      @sidebar_order = "most popular"
       @sidebar_list_title = "Trending Now"
     else
       @sidebar_order = "latest"
