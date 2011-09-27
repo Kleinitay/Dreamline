@@ -14,7 +14,11 @@
 				</div>
 				<div class="text-desc-tre">
 					<h5><a href="<%= v.uri %>"><%= v.title %></a></h5>
-					<p><strong><%= v.views_count %></strong> views </p>
+					<% if @sidebar_order == "most popular" %>
+						<p><strong><%= v.views_count %></strong> views </p>
+					<% else %>
+						<p><%= nice_time_ago_in_words_including_day_name(v.created_at) %></p>
+					<% end %>
 					<span>By <a href="/user/<%= v.user_id %>/profile"><%= v.user_nick %></a></span>
 				</div>
 			</li>
