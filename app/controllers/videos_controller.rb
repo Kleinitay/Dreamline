@@ -12,21 +12,35 @@ class VideosController < ApplicationController
 	  @videos = []
 	  @order = params[:order]
 	  case
-      when @order == "popular" || @order == "latest"
-        @videos = Video.get_videos_by_sort(@order)
+      when @order == "most popular" || @order == "latest"
+        @videos = Video.get_videos_by_sort(@order, false)
 	    when key = Video::CATEGORIES.key(@order)
 	      @videos = Video.get_videos_by_category(key)
 	      @category = true
 	    else
 	      render_404 and return
     end
-    @page_title = @order == "popular" ? "Most Popular" : @order.titleize
+    #@page_title = @order == "popular" ? "Most Popular" : @order.titleize
+    @page_title = @order.titleize
+    get_sidebar_data
+
   end
 
   def check_video_redirection(video)
     if request.path != video.uri
       redirect_to(request.request_uri.sub(request.path, video.uri), :status => 301)
     end  
-  end  
+  end
+
+  def get_sidebar_data
+    if @order == "latest"
+      @sidebar_order = "most popular"
+      @sidebar_list_title = "Trending Now"
+    else
+      @sidebar_order = "latest"
+      @sidebar_list_title = "Latest Ones"
+    end
+    @sidebar_videos = Video.get_videos_by_sort(@sidebar_order, true ,3)
+  end
   
 end

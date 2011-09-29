@@ -8,6 +8,7 @@ class Video < ActiveRecord::Base
   VIDEO_PATH = "/videos/"
   DEFAULT_IMG_PATH = "#{VIDEO_PATH}default_img/"
   CATEGORIES = CommonData[:video_categories]
+  MAIN_LIST_LIMIT = 10
   
   def add_new_video(user_id,title)
     Video.create(:user_id => user_id, :title => title)
@@ -39,6 +40,11 @@ class Video < ActiveRecord::Base
     FileTest.exists?("#{RAILS_ROOT}/public/#{thumb}") ? thumb : "#{DEFAULT_IMG_PATH}thumbnail.jpg"
   end
   
+  def thumb_small_src
+    thumb = "#{Video.directory(id)}/thumbnail_small.jpg"
+    FileTest.exists?("#{RAILS_ROOT}/public/#{thumb}") ? thumb : "#{DEFAULT_IMG_PATH}thumbnail_small.jpg"
+  end
+  
   def self.for_view(id)
     video = Video.find(id)
     video[:category_title] = video.category_title 
@@ -46,16 +52,16 @@ class Video < ActiveRecord::Base
   end
 
 # Moozly: the functions gets videos for showing in a list by sort order - latest or most popular  
-  def self.get_videos_by_sort(order_by)
+  def self.get_videos_by_sort(order_by, sidebar, limit = MAIN_LIST_LIMIT)
     sort = order_by == "latest" ? "created_at" : "views_count"  
-    vs = Video.all(:limit => 10, :order => sort + " desc")
-    populate_videos_with_common_data(vs, true) if vs
+    vs = Video.all(:limit => limit, :order => sort + " desc")
+    populate_videos_with_common_data(vs, sidebar, true) if vs
   end
 
 # Moozly: the functions gets videos for showing in a list by the video category
  def self.get_videos_by_category(category_id)
    vs = Video.find(:all, :conditions => {:category => category_id}, :order => "created_at desc", :limit => 10)
-   populate_videos_with_common_data(vs) if vs
+   populate_videos_with_common_data(vs, false) if vs
  end
 
  def self.get_videos_by_user(user_id)
@@ -69,16 +75,15 @@ class Video < ActiveRecord::Base
   end
  end
 
- def self.populate_videos_with_common_data(vs, name = false)
+ def self.populate_videos_with_common_data(vs, sidebar, name = false)
    vs.each do |v|
      user = v.user
      v[:user_id] = user.id
      v[:user_nick] = user.nick
-     v[:thumb] = v.thumb_src
+     v[:thumb] = sidebar ? v.thumb_small_src : v.thumb_src
      v[:src] = "#{directory(v.id)}/#{v.id}.avi"
      v[:category_title] = v.category_title if name
    end
  end
-
 
 end
