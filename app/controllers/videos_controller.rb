@@ -32,6 +32,7 @@ class VideosController < ApplicationController
     end  
   end
 
+<<<<<<< Updated upstream
   def get_sidebar_data
     if @order == "latest"
       @sidebar_order = "most popular"
@@ -43,4 +44,21 @@ class VideosController < ApplicationController
     @sidebar_videos = Video.get_videos_by_sort(@sidebar_order, true ,3)
   end
   
+=======
+  def new
+    @video = Video.new
+  end
+
+  def create
+    @video = Video.new(params[:video])
+    if @video.save
+      @video.convert_to_flv
+      flash[:notice] = 'Video has been uploaded'
+      redirect_to :action => 'list'
+    else
+      render :action => 'new'
+    end
+  end
+
+>>>>>>> Stashed changes
 end

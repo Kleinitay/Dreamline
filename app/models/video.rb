@@ -1,15 +1,87 @@
+# == Schema Information
+#
+# Table name: videos
+#
+#  id                  :integer(4)      not null, primary key
+#  user_id             :integer(4)      not null
+#  title               :string(255)
+#  views_count         :integer(4)      default(0)
+#  created_at          :datetime
+#  updated_at          :datetime
+#  duration            :integer(4)      not null
+#  category            :integer(4)      not null
+#  description         :string(255)
+#  keywords            :string(255)
+#  source_content_type :string(255)
+#  source_file_name    :string(255)
+#  source_file_size    :integer(4)
+#  state               :string(255)
+#
+
 class Video < ActiveRecord::Base
 
   belongs_to :user,     :dependent => :destroy
   has_many   :comments, :dependent => :destroy
+  has_many :video_taggeeses, :dependent => :destroy
   #has_permalink :title, :as => :uri, :update => true
   # Check Why doesn't work??
-  
+
+  # Paperclip
+  # http://www.thoughtbot.com/projects/paperclip
+  has_attached_file :source
+
+  # Paperclip Validations
+  validates_attachment_presence :source
+  validates_attachment_content_type :source, :content_type => 'video/quicktime'
+
+
+  # Acts as State Machine
+  # http://elitists.textdriven.com/svn/plugins/acts_as_state_machine
+  acts_as_state_machine :initial => :pending
+  state :pending
+  state:analysing
+  state :analysed
+  state :converting
+  state :converted, :enter => :set_new_filename
+  state :error
+
+  event :convert do
+    transitions :from => :pending, :to => :converting
+    transitions :from => :analysed, :to => :converting
+  end
+
+  event :converted do
+    transitions :from => :converting, :to => :converted
+  end
+
+  event :failed do
+    transitions :from => :converting, :to => :error
+  end
+
+  event :analyse do
+    transitions :from => :pending, :to => :analysing
+  end
+
+  event :analysed do
+    transitions :from => :analysing, :to => :analysed
+  end
+
+
+
+  #Consts
   VIDEO_PATH = "/videos/"
   DEFAULT_IMG_PATH = "#{VIDEO_PATH}default_img/"
   CATEGORIES = CommonData[:video_categories]
+
   MAIN_LIST_LIMIT = 10
   
+
+  FACE_RESULTS = "faces.xml"
+  FACES_DIR = "faces"
+
+
+
+
   def add_new_video(user_id,title)
     Video.create(:user_id => user_id, :title => title)
   end
@@ -84,6 +156,62 @@ class Video < ActiveRecord::Base
      v[:src] = "#{directory(v.id)}/#{v.id}.avi"
      v[:category_title] = v.category_title if name
    end
+
+
+ end
+  def convert_to_flv
+    self.convert_to_flv!
+        success = system(convert_command)
+    if success && $?.exitstatus == 0
+      self.converted!
+    else
+      self.failure!
+    end
+  end
+
+
+
+
+  def set_new_filename
+    update_attribute(:source_file_name, "#{id}.flv")
+  end
+
+ def self.detect_face_and_timestamps
+    success = system(convert_command)
+    if success && $?.exitstatus == 0
+      self.analyzed!
+    else
+      self.failure!
+    end
  end
 
+  def self.get_avi_file_name
+     File.join(directory(:id),"#{id.to_s}.avi")
+  end
+
+  def self.get_flv_file_name
+    File.join(directory(:id),"#{id.to_s}.flv" )
+  end
+
+  def self.get_timestamps_xml_file_name
+    File.join(directory(:id),FACES_DIR,FACE_RESULTS)
+  end
+
+
+  def detect_command
+     output_dir = File.join(directory(:id), FACES_DIR)
+    "MovieFaceRecognition.exe Dreamline #{get_avi_file_name} #{output_dir}"
+  end
+
+  def convert_command
+     output_file = self.get_flv_file_name
+    File.open(flv, 'w')
+
+    command = <<-end_command
+      ffmpeg -i #{ source.path } -ar 22050 -ab 32 -acodec mp3
+    -s 480x360 -vcodec flv -r 25 -qscale 8 -f flv -y #{ flv }
+    end_command
+    command.gsub!(/\s+/, " ")
+  end
 end
+

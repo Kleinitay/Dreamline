@@ -4,7 +4,9 @@ gem 'rails', '3.0.9'
 gem 'clearance'
 gem 'permalink_fu', '~> 1.0.0'
 gem 'ruby-debug19'
-
+gem 'paperclip', '2.4.2'
+gem 'annotate', '2.4.0'
+gem 'acts_as_state_machine'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
