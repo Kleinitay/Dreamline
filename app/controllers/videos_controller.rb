@@ -48,19 +48,17 @@ class VideosController < ApplicationController
   end
 
   def create
-    @video = Video.new(params[:video])
-    #todo: change to signed in user id
-    @video.user_id = 1
-    @video.duration = 1
-    @video.category = "asf"
-
-    if @video.save
-      @video.convert_to_flv
-      flash[:notice] = 'Video has been uploaded'
-      redirect_to :action => 'videolisting'
-    else
-      flash[:notice] = 'Upload file'
-      render :action => 'new'
+    unless !signed_in? || !params[:video]
+      more_params = {:user_id => current_user.id, :duration => 0} #temp duration
+      @video = Video.new(params[:video].merge(more_params))
+      if @video.save
+        @video.convert_to_flv
+        flash[:notice] = 'Video has been uploaded'
+        redirect_to @video.uri
+      else
+        flash[:notice] = 'Upload file'
+        render :action => 'new'
+      end
     end
   end
 end
