@@ -19,7 +19,7 @@
 					<% else %>
 						<p><%= nice_time_ago_in_words_including_day_name(v.created_at) %></p>
 					<% end %>
-					<span>By <a href="/user/<%= v.user_id %>/profile"><%= v.user_nick %></a></span>
+					<span>By <a href="/user/<%= v.user_id %>/videos"><%= v.user_nick %></a></span>
 				</div>
 			</li>
 		<% end %>

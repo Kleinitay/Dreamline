@@ -88,6 +88,14 @@ class UsersController < ApplicationController
     @own_videos = current_user == @user ? true : false
     @page_title = @own_videos ? "My" : "#{@user.nick}'s"
     @videos = Video.get_videos_by_user(@user.id)
+    get_sidebar_data
     render "/videos/user_videos_list"
+  end
+  
+  
+  def get_sidebar_data
+    @sidebar_order = "latest"
+    @sidebar_list_title = "Latest Ones"
+    @sidebar_videos = Video.get_videos_by_sort(@sidebar_order, true ,3)
   end
 end

@@ -6,6 +6,7 @@ class VideosController < ApplicationController
 		if !@video then render_404 and return end
 	  check_video_redirection(@video)
 	  @user = @video.user
+	  get_sidebar_data
 	end
 	
 	def list
@@ -20,7 +21,6 @@ class VideosController < ApplicationController
 	    else
 	      render_404 and return
     end
-    #@page_title = @order == "popular" ? "Most Popular" : @order.titleize
     @page_title = @order.titleize
     get_sidebar_data
 
@@ -42,5 +42,5 @@ class VideosController < ApplicationController
     end
     @sidebar_videos = Video.get_videos_by_sort(@sidebar_order, true ,3)
   end
-  
+
 end

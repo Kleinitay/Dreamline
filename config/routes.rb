@@ -12,7 +12,7 @@ Dreamline::Application.routes.draw do |map|
 
 # ___________________ Users ______________________________________________________
 
-  match 'user/:id'  => 'users#profile', :as => :user_profile
+  #match 'user/:id'  => 'users#profile', :as => :user_profile
   match 'user/:id/videos'  => 'users#videos', :as => :user_videos
   
 
