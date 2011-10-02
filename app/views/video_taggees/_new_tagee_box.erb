@@ -1,0 +1,4 @@
+<%= form_for @taggees do |taggee| %>
+    <%= image_tag taggee.get_img_path %>
+    <%= taggee.text_field :user_id %>
+<% end %>

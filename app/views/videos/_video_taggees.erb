@@ -1,0 +1,14 @@
+<%= form_for(@video) do |video_form| %>
+    <table>
+        <% i = 0 %>
+        <%= video_form.fields_for :tageeses do |taggee| %>
+              <td>
+                  <%= image_tag  @images[i]%> <br/>
+                  <%= text_field taggee.
+
+              </td>
+
+
+        <% end %>
+    </table>
+<% end %>
