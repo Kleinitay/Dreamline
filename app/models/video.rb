@@ -28,7 +28,7 @@ class Video < ActiveRecord::Base
 
   # Paperclip
   # http://www.thoughtbot.com/projects/paperclip
-  has_attached_file :source , :url => '/videos/:id/:id'
+  has_attached_file :source , :url => :path_for_origion
 
   # Paperclip Validations
   validates_attachment_presence :source
@@ -69,8 +69,9 @@ class Video < ActiveRecord::Base
 
 
 #--------------------- Global params --------------------------
-  VIDEO_PATH = "/videos/"
-  DEFAULT_IMG_PATH = "#{VIDEO_PATH}default_img/"
+  IMG_VIDEO_PATH = "/videos/"
+  DEFAULT_IMG_PATH = "#{IMG_VIDEO_PATH}default_img/"
+  FULL_VIDEO_PATH = "#{RAILS_ROOT}/public/videos/"
   CATEGORIES = CommonData[:video_categories]
   MAIN_LIST_LIMIT = 10
   
@@ -98,13 +99,19 @@ class Video < ActiveRecord::Base
     category_tag.titleize
   end
   
+  # Moozly: path for saving temp origion uploaded video
+  def path_for_origion
+   string_id = (id.to_s).rjust(9,"0")
+   "#{IMG_VIDEO_PATH}#{string_id[0..2]}/#{string_id[3..5]}/#{string_id[6..8]}/#{id}" 
+  end
+
   def thumb_src
-    thumb = "#{Video.directory(id)}/thumbnail.jpg"
+    thumb = "#{Video.directory_for_img(id)}/thumbnail.jpg"
     FileTest.exists?("#{RAILS_ROOT}/public/#{thumb}") ? thumb : "#{DEFAULT_IMG_PATH}thumbnail.jpg"
   end
   
   def thumb_small_src
-    thumb = "#{Video.directory(id)}/thumbnail_small.jpg"
+    thumb = "#{Video.directory_for_img(id)}/thumbnail_small.jpg"
     FileTest.exists?("#{RAILS_ROOT}/public/#{thumb}") ? thumb : "#{DEFAULT_IMG_PATH}thumbnail_small.jpg"
   end
 
@@ -125,8 +132,8 @@ class Video < ActiveRecord::Base
   end
 
   def get_flv_file_name
-    dirname = File.join("#{RAILS_ROOT}","public", "videos", "#{self.id}")
-    File.join(dirname, "#{self.id}.flv" )
+    dirname = Video.full_directory(id)
+    File.join(dirname, "#{id}.flv" )
   end
   
   def convert_command
@@ -143,11 +150,16 @@ class Video < ActiveRecord::Base
   
 #------------------------------------------------------ Class methods -------------------------------------------------------
 
-  def self.directory(video_id)
+  def self.directory_for_img(video_id)
    string_id = (video_id.to_s).rjust(9,"0")
-   "#{VIDEO_PATH}#{string_id[0..2]}/#{string_id[3..5]}/#{string_id[6..8]}" 
+   "#{IMG_VIDEO_PATH}#{string_id[0..2]}/#{string_id[3..5]}/#{string_id[6..8]}"
   end
-  
+
+  def self.full_directory(video_id)
+   string_id = (video_id.to_s).rjust(9,"0")
+   "#{FULL_VIDEO_PATH}#{string_id[0..2]}/#{string_id[3..5]}/#{string_id[6..8]}"
+  end
+
   def self.for_view(id)
     video = Video.find(id)
     video[:category_title] = video.category_title 
@@ -172,7 +184,7 @@ class Video < ActiveRecord::Base
   if vs
     vs.each do |v|
       v[:thumb] = v.thumb_src
-      v[:src] = "#{directory(v.id)}/#{v.id}.avi"
+      v[:src] = "#{directory_for_img(v.id)}/#{v.id}.avi"
       v[:category_title] = v.category_title
     end
   end
@@ -184,7 +196,7 @@ class Video < ActiveRecord::Base
      v[:user_id] = user.id
      v[:user_nick] = user.nick
      v[:thumb] = sidebar ? v.thumb_small_src : v.thumb_src
-     v[:src] = "#{directory(v.id)}/#{v.id}.avi"
+     v[:src] = "#{directory_for_img(v.id)}/#{v.id}.avi"
      v[:category_title] = v.category_title if name
    end
  end
@@ -201,17 +213,15 @@ class Video < ActiveRecord::Base
   end
 
   def self.get_avi_file_name
-    File.join(directory(:id),"#{id.to_s}.avi")
+    File.join(full_directory(:id),"#{id.to_s}.avi")
   end
 
-
-
   def self.get_timestamps_xml_file_name
-    File.join(directory(:id),FACES_DIR,FACE_RESULTS)
+    File.join(full_directory(:id),FACES_DIR,FACE_RESULTS)
   end
 
   def self.detect_command
-     output_dir = File.join(directory(:id), FACES_DIR)
+     output_dir = File.join(full_directory(:id), FACES_DIR)
     "MovieFaceRecognition.exe Dreamline #{get_avi_file_name} #{output_dir}"
   end
 # _____________________________________________ Face detection _______________________
