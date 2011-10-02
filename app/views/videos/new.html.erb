@@ -12,6 +12,9 @@
 		<tr>
 			<td><%= f.label :category %>:</td><td><%= f.select :category, options_for_select(Video::CATEGORIES.map {|k,v| [v.titleize,k]}) %></td>
     </tr>
+		 <tr>
+	      <td><%= f.label :keywords %>: </td><td><%= f.text_field :keywords %></td>
+	    </tr>
     <tr>
       <td><%= f.label :video %>: </td><td><%= f.file_field :source %></td>
     </tr>
