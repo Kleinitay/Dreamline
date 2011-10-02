@@ -8,6 +8,3 @@ ruby-debug/
 Gemfile
 .gitignore
 /app/.DS_Store
-paperclip/
-.idea/
-ruby/

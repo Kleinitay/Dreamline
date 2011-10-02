@@ -22,8 +22,8 @@ class Video < ActiveRecord::Base
 
   belongs_to :user,     :dependent => :destroy
   has_many   :comments, :dependent => :destroy
-  has_many :video_taggeeses, :dependent => :destroy
-  #has_permalink :title, :as => :uri, :update => true
+  has_many   :video_taggeeses, :dependent => :destroy
+  # has_permalink :title, :as => :uri, :update => true
   # Check Why doesn't work??
 
   # Paperclip
@@ -39,7 +39,7 @@ class Video < ActiveRecord::Base
   # http://elitists.textdriven.com/svn/plugins/acts_as_state_machine
   acts_as_state_machine :initial => :pending
   state :pending
-  state:analysing
+  state :analysing
   state :analysed
   state :converting
   state :converted, :enter => :set_new_filename
@@ -68,20 +68,16 @@ class Video < ActiveRecord::Base
 
 
 
-  #Consts
+#--------------------- Global params --------------------------
   VIDEO_PATH = "/videos/"
   DEFAULT_IMG_PATH = "#{VIDEO_PATH}default_img/"
   CATEGORIES = CommonData[:video_categories]
-
   MAIN_LIST_LIMIT = 10
   
-
   FACE_RESULTS = "faces.xml"
   FACES_DIR = "faces"
 
-
-
-
+#------------------------------------------------------ Instance methods -------------------------------------------------------
   def add_new_video(user_id,title)
     Video.create(:user_id => user_id, :title => title)
   end
@@ -102,11 +98,6 @@ class Video < ActiveRecord::Base
     category_tag.titleize
   end
   
-  def directory(video_id)
-   string_id = (video_id.to_s).rjust(9,"0")
-   "#{VIDEO_PATH}#{string_id[0..2]}/#{string_id[3..5]}/#{string_id[6..8]}" 
-  end
-
   def thumb_src
     thumb = "#{Video.directory(id)}/thumbnail.jpg"
     FileTest.exists?("#{RAILS_ROOT}/public/#{thumb}") ? thumb : "#{DEFAULT_IMG_PATH}thumbnail.jpg"
@@ -115,6 +106,48 @@ class Video < ActiveRecord::Base
   def thumb_small_src
     thumb = "#{Video.directory(id)}/thumbnail_small.jpg"
     FileTest.exists?("#{RAILS_ROOT}/public/#{thumb}") ? thumb : "#{DEFAULT_IMG_PATH}thumbnail_small.jpg"
+  end
+
+# _____________________________________________ FLV conversion functions _______________________
+
+  def convert_to_flv
+    self.convert_to_flv!
+    success = system(convert_command)
+    if success && $?.exitstatus == 0
+      self.converted!
+    else
+      self.failed!
+    end
+  end
+
+  def set_new_filename
+    update_attribute(:source_file_name, "#{id}.flv")
+  end
+
+  def get_flv_file_name
+    dirname = File.join("#{RAILS_ROOT}","public", "videos", "#{self.id}")
+    File.join(dirname, "#{self.id}.flv" )
+  end
+  
+  def convert_command
+    output_file = self.get_flv_file_name
+    exepath = File.join("#{RAILS_ROOT}", "Engines", "ffmpeg", "ffmpeg.exe")
+    File.open(output_file, 'w')
+    command = <<-end_command
+    #{exepath} -i #{ source.path } -ar 22050 -ab 32 -acodec libmp3lame
+    -s 480x360 -vcodec flv -r 25 -qscale 8 -f flv -y #{ output_file }
+    end_command
+    command.gsub!(/\s+/, " ")
+  end
+# _____________________________________________ FLV conversion functions _______________________
+
+
+  
+#------------------------------------------------------ Class methods -------------------------------------------------------
+
+  def self.directory(video_id)
+   string_id = (video_id.to_s).rjust(9,"0")
+   "#{VIDEO_PATH}#{string_id[0..2]}/#{string_id[3..5]}/#{string_id[6..8]}" 
   end
   
   def self.for_view(id)
@@ -156,66 +189,33 @@ class Video < ActiveRecord::Base
      v[:src] = "#{directory(v.id)}/#{v.id}.avi"
      v[:category_title] = v.category_title if name
    end
-
-
  end
-  def convert_to_flv
-    self.convert_to_flv!
-        success = system(convert_command)
-    if success && $?.exitstatus == 0
-      self.converted!
-    else
-      self.failed!
-    end
-  end
+ 
+# _____________________________________________ Face detection _______________________
 
-
-
-
-  def set_new_filename
-    update_attribute(:source_file_name, "#{id}.flv")
-  end
-
- def self.detect_face_and_timestamps
+  def self.detect_face_and_timestamps
     success = system(convert_command)
     if success && $?.exitstatus == 0
       self.analyzed!
     else
       self.failure!
     end
- end
+  end
 
   def self.get_avi_file_name
-     File.join(directory(:id),"#{id.to_s}.avi")
+    File.join(directory(:id),"#{id.to_s}.avi")
   end
 
-  def get_flv_file_name
-    #File.join(self.directory(:id),"#{id.to_s}.flv" )
-    dirname = File.join("#{RAILS_ROOT}","public", "videos", "#{self.id}")
-   # Dir.mkdir( dirname)
-    File.join(dirname, "#{self.id}.flv" )
-  end
+
 
   def self.get_timestamps_xml_file_name
     File.join(directory(:id),FACES_DIR,FACE_RESULTS)
   end
 
-
   def self.detect_command
      output_dir = File.join(directory(:id), FACES_DIR)
     "MovieFaceRecognition.exe Dreamline #{get_avi_file_name} #{output_dir}"
   end
-
-  def convert_command
-     output_file = self.get_flv_file_name
-     exepath = File.join("#{RAILS_ROOT}", "Engines", "ffmpeg", "ffmpeg.exe")
-    File.open(output_file, 'w')
-
-    command = <<-end_command
-      #{exepath} -i #{ source.path } -ar 22050 -ab 32 -acodec libmp3lame
-    -s 480x360 -vcodec flv -r 25 -qscale 8 -f flv -y #{ output_file }
-    end_command
-    command.gsub!(/\s+/, " ")
-  end
+# _____________________________________________ Face detection _______________________
 end
 
