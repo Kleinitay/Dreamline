@@ -21,8 +21,9 @@
 class Video < ActiveRecord::Base
 
   belongs_to :user,     :dependent => :destroy
-  has_many   :comments, :dependent => :destroy
-  has_many   :video_taggeeses, :dependent => :destroy
+  has_many   :comments
+  has_many   :video_taggees
+
   # has_permalink :title, :as => :uri, :update => true
   # Check Why doesn't work??
 
