@@ -131,12 +131,8 @@ class Video < ActiveRecord::Base
   
   def convert_command
     output_file = self.get_flv_file_name
-    exepath = File.join("#{RAILS_ROOT}", "Engines", "ffmpeg", "ffmpeg.exe")
     File.open(output_file, 'w')
-    command = <<-end_command
-    #{exepath} -i #{ source.path } -ar 22050 -ab 32 -acodec libmp3lame
-    -s 480x360 -vcodec flv -r 25 -qscale 8 -f flv -y #{ output_file }
-    end_command
+    command = <<-end_command ffmpeg -i #{ source.path } -ar 22050 -ab 32 -acodec libmp3lame -s 480x360 -vcodec flv -r 25 -qscale 8 -f flv -y #{ output_file } end_command
     command.gsub!(/\s+/, " ")
   end
 # _____________________________________________ FLV conversion functions _______________________
