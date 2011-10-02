@@ -43,4 +43,24 @@ class VideosController < ApplicationController
     @sidebar_videos = Video.get_videos_by_sort(@sidebar_order, true ,3)
   end
 
+  def new
+    @video = Video.new
+  end
+
+  def create
+    @video = Video.new(params[:video])
+    #todo: change to signed in user id
+    @video.user_id = 1
+    @video.duration = 1
+    @video.category = "asf"
+
+    if @video.save
+      @video.convert_to_flv
+      flash[:notice] = 'Video has been uploaded'
+      redirect_to :action => 'videolisting'
+    else
+      flash[:notice] = 'Upload file'
+      render :action => 'new'
+    end
+  end
 end
