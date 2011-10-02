@@ -28,7 +28,7 @@ class Video < ActiveRecord::Base
 
   # Paperclip
   # http://www.thoughtbot.com/projects/paperclip
-  has_attached_file :source
+  has_attached_file :source , :url => '/videos/:id/:id'
 
   # Paperclip Validations
   validates_attachment_presence :source
@@ -45,7 +45,7 @@ class Video < ActiveRecord::Base
   state :converted, :enter => :set_new_filename
   state :error
 
-  event :convert do
+  event :convert_to_flv do
     transitions :from => :pending, :to => :converting
     transitions :from => :analysed, :to => :converting
   end
@@ -102,7 +102,7 @@ class Video < ActiveRecord::Base
     category_tag.titleize
   end
   
-  def self.directory(video_id)
+  def directory(video_id)
    string_id = (video_id.to_s).rjust(9,"0")
    "#{VIDEO_PATH}#{string_id[0..2]}/#{string_id[3..5]}/#{string_id[6..8]}" 
   end
@@ -165,7 +165,7 @@ class Video < ActiveRecord::Base
     if success && $?.exitstatus == 0
       self.converted!
     else
-      self.failure!
+      self.failed!
     end
   end
 
@@ -189,8 +189,11 @@ class Video < ActiveRecord::Base
      File.join(directory(:id),"#{id.to_s}.avi")
   end
 
-  def self.get_flv_file_name
-    File.join(directory(:id),"#{id.to_s}.flv" )
+  def get_flv_file_name
+    #File.join(self.directory(:id),"#{id.to_s}.flv" )
+    dirname = File.join("#{RAILS_ROOT}","public", "videos", "#{self.id}")
+   # Dir.mkdir( dirname)
+    File.join(dirname, "#{self.id}.flv" )
   end
 
   def self.get_timestamps_xml_file_name
@@ -198,18 +201,19 @@ class Video < ActiveRecord::Base
   end
 
 
-  def detect_command
+  def self.detect_command
      output_dir = File.join(directory(:id), FACES_DIR)
     "MovieFaceRecognition.exe Dreamline #{get_avi_file_name} #{output_dir}"
   end
 
   def convert_command
      output_file = self.get_flv_file_name
-    File.open(flv, 'w')
+     exepath = File.join("#{RAILS_ROOT}", "Engines", "ffmpeg", "ffmpeg.exe")
+    File.open(output_file, 'w')
 
     command = <<-end_command
-      ffmpeg -i #{ source.path } -ar 22050 -ab 32 -acodec mp3
-    -s 480x360 -vcodec flv -r 25 -qscale 8 -f flv -y #{ flv }
+      #{exepath} -i #{ source.path } -ar 22050 -ab 32 -acodec libmp3lame
+    -s 480x360 -vcodec flv -r 25 -qscale 8 -f flv -y #{ output_file }
     end_command
     command.gsub!(/\s+/, " ")
   end

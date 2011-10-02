@@ -1,6 +1,6 @@
 <h2>New Video</h2><br />
 
-<% form_for(:video, :html => { :multipart => true }) do |f| %>
+<%= form_for(@video, :html => { :multipart => true }) do |f| %>
   <%= f.error_messages %>
   <table>
     <tr>
@@ -10,7 +10,7 @@
       <td><%= f.label :description %>: </td><td><%= f.text_area :description %></td>
     </tr>
     <tr>
-      <td><%= f.label :video %>: </td><td><%= f.file_field :uploaded_data %></td>
+      <td><%= f.label :video %>: </td><td><%= f.file_field :source %></td>
     </tr>
     <tr><td><%= f.submit 'Submit' %> - <%= link_to 'Back', users_url %></td></tr>
   </table>
