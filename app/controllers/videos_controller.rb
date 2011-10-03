@@ -56,9 +56,10 @@ class VideosController < ApplicationController
         flash[:notice] = 'Video has been uploaded'
         redirect_to @video.uri
       else
-        flash[:notice] = 'Upload file'
-        render :action => 'new'
+        render 'new'
       end
+    else
+      redirect_to "/"
     end
   end
 end
