@@ -9,8 +9,8 @@
 			<div id="banner_slider">
 				<div id="title-video">
 					<h1><%= @video.title %></h1>
-					<div class="uploader-info">
-						<img src="xxx" alt="" /><a href="#">by: <%=@user.nick %></a>
+					<div class="uploader-info"> <!--option for a plus image to add to fav-->
+						<a href="/user/<%= @user.id %>/videos">by :  <%= @user.nick %></a>
 					</div>
 				</div>
 				<div class="video-slider">

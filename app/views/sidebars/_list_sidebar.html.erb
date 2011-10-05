@@ -1,6 +1,6 @@
 <div id="right_content">
 	<div class="sign-in-field">
-		<input type="text" value="Search Video" class="txt-field"  onfocus="if(this.value == 'Search Video') { this.value = ''; }" onblur="if(this.value == '') { this.value = 'Search Video'; }" name="s" />
+		<input type="text" value="Search Video" class="txt-field" onfocus="if(this.value == 'Search Video') { this.value = ''; }" onblur="if(this.value == '') { this.value = 'Search Video'; }" name="s"  disabled />
 		<a href="#">Search Button</a>
 	</div>
 
@@ -11,7 +11,12 @@
 	</div>
 	<%= render :partial => "sidebars/classic_channels_box" %>
 	<br class="clear" />
-	<%= render :partial => "sidebars/video_list_box" %>
+	<div class="trending-box">
+		<div class="heading-top">
+			<h2><%= @sidebar_list_title %></h2>
+		</div>
+		<%= render :partial => "sidebars/video_list_box", :locals => {:user_list => false} %>
+	</div>
 	<%= render :partial => "sidebars/events_box" %>
 
 	

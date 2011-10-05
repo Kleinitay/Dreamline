@@ -7,6 +7,7 @@ class VideosController < ApplicationController
 	  check_video_redirection(@video)
 	  @user = @video.user
 	  get_sidebar_data
+	  @user_videos = Video.get_videos_by_user(@user.id, true, 3)
 	end
 	
 	def list

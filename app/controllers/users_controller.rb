@@ -88,7 +88,7 @@ class UsersController < ApplicationController
     @user_videos = true
     @own_videos = current_user == @user ? true : false
     @page_title = @own_videos ? "My" : "#{@user.nick}'s"
-    @videos = Video.get_videos_by_user(@user.id)
+    @videos = Video.get_videos_by_user(@user.id, false)
     get_sidebar_data
     render "/videos/user_videos_list"
   end
