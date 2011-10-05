@@ -6,65 +6,14 @@
 <div id="accordion">
 <h3 class="accordionButton"><a href="javascript: void(0);">More Vidoes by: <%= @user.nick %></a></h3>
 <div class="trending-box accordionContent">
-	<%= render :partial => "sidebars/video_list_box", :locals => {:@sidebar_videos => @user_videos, :user_list => true }%>
+	<%= render :partial => "sidebars/video_list_box", :locals => {:sidebar_videos => @user_videos, :user_list => true }%>
 </div>
 
-
-<h3 class="accordionButton"><a href="javascript: void(0);">Recent Views</a></h3>
-
+<h3 class="accordionButton"><a href="javascript: void(0);">Latest Videos</a></h3>
 <div class="trending-box accordionContent">
-
-<ul>
-<li><div class="video-box-trending">
-<img src="img-tr-1.jpg" alt="" />
-<span class="time-video">08:53</span>
-<span class="add-playlist"></span>
+	<%= render :partial => "sidebars/video_list_box", :locals => {:sidebar_videos => @sidebar_videos, :user_list => false }%>
 </div>
-
-<div class="text-desc-tre">
-<h5><a href="videodetail.html">Duis molestie nunc nec</a></h5>
-<p><strong>1,197,002</strong> views </p>
-<span>By <a href="#">Simon Cole</a></span></div>
-</li>
-<li><div class="video-box-trending">
-<img src="img-tr-2.jpg" alt="" />
-<span class="time-video">08:53</span>
-<span class="add-playlist"></span>
-</div>
-
-<div class="text-desc-tre">
-<h5><a href="videodetail.html">Duis molestie nunc nec</a></h5>
-<p><strong>1,197,002</strong> views </p>
-<span>By <a href="#">Simon Cole</a></span></div>
-</li>
-
-
-<li><div class="video-box-trending">
-<img src="img-tr-3.jpg" alt="" />
-<span class="time-video">08:53</span>
-<span class="add-playlist"></span>
-</div>
-
-<div class="text-desc-tre">
-<h5><a href="videodetail.html">Duis molestie nunc nec</a></h5>
-<p><strong>1,197,002</strong> views </p>
-<span>By <a href="#">Simon Cole</a></span></div>
-</li>
-
-<li><div class="video-box-trending">
-<img src="img-tr-4.jpg" alt="" />
-<span class="time-video">08:53</span>
-<span class="add-playlist"></span>
-</div>
-
-<div class="text-desc-tre">
-<h5><a href="videodetail.html">Duis molestie nunc nec</a></h5>
-<p><strong>1,197,002</strong> views </p>
-<span>By <a href="#">Simon Cole</a></span></div>
-</li>
-</ul>
-</div>
-<h3 class="accordionButton"><a href="javascript: void(0);">Recent Tagged</a></h3>
+<h3 class="accordionButton"><a href="javascript: void(0);">Trending Now</a></h3>
 <div class="trending-box accordionContent">
 
 <ul>
