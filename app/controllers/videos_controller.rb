@@ -46,6 +46,7 @@ class VideosController < ApplicationController
       @sidebar_list_title = "Latest Ones"
     end
     @sidebar_videos = Video.get_videos_by_sort(@sidebar_order, true ,3)
+    @active_users = User.get_users_by_activity
   end
 
   def new

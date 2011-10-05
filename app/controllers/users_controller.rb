@@ -98,5 +98,6 @@ class UsersController < ApplicationController
     @sidebar_order = "latest"
     @sidebar_list_title = "Latest Ones"
     @sidebar_videos = Video.get_videos_by_sort(@sidebar_order, true ,3)
+    @active_users = User.get_users_by_activity
   end
 end
