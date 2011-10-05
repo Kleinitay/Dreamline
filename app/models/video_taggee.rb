@@ -9,7 +9,7 @@
 #  created_at :datetime
 #
 
-class VideoTaggees < ActiveRecord::Base
+class VideoTaggee < ActiveRecord::Base
     belongs_to :video
 
 

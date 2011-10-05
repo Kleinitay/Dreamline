@@ -1345,6 +1345,20 @@ float:left;
 width:297px;
 padding-bottom:13px;
 }
+
+.signin-form textarea{
+//float:left;
+//width:200px;
+width: 195px;
+height: 80px;
+border: 1px solid #cccccc;
+padding: 5px;
+font-family: Tahoma, sans-serif;
+background-position: bottom right;
+background-repeat: no-repeat;
+
+}
+
 .signin-form li label {
 display:block;
 float:left;
