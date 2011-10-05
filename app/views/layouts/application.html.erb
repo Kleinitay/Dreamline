@@ -27,7 +27,7 @@
 					<div class="signin">
 						<ul>
 								<% if signed_in? %>
-									<li class="create_account"><a href="/users/<%= current_user.id %>">Hi <%= current_user.nick %></a></li>
+									<li class="create_account"><a href="/user/<%= current_user.id %>/videos">Hi <%= current_user.nick %></a></li>
 									<li class="sign_in" id="header">
 	  							<%= link_to "Sign out", sign_out_path, :method => :delete %>
 	  						<% else %>
