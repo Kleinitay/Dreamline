@@ -3,11 +3,12 @@
 		<input type="text" value="Search Video" class="txt-field" onfocus="if(this.value == 'Search Video') { this.value = ''; }" onblur="if(this.value == '') { this.value = 'Search Video'; }" name="s"  disabled />
 		<a href="#">Search Button</a>
 	</div>
-
-	<div class="banner-right">
-		<h5>Join the most famous video-sharing community!</h5>
-		<a href="#"><img src="/images/btn-join.gif" alt="" /></a>
-	</div>
+	<% unless signed_in? %>
+		<div class="banner-right">
+			<h5>Join the most famous video-sharing community!</h5>
+			<a href="/users/new"><img src="/images/btn-join.gif" alt="" /></a>
+		</div>
+	<% end %>
 	<%= render :partial => "sidebars/active_users_box" %>
 	<br class="clear" />
 	<div class="trending-box">
