@@ -6,8 +6,12 @@ class VideosController < ApplicationController
 		if !@video then render_404 and return end
 	  check_video_redirection(@video)
 	  @user = @video.user
-	  get_sidebar_data
+
+	  #sidebars
+	  get_sidebar_data # latest
 	  @user_videos = Video.get_videos_by_user(@user.id, true, 3)
+	  @trending_videos = Video.get_videos_by_sort("popular", true ,3)
+	  @active_users = User.get_users_by_activity
 	end
 	
 	def list

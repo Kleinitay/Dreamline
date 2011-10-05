@@ -1,181 +1,22 @@
 <div id="right_content">
-<div class="sign-in-field">
-<input disabled type="text" value="Search Video" class="txt-field"  onfocus="if(this.value == 'Search Video') { this.value = ''; }" onblur="if(this.value == '') { this.value = 'Search Video'; }" name="s" />
-<a href="#">Search Button</a>
-</div>
-<div id="accordion">
-<h3 class="accordionButton"><a href="javascript: void(0);">More Vidoes by: <%= @user.nick %></a></h3>
-<div class="trending-box accordionContent">
-	<%= render :partial => "sidebars/video_list_box", :locals => {:sidebar_videos => @user_videos, :user_list => true }%>
-</div>
+	<div class="sign-in-field">
+		<input disabled type="text" value="Search Video" class="txt-field"  onfocus="if(this.value == 'Search Video') { this.value = ''; }" onblur="if(this.value == '') { this.value = 'Search Video'; }" name="s" />
+		<a href="#">Search Button</a>
+	</div>
+	<div id="accordion">
+		<h3 class="accordionButton"><a href="javascript: void(0);">More Vidoes by <%= @user.nick %></a></h3>
+		<div class="trending-box accordionContent">
+			<%= render :partial => "sidebars/video_list_box", :locals => {:sidebar_videos => @user_videos, :user_list => true }%>
+		</div>
 
-<h3 class="accordionButton"><a href="javascript: void(0);">Latest Videos</a></h3>
-<div class="trending-box accordionContent">
-	<%= render :partial => "sidebars/video_list_box", :locals => {:sidebar_videos => @sidebar_videos, :user_list => false }%>
-</div>
-<h3 class="accordionButton"><a href="javascript: void(0);">Trending Now</a></h3>
-<div class="trending-box accordionContent">
-
-<ul>
-<li><div class="video-box-trending">
-<img src="img-tr-1.jpg" alt="" />
-<span class="time-video">08:53</span>
-<span class="add-playlist"></span>
-</div>
-
-<div class="text-desc-tre">
-<h5><a href="videodetail.html">Duis molestie nunc nec</a></h5>
-<p><strong>1,197,002</strong> views </p>
-<span>By <a href="#">Simon Cole</a></span></div>
-</li>
-<li><div class="video-box-trending">
-<img src="img-tr-2.jpg" alt="" />
-<span class="time-video">08:53</span>
-<span class="add-playlist"></span>
-</div>
-
-<div class="text-desc-tre">
-<h5><a href="videodetail.html">Duis molestie nunc nec</a></h5>
-<p><strong>1,197,002</strong> views </p>
-<span>By <a href="#">Simon Cole</a></span></div>
-</li>
-
-
-<li><div class="video-box-trending">
-<img src="img-tr-3.jpg" alt="" />
-<span class="time-video">08:53</span>
-<span class="add-playlist"></span>
-</div>
-
-<div class="text-desc-tre">
-<h5><a href="videodetail.html">Duis molestie nunc nec</a></h5>
-<p><strong>1,197,002</strong> views </p>
-<span>By <a href="#">Simon Cole</a></span></div>
-</li>
-
-<li><div class="video-box-trending">
-<img src="img-tr-4.jpg" alt="" />
-<span class="time-video">08:53</span>
-<span class="add-playlist"></span>
-</div>
-
-<div class="text-desc-tre">
-<h5><a href="videodetail.html">Duis molestie nunc nec</a></h5>
-<p><strong>1,197,002</strong> views </p>
-<span>By <a href="#">Simon Cole</a></span></div>
-</li>
-</ul>
-</div>
-
-</div>
-
-<div class="classic-channel">
-<div class="heading-top">
-<h2>Classic Channels</h2>
-</div>
-<ul>
-<li><a href="#" class="red">
-<img src="img-c1.jpg" alt="" />
-<span>The woman in black</span>
-<em><strong>1,197,002</strong>  Members</em></a></li>
-<li><a href="#" class="green">
-<img src="img-c2.jpg" alt="" />
-<span>The Intention</span>
-<em><strong>1,197,002</strong>  Members</em> </a></li>
-<li><a href="#" class="silver">
-<img src="img-c3.jpg" alt="" />
-<span>Lenny</span>
-<em><strong>1,197,002</strong>  Members</em></a></li>
-</ul>
-</div>
-<br class="clear" />
-<div class="trending-box">
-<div class="heading-top">
-<h2>Trending Now</h2><a href="#">View More</a></div>
-<ul>
-<li><div class="video-box-trending">
-<img src="img-tr-1.jpg" alt="" />
-<span class="time-video">08:53</span>
-<span class="add-playlist"></span>
-</div>
-
-<div class="text-desc-tre">
-<h5><a href="videodetail.html">Duis molestie nunc nec</a></h5>
-<p><strong>1,197,002</strong> views </p>
-<span>By <a href="#">Simon Cole</a></span></div>
-</li>
-<li><div class="video-box-trending">
-<img src="img-tr-2.jpg" alt="" />
-<span class="time-video">08:53</span>
-<span class="add-playlist"></span>
-</div>
-
-<div class="text-desc-tre">
-<h5><a href="videodetail.html">Duis molestie nunc nec</a></h5>
-<p><strong>1,197,002</strong> views </p>
-<span>By <a href="#">Simon Cole</a></span></div>
-</li>
-
-
-<li><div class="video-box-trending">
-<img src="img-tr-3.jpg" alt="" />
-<span class="time-video">08:53</span>
-<span class="add-playlist"></span>
-</div>
-
-<div class="text-desc-tre">
-<h5><a href="videodetail.html">Duis molestie nunc nec</a></h5>
-<p><strong>1,197,002</strong> views </p>
-<span>By <a href="#">Simon Cole</a></span></div>
-</li>
-
-<li><div class="video-box-trending">
-<img src="img-tr-4.jpg" alt="" />
-<span class="time-video">08:53</span>
-<span class="add-playlist"></span>
-</div>
-
-<div class="text-desc-tre">
-<h5><a href="videodetail.html">Duis molestie nunc nec</a></h5>
-<p><strong>1,197,002</strong> views </p>
-<span>By <a href="#">Simon Cole</a></span></div>
-</li>
-</ul>
-</div>
-
-<div class="event-box">
-<div class="heading-top">
-<h2>Events</h2><a href="#">View More</a>
-</div>
-
-<ul>
-<li><div class="img-frame-event">
-<img src="img-c1.jpg" alt="" />
-</div>
-<div class="text-desc-event">
-<h5>Duis molestie nunc les.</h5>
-<p>Duis molestie nunc nec felis sollicit
-udin sed ornare lorem varius.</p>
-</div>
-</li>
-<li><div class="img-frame-event">
-<img src="img-c2.jpg" alt="" />
-</div>
-<div class="text-desc-event">
-<h5>Duis molestie nunc les.</h5>
-<p>Duis molestie nunc nec felis sollicit
-udin sed ornare lorem varius.</p>
-</div>
-</li>
-<li><div class="img-frame-event">
-<img src="img-c3.jpg" alt="" />
-</div>
-<div class="text-desc-event">
-<h5>Duis molestie nunc les.</h5>
-<p>Duis molestie nunc nec felis sollicit
-udin sed ornare lorem varius.</p>
-</div>
-</li>
-</ul>
-</div>
+		<h3 class="accordionButton"><a href="javascript: void(0);">Latest Videos</a></h3>
+		<div class="trending-box accordionContent">
+			<%= render :partial => "sidebars/video_list_box", :locals => {:sidebar_videos => @sidebar_videos, :user_list => false }%>
+		</div>
+		<h3 class="accordionButton"><a href="javascript: void(0);">Trending Now</a></h3>
+		<div class="trending-box accordionContent">
+			<%= render :partial => "sidebars/video_list_box", :locals => {:sidebar_videos => @trending_videos, :user_list => false }%>
+		</div>
+	</div>
+	<%= render :partial => "sidebars/active_users_box" %>
 </div>
