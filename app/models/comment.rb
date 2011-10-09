@@ -12,8 +12,12 @@
 #
 
 class Comment < ActiveRecord::Base
-  belongs_to :user, :dependent => :destroy
-  belongs_to :video, :dependent => :destroy
+  belongs_to :user
+  belongs_to :video
+
+  validates_uniqueness_of :content, :scope => [:video_id], :message => "already exists for this video."
+  validates_length_of :content, :minimum => 1, :message => "can't be empty."
+
 
   def self.get_user_comments(user_id)
     Comment.all(:user_id => user_id, :limit => 10)
