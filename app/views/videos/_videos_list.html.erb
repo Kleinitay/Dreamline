@@ -29,7 +29,7 @@
 					<div class="total-views"><strong><%= v.views_count %></strong> views</div>
 					<div class="bottom-panel">
 						<ul> 
-							<% if !@user_videos %>
+							<% if !@user_videos_page %>
 							<li class="nobg">by: <a href="/user/<%= v.user_id %>/videos"><%= v.user_nick %></a></li>
 							<% end %>
 							<% if !@category %>

@@ -7,7 +7,7 @@ class VideosController < ApplicationController
 	  check_video_redirection(@video)
 	  @user = @video.user
 
-	  #sidebars
+	  #sidebar
 	  get_sidebar_data # latest
 	  @user_videos = Video.get_videos_by_user(@user.id, true, 3)
 	  @trending_videos = Video.get_videos_by_sort("popular", true ,3)

@@ -85,11 +85,11 @@ class UsersController < ApplicationController
   def videos
     @user = User.find(params[:id])
     if !@user then render_404 and return end
-    @user_videos = true
+    @user_videos_page = true
     @own_videos = current_user == @user ? true : false
     @page_title = @own_videos ? "My" : "#{@user.nick}'s"
     @videos = Video.get_videos_by_user(@user.id, false)
-    get_sidebar_data
+    get_sidebar_data # latest
     render "/videos/user_videos_list"
   end
   
@@ -98,6 +98,7 @@ class UsersController < ApplicationController
     @sidebar_order = "latest"
     @sidebar_list_title = "Latest Ones"
     @sidebar_videos = Video.get_videos_by_sort(@sidebar_order, true ,3)
+    @trending_videos = Video.get_videos_by_sort("popular", true ,3)
     @active_users = User.get_users_by_activity
   end
 end

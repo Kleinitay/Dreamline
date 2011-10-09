@@ -4,11 +4,12 @@
 		<a href="#">Search Button</a>
 	</div>
 	<div id="accordion">
-		<h3 class="accordionButton"><a href="javascript: void(0);">More Vidoes by <%= @user.nick %></a></h3>
-		<div class="trending-box accordionContent">
-			<%= render :partial => "sidebars/video_list_box", :locals => {:sidebar_videos => @user_videos, :user_list => true }%>
-		</div>
-
+		<% unless @user_videos_page %>
+			<h3 class="accordionButton"><a href="javascript: void(0);">More Vidoes by <%= @user.nick %></a></h3>
+			<div class="trending-box accordionContent">
+				<%= render :partial => "sidebars/video_list_box", :locals => {:sidebar_videos => @user_videos, :user_list => true }%>
+			</div>
+		<% end %>
 		<h3 class="accordionButton"><a href="javascript: void(0);">Latest Videos</a></h3>
 		<div class="trending-box accordionContent">
 			<%= render :partial => "sidebars/video_list_box", :locals => {:sidebar_videos => @sidebar_videos, :user_list => false }%>
