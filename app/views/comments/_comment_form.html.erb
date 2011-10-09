@@ -1,11 +1,10 @@
 <% @comment = Comment.new %>
 <%= form_for(@comment) do |f| %>
-	<%= f.error_messages %>
 	<div id="comment_form" class="signin-form" style="display:none">
 		<ul>
     	<li>
       	<%= f.label :content %>
-				<%= f.text_area :content, "onfocus"=>"setbg('#e5fff3')", "onblur"=>"setbg('white');" %>
+				<%= f.text_area :content, "onfocus"=>"setbg('#e5fff3');", "onblur"=>"setbg('white');" %>
 				<%= f.hidden_field :user_id, { :value => @user.id } %>
 				<%= f.hidden_field :video_id, { :value => @video.id } %>
 				<%= f.hidden_field :status, { :value => 2 } %>
