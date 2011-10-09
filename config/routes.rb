@@ -1,6 +1,7 @@
 Dreamline::Application.routes.draw do |map|
   resources :users
   resources :videos
+  resources :comments
   
   root :to => "application#home"
 # ___________________ Videos ______________________________________________________

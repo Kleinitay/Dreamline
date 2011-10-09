@@ -18,9 +18,4 @@ class Comment < ActiveRecord::Base
   def self.get_user_comments(user_id)
     Comment.all(:user_id => user_id, :limit => 10)
   end
-
-  def create
-
-  end
-
 end

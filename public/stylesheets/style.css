@@ -1339,6 +1339,11 @@ float:left;
 width:297px;
 padding-top:5px;
 }
+
+.signin-form a{
+cursor:pointer;
+}
+
 .signin-form li{
 float:left;
 width:297px;
@@ -1528,6 +1533,7 @@ padding-left:35px;
 background:url(../images/bg-panl-2.png) no-repeat 15px 11px;
 width:80px;
 padding-left:35px;
+cursor:pointer;
 
 }
 .panel-left li a.panl-3 {
@@ -1587,9 +1593,10 @@ background:url(../images/bg-call.gif) no-repeat left top;
 .embed-code {
 float:left;
 width:380px;
-background:url(../images/bg-icon-embed.gif) no-repeat left top;
-padding-left:30px;
+//background:url(../images/bg-icon-embed.gif) no-repeat left top;
+padding-left:10px;
 margin-bottom:8px;
+padding-top: 5px;
 }
 .embed-code textarea {
 float:left;
