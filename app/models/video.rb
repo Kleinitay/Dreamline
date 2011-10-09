@@ -190,32 +190,34 @@ class Video < ActiveRecord::Base
     end
 
 # Moozly: the functions gets videos for showing in a list by the video category
-    def self.get_videos_by_category(category_id)
-        vs = Video.find(:all, :conditions => { :category => category_id }, :order => "created_at desc", :limit => 10)
-        populate_videos_with_common_data(vs, false) if vs
-    end
+ def self.get_videos_by_category(category_id)
+   vs = Video.find(:all, :conditions => {:category => category_id}, :order => "created_at desc", :limit => 10)
+   populate_videos_with_common_data(vs, false) if vs
+ end
 
-    def self.get_videos_by_user(user_id)
-        vs = Video.find(:all, :conditions => { :user_id => user_id }, :limit => 10, :order => "created_at desc")
-        if vs
-            vs.each do |v|
-                v[:thumb] = v.thumb_src
-                v[:src] = "#{directory_for_img(v.id)}/#{v.id}.avi"
-                v[:category_title] = v.category_title
-            end
-        end
+ def self.get_videos_by_user(user_id, sidebar, limit=10)
+  vs = Video.find(:all, :conditions => {:user_id => user_id}, :limit => limit, :order => "created_at desc")
+  if vs
+    user_nick = vs.first.user.nick
+    vs.each do |v|
+      v[:thumb] = sidebar ? v.thumb_small_src : v.thumb_src
+      v[:src] = "#{directory_for_img(v.id)}/#{v.id}.avi"
+      v[:category_title] = v.category_title
+      v[:user_nick] = user_nick
     end
+  end
+ end
 
-    def self.populate_videos_with_common_data(vs, sidebar, name = false)
-        vs.each do |v|
-            user = v.user
-            v[:user_id] = user.id
-            v[:user_nick] = user.nick
-            v[:thumb] = sidebar ? v.thumb_small_src : v.thumb_src
-            v[:src] = "#{directory_for_img(v.id)}/#{v.id}.avi"
-            v[:category_title] = v.category_title if name
-        end
-    end
+ def self.populate_videos_with_common_data(vs, sidebar, name = false)
+   vs.each do |v|
+     user = v.user
+     v[:user_id] = user.id
+     v[:user_nick] = user.nick
+     v[:thumb] = sidebar ? v.thumb_small_src : v.thumb_src
+     v[:src] = "#{directory_for_img(v.id)}/#{v.id}.avi"
+     v[:category_title] = v.category_title if name
+   end
+ end
 
 # _____________________________________________ Face detection _______________________
 

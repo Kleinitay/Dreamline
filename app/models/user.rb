@@ -37,4 +37,8 @@ class User < ActiveRecord::Base
     "#{IMAGES_PATH}#{string_id[0..2]}/#{string_id[3..5]}/#{string_id[6..8]}"
   end
   
+  def self.get_users_by_activity
+    #Moozly - updat this for real data!!!
+    User.all(:limit => 3)
+  end
 end

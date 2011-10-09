@@ -621,7 +621,6 @@ height:16px;
 border:none;
 background:none;
 font-size:12px;
-color:#6f696b;
 font-family:Arial, Helvetica, sans-serif;
 padding:6px 10px;
 }
@@ -760,7 +759,7 @@ bottom:6px;
 width:22px;
 height:22px;
 text-indent:-9999px;
-background:url(../images/add-btn.gif) no-repeat left top;
+//background:url(../images/add-btn.gif) no-repeat left top;
 color:#fff;
 }
 
@@ -1477,13 +1476,13 @@ margin-right:6px;
 .uploader-info a {
 display:block;
 float:left;
-background:url(../images/bg-plus-info.gif) no-repeat right top;
+//background:url(../images/bg-plus-info.gif) no-repeat right top;
 line-height:22px;
 height:23px;
-text-decoration:none;
+text-decoration:underline;
+color: #2BB2E3;
 padding-right:28px;
 font-size:11px;
-color:#6f696b;
 font-family:Arial, Helvetica, sans-serif;
 }
 

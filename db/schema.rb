@@ -41,7 +41,6 @@ ActiveRecord::Schema.define(:version => 20110927123526) do
   create_table "video_taggees", :force => true do |t|
     t.string   "contact_id", :null => false
     t.string   "video_id",   :null => false
-    t.datetime "video_time", :null => false
     t.datetime "created_at"
   end
 
