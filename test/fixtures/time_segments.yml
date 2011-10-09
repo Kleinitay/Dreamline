@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  taggee_id: 1
+  begin: 1
+  end: 1
+
+two:
+  taggee_id: 1
+  begin: 1
+  end: 1
