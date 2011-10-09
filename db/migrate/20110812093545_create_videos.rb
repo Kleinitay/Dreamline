@@ -9,7 +9,7 @@ class CreateVideos < ActiveRecord::Migration
      
      add_index(:videos, :user_id, :name => 'by_user_id')
   end
-  
+
   def self.down
   	 drop_table :videos
   end

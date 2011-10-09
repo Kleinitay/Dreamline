@@ -2,13 +2,9 @@
     <table>
         <% i = 0 %>
         <%= video_form.fields_for :tageeses do |taggee| %>
-              <td>
-                  <%= image_tag  @images[i]%> <br/>
-                  <%= text_field taggee.
-
-              </td>
-
-
+            <td>
+                <%= render 'views/video_taggees/_new_taggee_box', :taggee => taggee %>
+            </td>
         <% end %>
     </table>
 <% end %>

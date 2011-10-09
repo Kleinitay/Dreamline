@@ -4,7 +4,6 @@ class CreateVideoTaggees < ActiveRecord::Migration
     create_table :video_taggees do |t|
       t.column "contact_id",       :string, :null => false
       t.column "video_id",         :string, :null => false
-      t.column "video_time",       :datetime, :null => false
       t.column "created_at",       :datetime        
     end
   end

@@ -10,7 +10,10 @@
 #
 
 class VideoTaggee < ActiveRecord::Base
-    belongs_to :video
+    attr_accessible :id, :video_id, :contact_id
+
+    belongs_to :video  , :dependent => :destroy
+    has_many :time_segments
 
 
     def get_img_path
