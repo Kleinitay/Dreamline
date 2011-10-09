@@ -13,7 +13,7 @@
 ActiveRecord::Schema.define(:version => 20110927123526) do
 
   create_table "comments", :force => true do |t|
-    t.text     "content"
+    t.text     "content",    :null => false
     t.integer  "video_id",   :null => false
     t.integer  "user_id",    :null => false
     t.integer  "status"
