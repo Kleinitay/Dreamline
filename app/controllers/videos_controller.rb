@@ -58,7 +58,7 @@ class VideosController < ApplicationController
       more_params = {:user_id => current_user.id, :duration => 0} #temp duration
       @video = Video.new(params[:video].merge(more_params))
       if @video.save
-        @video.convert_to_flv
+        @video.detect_and_convert
         flash[:notice] = 'Video has been uploaded'
         redirect_to @video.uri
       else
