@@ -19,8 +19,8 @@
 class User < ActiveRecord::Base
   include Clearance::User
   
-  has_many :videos
-  has_many :comments
+  has_many :videos, :dependent => :destroy
+  has_many :comments, :dependent => :destroy
 
 #--------------------- Global params --------------------------
   IMAGES_PATH = '/images/user_images/'

@@ -20,10 +20,10 @@
 require "rexml/document"
 class Video < ActiveRecord::Base
 
-  belongs_to :user, :dependent => :destroy
+  belongs_to :user
 
-  has_many :comments
-  has_many :video_taggees
+  has_many :comments, :dependent => :destroy
+  has_many :video_taggees, :dependent => :destroy
 
 
   has_many :comments
@@ -166,7 +166,11 @@ class Video < ActiveRecord::Base
 
 
 #------------------------------------------------------ Class methods -------------------------------------------------------
-
+  def self.uri(id)
+    v=Video.find_by_id(id,:select => 'title')
+    "/video/#{id}-#{PermalinkFu.escape(v.title)}"
+  end
+  
   def self.directory_for_img(video_id)
       string_id = (video_id.to_s).rjust(9, "0")
       "#{IMG_VIDEO_PATH}#{string_id[0..2]}/#{string_id[3..5]}/#{string_id[6..8]}"
