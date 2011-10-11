@@ -22,4 +22,11 @@ class Comment < ActiveRecord::Base
   def self.get_user_comments(user_id)
     Comment.all(:user_id => user_id, :limit => 10)
   end
+
+  def self.get_video_comments(video_id)
+    comments = Comment.find_by_sql("select comments.*, users.nick from comments, users where comments.user_id = users.id and video_id=#{video_id} order by created_at desc;")
+    total_comments_count = ActiveRecord::Base.connection.select_value("SELECT FOUND_ROWS();").to_i
+    [comments, total_comments_count]
+  end
+  
 end
