@@ -6,6 +6,7 @@ class VideosController < ApplicationController
 		if !@video then render_404 and return end
 	  check_video_redirection(@video)
 	  @user = @video.user
+	  @comments, @total_comments_count = Comment.get_video_comments(video_id)
 
 	  #sidebar
 	  get_sidebar_data # latest
