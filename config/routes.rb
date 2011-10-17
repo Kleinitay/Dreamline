@@ -5,18 +5,29 @@ Dreamline::Application.routes.draw do |map|
   
   root :to => "application#home"
 # ___________________ Videos ______________________________________________________
+
   match 'video/new' =>'videos#new'
-  match 'video/latest'        => 'videos#list', :as => :latest_videos, :order=> "latest"
-  match 'video/most_popular'  => 'videos#list', :as => :most_popular_videos, :order=> "most popular"
+
+  # Moozly: to remove - why doesn't work with *page without a page
+  match 'video/most_popular'        => 'videos#list', :as => :most_popular_videos, :order=> "most popular", :page => "0"
+  match 'video/latest'              => 'videos#list', :as => :latest_videos, :order=> "latest", :page => "0"
+  match 'user/:id/videos'  => 'users#videos', :as => :user_videos, :page => "0"
+  #------------------------------------------------------------------------------------------------------------------------
+
+
+  match 'video/latest/*page'        => 'videos#list', :as => :latest_videos, :order=> "latest"#, :requirements => { :page => /(['0'-'9']*)?/}
+  match 'video/most_popular/*page'  => 'videos#list', :as => :most_popular_videos, :order=> "most popular" #, :requirements => { :page => /([0-9]*)?/}
   Video::CATEGORIES.values.each do |order|
-    match "video/#{order}"    => 'videos#list', :as => :category, :order => "#{order}"
+    # Moozly: to remove - why doesn't work with *page without a page
+    match "video/#{order}"          => 'videos#list', :as => :category, :order => "#{order}", :page => "0"
+    match "video/#{order}/*page"    => 'videos#list', :as => :category, :order => "#{order}" #, :requirements => { :page => /([0-9]*)?/}
   end
-  match 'video/:id'           => 'videos#show_video', :as => :video, :requirements => { :id => /([0-9]*)?/ }
+  match 'video/:id'                 => 'videos#show_video', :as => :video, :requirements => { :id => /([0-9]*)?/ }
 
 # ___________________ Users ______________________________________________________
 
   #match 'user/:id'  => 'users#profile', :as => :user_profile
-  match 'user/:id/videos'  => 'users#videos', :as => :user_videos
+  match 'user/:id/videos/*page'  => 'users#videos', :as => :user_videos
   
 
   
