@@ -1,4 +1,7 @@
 class UsersController < ApplicationController
+
+  before_filter :redirect_first_page_to_base
+
   # GET /users
   # GET /users.xml
   def index
@@ -85,10 +88,11 @@ class UsersController < ApplicationController
   def videos
     @user = User.find(params[:id])
     if !@user then render_404 and return end
+    current_page = (params[:page] == "0" ? "1" : params[:page]).to_i
     @user_videos_page = true
     @own_videos = current_user == @user ? true : false
     @page_title = @own_videos ? "My" : "#{@user.nick}'s"
-    @videos = Video.get_videos_by_user(@user.id, false)
+    @videos = Video.get_videos_by_user(current_page,@user.id, false)
     get_sidebar_data # latest
     render "/videos/user_videos_list"
   end
@@ -97,8 +101,8 @@ class UsersController < ApplicationController
   def get_sidebar_data
     @sidebar_order = "latest"
     @sidebar_list_title = "Latest Ones"
-    @sidebar_videos = Video.get_videos_by_sort(@sidebar_order, true ,3)
-    @trending_videos = Video.get_videos_by_sort("popular", true ,3)
+    @sidebar_videos = Video.get_videos_by_sort(1,@sidebar_order, true ,3)
+    @trending_videos = Video.get_videos_by_sort(1,"popular", true ,3)
     @active_users = User.get_users_by_activity
   end
 end

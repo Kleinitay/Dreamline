@@ -1,4 +1,6 @@
 class VideosController < ApplicationController
+
+ before_filter :redirect_first_page_to_base
 	
 	def show_video
 		video_id = params[:id].to_i
@@ -10,17 +12,18 @@ class VideosController < ApplicationController
 
 	  #sidebar
 	  get_sidebar_data # latest
-	  @user_videos = Video.get_videos_by_user(@user.id, true, 3)
-	  @trending_videos = Video.get_videos_by_sort("popular", true ,3)
+	  @user_videos = Video.get_videos_by_user(1, @user.id, true, 3)
+	  @trending_videos = Video.get_videos_by_sort(1,"popular", true ,3)
 	  @active_users = User.get_users_by_activity
 	end
 	
 	def list
 	  @videos = []
 	  @order = params[:order]
+	  current_page = (params[:page] == "0" ? "1" : params[:page]).to_i
 	  case
       when @order == "most popular" || @order == "latest"
-        @videos = Video.get_videos_by_sort(@order, false)
+        @videos = Video.get_videos_by_sort(current_page, @order, false)
 	    when key = Video::CATEGORIES.key(@order)
 	      @videos = Video.get_videos_by_category(key)
 	      @category = true
@@ -46,7 +49,7 @@ class VideosController < ApplicationController
       @sidebar_order = "latest"
       @sidebar_list_title = "Latest Ones"
     end
-    @sidebar_videos = Video.get_videos_by_sort(@sidebar_order, true ,3)
+    @sidebar_videos = Video.get_videos_by_sort(1,@sidebar_order, true ,3)
     @active_users = User.get_users_by_activity
   end
 

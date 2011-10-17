@@ -8,8 +8,16 @@ class ApplicationController < ActionController::Base
     #@videos = Videos.get_by_latest
     @videos = []
   end
-  
+
   def render_404
       render(:file => "#{Rails.root}/public/404.html", :status => 404)
+  end
+
+  #Moozly: for controllers of listing. Redirecting /1 to no parameter.
+  def redirect_first_page_to_base
+    if params[:page] && params[:page].first == '1'
+      uri = request.path
+      redirect_to(uri.gsub("/1",""))
+    end
   end
 end
