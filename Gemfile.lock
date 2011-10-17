@@ -97,6 +97,7 @@ GEM
       polyglot
       polyglot (>= 0.3.1)
     tzinfo (0.3.29)
+    will_paginate (3.0.2)
 
 PLATFORMS
   ruby
@@ -111,3 +112,4 @@ DEPENDENCIES
   permalink_fu (~> 1.0.0)
   rails (= 3.0.9)
   ruby-debug19
+  will_paginate (~> 3.0)
