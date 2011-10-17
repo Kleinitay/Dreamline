@@ -9,8 +9,8 @@ gem 'annotate', '2.4.0'
 gem 'acts_as_state_machine'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
-
 gem 'mysql', '~> 2.8.1'
+gem 'will_paginate', '~> 3.0'
 
 # Use unicorn as the web server
 # gem 'unicorn'
