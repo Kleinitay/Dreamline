@@ -10,5 +10,13 @@
 
 class VideoTaggee < ActiveRecord::Base
     belongs_to :video
+    attr_accessor :should_destroy
 
+    def edit
+        @taggee = VideoTaggee.find(params[:id])
+    end
+
+    def img_path
+        File.join(Video.directory_for_img(video_id), "faces", id.to_s)
+    end
 end
