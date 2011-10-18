@@ -2,7 +2,7 @@ class VideosController < ApplicationController
 
  before_filter :redirect_first_page_to_base
 	
-	def show_video
+	def show
 		video_id = params[:id].to_i
 		@video = Video.for_view(video_id) if video_id != 0
 		if !@video then render_404 and return end
