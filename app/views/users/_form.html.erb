@@ -25,12 +25,14 @@
 				<%= f.label :nickname %>
 				<span><%= f.text_field :nick %></span>
 			</li>
-			<li>
-				<div><label class="remem-me"><input type="checkbox"  />Remember Me </label></div>
-			</li>
-			<li>
-				<div><a href="#" class="fb-connect">Connect With Fb</a></div>
-			</li>
+			<% if @user.new_record? %>
+				<li>
+					<div><label class="remem-me"><input type="checkbox"  />Remember Me </label></div>
+				</li>
+				<li>
+					<div><a href="#" class="fb-connect">Connect With Fb</a></div>
+				</li>
+			<% end %>
 			<li>
 			   <%= f.submit %>
 			</li>
@@ -38,10 +40,14 @@
 		<ul>
 			<li>
 				<div>
-		    	<%= link_to "Sign in", sign_in_path %>
+					<% if @user.new_record? %>
+						<%= link_to "Sign in", sign_in_path %>
+					<% else %>
+						<%= link_to 'Cancel', user_path %>
+					<% end %>
 				</div>
 		  </li>
-		</ul>			
+		</ul>
   </div>
  
 <% end %>
