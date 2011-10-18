@@ -17,7 +17,7 @@
 						<ul id="navbar">
 							<li><a href="/" class=<%= @home ? "active" : "nobg" %> >Home</a></li>
 							<% if signed_in? %>
-								<li><a href="/user/<%= current_user.id %>/videos" class=<%= @own_videos ? "active" : "nobg" %> >My Videos</a></li>
+								<li><a href="/users/<%= current_user.id %>/videos" class=<%= @own_videos ? "active" : "nobg" %> >My Videos</a></li>
 							<% end %>
 							<li><a href="/video/latest" 			class=<%= @order == "latest" ? "active" : "nobg" %> >Latest Videos</a></li>
 							<li><a href="/video/most_popular" class=<%= @order == "most popular" ? "active" : "nobg" %> >Most Popular</a></li>
@@ -27,7 +27,7 @@
 					<div class="signin">
 						<ul>
 								<% if signed_in? %>
-									<li class="create_account"><a href="/user/<%= current_user.id %>/videos">Hi <%= current_user.nick %></a></li>
+									<li class="create_account"><a href="/users/<%= current_user.id %>/videos">Hi <%= current_user.nick %></a></li>
 									<li class="sign_in" id="header">
 	  							<%= link_to "Sign out", sign_out_path, :method => :delete %>
 	  						<% else %>
