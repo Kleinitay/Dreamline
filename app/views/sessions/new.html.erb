@@ -1,0 +1,60 @@
+<title>Sign in</title>
+
+<!--Content Section -->
+<div id="signin_content_wrapper">
+	<div id="signin_content">
+		<div id="left_col">
+			<div class="bg-shadow">&nbsp;<!--this is for side shadow --></div>
+			<div class="signin_form_heading">
+				<h1>Login to Tagmido</h1>
+				<p>Welcome, please login with your account details or click on "Sign up" for creating new account.</p>
+			</div>
+			<%= form_for :session, :url => session_path do |form| %>
+				<div class="signin-form">
+					<ul>
+						<li>
+						    <%= form.label :email %>
+							<span>
+								<%= form.text_field :email, :type => "email", :class =>"txt-field", :onfocus => "if(this.value == 'Email Address') { this.value = ''; }", :onblur => "if(this.value == '') { this.value = 'Email Address'; }" %>
+							</span>
+						</li>
+						<li>
+					    <%= form.label :password %>
+							<span>
+								<%= form.password_field :password , :class => "password", :value => "password", :onfocus => "if(this.value == 'password') { this.value = ''; }", :onblur => "if(this.value == '') { this.value = 'password'; }" %>
+							</span>
+						</li>
+						<li>
+							<div>
+								<label class="remem-me"><input type="checkbox"  />Remember Me </label>
+								<%= link_to "Forgot password?", new_password_path %>
+							</div>
+						</li>
+						<li>
+							<div>
+								<a href="#" class="fb-connect">Connect With Fb</a>
+							</div>
+						</li>
+						<li>
+							<div class="login-btn"><%= form.submit "Sign in" %></div>
+						</li>
+					</ul>
+					<ul>
+						<li>
+							<div>
+					    	<%= link_to "Sign up", sign_up_path %>
+							</div>
+					  </li>
+					</ul>
+				</div>
+		<% end %>
+		</div>
+		<div id="right_col">
+			<a href="#">
+				<img src="images/banner-signin.jpg" alt="" />
+			</a>
+		</div>
+		<br class="clear" />
+	</div>
+</div>
+<!--Content Section End -->

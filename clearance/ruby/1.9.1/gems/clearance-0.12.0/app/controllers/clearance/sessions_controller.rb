@@ -5,14 +5,14 @@ class Clearance::SessionsController < ApplicationController
   protect_from_forgery :except => :create
 
   def new
-    render :template => 'sessions/new'
+    render :template => 'users/sessions/new'
   end
 
   def create
     @user = authenticate(params)
     if @user.nil?
       flash_failure_after_create
-      render :template => 'sessions/new', :status => :unauthorized
+      render :template => 'users/sessions/new', :status => :unauthorized
     else
       sign_in(@user)
       redirect_back_or(url_after_create)
