@@ -65,7 +65,7 @@ class VideosController < ApplicationController
          @video.detect_and_convert
          @taggees = @video.video_taggees
         flash[:notice] = 'Video has been uploaded'
-        render 'edit_taggees'
+        render 'edit'
       else
         render 'new'
       end
@@ -73,4 +73,25 @@ class VideosController < ApplicationController
       redirect_to "/"
     end
   end
+
+ def edit
+     @video = Video.find(params[:id])
+ end
+
+ def update
+     unless !signed_in? || !params[:video]
+         params[:video][:existing_taggee_attributes] ||= { }
+         more_params = { :user_id => current_user.id, :duration => 0 } #temp duration
+         @video = Video.new(params[:video].merge(more_params))
+         if @video.save
+             flash[:notice] = 'Tags saved'
+             redirect_to 'show'
+         else
+             flash[:notice] = 'Tags not saved'
+             redirect_to 'show'
+         end
+     else
+         redirect_to "/"
+     end
+ end
 end

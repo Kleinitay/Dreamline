@@ -176,7 +176,7 @@ class Video < ActiveRecord::Base
   
   def self.directory_for_img(video_id)
       string_id = (video_id.to_s).rjust(9, "0")
-      "#{IMG_VIDEO_PATH}#{string_id[0..2]}/#{string_id[3..5]}/#{string_id[6..8]}"
+      File.join("#{IMG_VIDEO_PATH}#{string_id[0..2]}","#{string_id[3..5]}","#{string_id[6..8]}" )
   end
 
   def self.full_directory(video_id)
@@ -276,7 +276,7 @@ end
       taggee.contact_id =  ""
       taggee.save
       dir = File.dirname(face.attributes["path"])
-      newFilename = File.join(dir, taggee.id.to_s)
+      newFilename = File.join(dir, "#{taggee.id.to_s}.tif")
       File.rename(face.attributes["path"], newFilename)
 
       face.elements.each("timesegment ") do |segment|
@@ -296,8 +296,8 @@ end
         end
     end
 
-    def existing_task_attributes=(task_attributes)
-        VideoTaggees.reject(&:new_record?).each do |taggee|
+    def existing_taggee_attributes=(taggee_attributes)
+        video_taggees.reject(&:new_record?).each do |taggee|
             attributes = taggee_attributes[taggee.id.to_s]
             if attributes
                 taggee.attributes = attributes

@@ -1,9 +1,9 @@
-<%= form_for @video,  :html => { :method => 'put' } do |f| %>
+<%= form_for :video, :url => video_path(@video), :html => { :method => 'put' } do |f| %>
     <div id="video_taggees">
         <% @video.video_taggees.each do |video_taggee| %>
             <%= render :partial => 'VideoTaggees/video_taggee', :locals => { :video_taggee => video_taggee } %>
         <% end %>
     </div>
-    <p><%= submit_tag "Update Project" %></p>
+    <p><%= submit_tag "Update video" %></p>
     <p><%= add_taggee_link "Add a new tag" %></p>
 <% end %>
