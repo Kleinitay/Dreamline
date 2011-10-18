@@ -40,7 +40,7 @@ class Video < ActiveRecord::Base
   validates_attachment_presence :source
   #validates_attachment_content_type :source, :content_type => 'video'
 
-
+  after_update :save_taggees
   # Acts as State Machine
   # http://elitists.textdriven.com/svn/plugins/acts_as_state_machine
   acts_as_state_machine :initial => :pending
@@ -127,10 +127,13 @@ class Video < ActiveRecord::Base
 
 
 # run process
-  def detect_and_convert
-      detect_face_and_timestamps
-      convert_to_flv
-  end
+    def detect_and_convert
+        if convert_to_flv
+            detect_face_and_timestamps
+        else
+            false
+        end
+    end
 
 # _____________________________________________ FLV conversion functions _______________________
 
@@ -269,8 +272,7 @@ end
     file = File.new(filename)
     doc = REXML::Document.new file
     doc.elements.each('//face') do |face|
-      taggee = VideoTaggee.new
-      taggee.video = self
+      taggee = self.video_taggees.build
       taggee.contact_id =  ""
       taggee.save
       dir = File.dirname(face.attributes["path"])
@@ -287,5 +289,29 @@ end
     end
   end
 # _____________________________________________ Face detection _______________________
+    #___________________________________________taggees handling______________________
+    def new_taggee_attributes=(taggee_attributes)
+        taggee_attributes.each do |taggee|
+            video_taggees.build(taggee)
+        end
+    end
+
+    def existing_task_attributes=(task_attributes)
+        VideoTaggees.reject(&:new_record?).each do |taggee|
+            attributes = taggee_attributes[taggee.id.to_s]
+            if attributes
+                taggee.attributes = attributes
+            else
+                video_taggees.delete(taggee)
+            end
+        end
+    end
+
+    def save_taggees
+        video_taggees.each do |t|
+            t.save(false)
+        end
+    end
+    #___________________________________________taggees handling______________________
 end
 

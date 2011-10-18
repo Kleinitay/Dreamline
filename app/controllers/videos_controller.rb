@@ -62,9 +62,10 @@ class VideosController < ApplicationController
       more_params = {:user_id => current_user.id, :duration => 0} #temp duration
       @video = Video.new(params[:video].merge(more_params))
       if @video.save
-        @video.detect_and_convert
+         @video.detect_and_convert
+         @taggees = @video.video_taggees
         flash[:notice] = 'Video has been uploaded'
-        redirect_to @video.uri
+        render 'edit_taggees'
       else
         render 'new'
       end
