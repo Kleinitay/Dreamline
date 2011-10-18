@@ -5,12 +5,15 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.xml
   def index
-    @users = User.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @users }
-    end
+    if signed_in? && (["elinor.dreamer@gmail.com", "klein.itay@gmail.com"].include? current_user.email)
+      @users = User.all
+      respond_to do |format|
+        format.html # index.html.erb
+        format.xml  { render :xml => @users }
+      end
+    else
+      render_404 and return
+    end 
   end
 
   # GET /users/1

@@ -50,7 +50,7 @@ Dreamline::Application.routes.draw do |map|
 
     match 'sign_up'  => 'clearance/users#new', :as => 'sign_up'
     match 'sign_in'  => 'clearance/sessions#new', :as => 'sign_in'
-    match 'sign_out'  => 'clearance/sessions#destroy', :as => 'sign_out'
+    match 'sign_out' => 'clearance/sessions#destroy', :as => 'destroy'
     # Why doesn't this work??
     #match 'sign_out' => 'clearance/sessions#destroy', :via => :delete, :as => 'sign_out'
  #____________________________________________________________________________________________
