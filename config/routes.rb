@@ -20,7 +20,10 @@ Dreamline::Application.routes.draw do |map|
     match "video/#{order}"          => 'videos#list', :as => :category, :order => "#{order}", :page => "0"
     match "video/#{order}/*page"    => 'videos#list', :as => :category, :order => "#{order}" #, :requirements => { :page => /([0-9]*)?/}
   end
+
   match 'video/:id'                 => 'videos#show', :as => :video, :requirements => { :id => /([0-9]*)?/ }
+
+
 
 # ___________________ Users ______________________________________________________
 
