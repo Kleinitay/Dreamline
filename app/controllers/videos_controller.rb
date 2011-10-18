@@ -81,14 +81,13 @@ class VideosController < ApplicationController
  def update
      unless !signed_in? || !params[:video]
          params[:video][:existing_taggee_attributes] ||= { }
-         more_params = { :user_id => current_user.id, :duration => 0 } #temp duration
-         @video = Video.new(params[:video].merge(more_params))
-         if @video.save
+         @video = Video.find(params[:id])
+         if @video.update_attributes(params[:video])
              flash[:notice] = 'Tags saved'
-             redirect_to 'show'
+             redirect_to video_path (@video)
          else
              flash[:notice] = 'Tags not saved'
-             redirect_to 'show'
+             redirect_to video_path (@video)
          end
      else
          redirect_to "/"
