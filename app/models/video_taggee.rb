@@ -17,6 +17,7 @@ class VideoTaggee < ActiveRecord::Base
     end
 
     def img_path
-        File.join(Video.directory_for_img(video_id), "faces", id.to_s)
+        tmp = File.join(Video.directory_for_img(video_id), "faces","#{ id.to_s}.tif")
+        tmp
     end
 end

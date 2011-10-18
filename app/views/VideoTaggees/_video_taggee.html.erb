@@ -1,7 +1,7 @@
 <div class="video_taggeeee">
     <%= fields_for_taggee(video_taggee) do |tag| %>
         <div id="face_tag">
-            <%= image_tag "#{video_taggee.img_path}" %>
+            <img src="<%= "#{video_taggee.img_path}" %>">
             <%= tag.text_field :contact_id %>
             <%= link_to_function "remove", "$(this).up('.video_taggeeee').remove()" %>
         </div>
