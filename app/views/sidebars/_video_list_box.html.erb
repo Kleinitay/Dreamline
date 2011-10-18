@@ -17,7 +17,7 @@
 						<p><%= nice_time_ago_in_words_including_day_name(v.created_at) %></p>
 					<% end %>
 					<% if !user_list %>
-					<span>By <a href="/user/<%= v.user_id %>/videos"><%= v.user_nick %></a></span>
+					<span>By <a href="/users/<%= v.user_id %>/videos"><%= v.user_nick %></a></span>
 					<% else %>
 						<p><strong><%= v.views_count %></strong> views </p>
 					<% end %>
@@ -26,6 +26,6 @@
 		<% end %>
 	</ul>
 	<div class="heading-top">
-			<% ref = user_list ? "/user/#{@user.id}/videos" : "/video/#{ @sidebar_order.gsub(" ", "_") }" %>
+			<% ref = user_list ? "/users/#{@user.id}/videos" : "/video/#{ @sidebar_order.gsub(" ", "_") }" %>
 			<a href="<%= ref %>">View More</a>
 	</div>

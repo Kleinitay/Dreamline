@@ -6,7 +6,7 @@
 	<ul>
 		<% @active_users.each do |u| %>
 		<li>
-			<a href="/user/<%= u.id %>/videos" class="<%= class_arr[i] %>">
+			<a href="/users/<%= u.id %>/videos" class="<%= class_arr[i] %>">
 				<img src="/images/img-c<%= i+1 %>.jpg" alt="<%= u.nick %>" />
 				<span><%= u.nick %></span>
 				<em><strong><%= 100 + i %></strong>  Videos</em>

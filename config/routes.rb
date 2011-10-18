@@ -11,7 +11,7 @@ Dreamline::Application.routes.draw do |map|
   # Moozly: to remove - why doesn't work with *page without a page
   match 'video/most_popular'        => 'videos#list', :as => :most_popular_videos, :order=> "most popular", :page => "0"
   match 'video/latest'              => 'videos#list', :as => :latest_videos, :order=> "latest", :page => "0"
-  match 'user/:id/videos'  => 'users#videos', :as => :user_videos, :page => "0"
+  match 'users/:id/videos'  => 'users#videos', :as => :user_videos, :page => "0"
   #------------------------------------------------------------------------------------------------------------------------
 
 
@@ -27,7 +27,7 @@ Dreamline::Application.routes.draw do |map|
 # ___________________ Users ______________________________________________________
 
   #match 'user/:id'  => 'users#profile', :as => :user_profile
-  match 'user/:id/videos/*page'  => 'users#videos', :as => :user_videos
+  match 'users/:id/videos/*page'  => 'users#videos', :as => :user_videos
   
 
   
