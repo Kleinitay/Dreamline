@@ -12,7 +12,6 @@ Dreamline::Application.routes.draw do |map|
   match 'users/:id/videos'  => 'users#videos', :as => :user_videos, :page => "0"
   #------------------------------------------------------------------------------------------------------------------------
 
-
   match 'video/latest/*page'        => 'videos#list', :as => :latest_videos, :order=> "latest"#, :requirements => { :page => /(['0'-'9']*)?/}
   match 'video/most_popular/*page'  => 'videos#list', :as => :most_popular_videos, :order=> "most popular" #, :requirements => { :page => /([0-9]*)?/}
   Video::CATEGORIES.values.each do |order|
