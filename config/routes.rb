@@ -6,8 +6,6 @@ Dreamline::Application.routes.draw do |map|
   root :to => "application#home"
 # ___________________ Videos ______________________________________________________
 
-  match 'video/new' =>'videos#new'
-
   # Moozly: to remove - why doesn't work with *page without a page
   match 'video/most_popular'        => 'videos#list', :as => :most_popular_videos, :order=> "most popular", :page => "0"
   match 'video/latest'              => 'videos#list', :as => :latest_videos, :order=> "latest", :page => "0"
@@ -22,7 +20,7 @@ Dreamline::Application.routes.draw do |map|
     match "video/#{order}"          => 'videos#list', :as => :category, :order => "#{order}", :page => "0"
     match "video/#{order}/*page"    => 'videos#list', :as => :category, :order => "#{order}" #, :requirements => { :page => /([0-9]*)?/}
   end
-  match 'video/:id'                 => 'videos#show_video', :as => :video, :requirements => { :id => /([0-9]*)?/ }
+  match 'video/:id'                 => 'videos#show', :as => :video, :requirements => { :id => /([0-9]*)?/ }
 
 # ___________________ Users ______________________________________________________
 
