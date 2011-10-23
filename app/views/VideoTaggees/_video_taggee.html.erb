@@ -1,9 +1,9 @@
-<div class="video_taggeeee">
+<div id="video_taggee<%= video_taggee.id.to_s %>">
     <%= fields_for_taggee(video_taggee) do |tag| %>
         <div id="face_tag">
             <img src="<%= "#{video_taggee.img_path}" %>">
             <%= tag.text_field :contact_id %>
-            <%= link_to_function "remove", "$(this).up('.video_taggeeee').remove()" %>
+            <%= link_to_function "remove", "var node1 = document.getElementById(\'video_taggee#{video_taggee.id.to_s}\');node1.parentNode.removeChild(node1)" %>
         </div>
     <% end %>
 </div>
