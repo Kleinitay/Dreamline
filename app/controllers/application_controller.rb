@@ -5,8 +5,11 @@ class ApplicationController < ActionController::Base
   def home
     #@order = "latest"
     @home = true
-    #@videos = Videos.get_by_latest
     @videos = []
+	  @order = 'latest'
+    @videos = Video.get_videos_by_sort(1, @order, false)
+    @page_title = @order.titleize
+    #get_sidebar_data
   end
 
   def render_404
