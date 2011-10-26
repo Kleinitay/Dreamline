@@ -3,13 +3,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   
   def home
-    #@order = "latest"
-    @home = true
-    @videos = []
-	  @order = 'latest'
-    @videos = Video.get_videos_by_sort(1, @order, false)
-    @page_title = @order.titleize
-    #get_sidebar_data
+    redirect_to("/video/latest")
   end
 
   def render_404
