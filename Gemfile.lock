@@ -33,16 +33,21 @@ GEM
     annotate (2.4.0)
     archive-tar-minitar (0.5.2)
     arel (2.0.10)
+    awesome_print (0.4.0)
     builder (2.1.2)
     clearance (0.12.0)
       diesel (~> 0.1.4)
       rails (>= 3.0)
     cocaine (0.2.0)
     columnize (0.3.4)
+    curl (0.0.9)
+      awesome_print (>= 0.2.1)
+      unidecoder (>= 1.1.1)
     diesel (0.1.5)
       railties
     erubis (2.6.6)
       abstract (>= 1.0.0)
+    facebooker-rails3 (1.0.64)
     i18n (0.5.0)
     linecache19 (0.5.12)
       ruby_core_source (>= 0.1.4)
@@ -97,6 +102,7 @@ GEM
       polyglot
       polyglot (>= 0.3.1)
     tzinfo (0.3.29)
+    unidecoder (1.1.1)
     will_paginate (3.0.2)
 
 PLATFORMS
@@ -107,6 +113,8 @@ DEPENDENCIES
   acts_as_state_machine
   annotate (= 2.4.0)
   clearance
+  curl
+  facebooker-rails3
   mysql (~> 2.8.1)
   paperclip (= 2.4.2)
   permalink_fu (~> 1.0.0)
