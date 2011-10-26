@@ -1,7 +1,11 @@
 class ApplicationController < ActionController::Base
   include Clearance::Authentication
   protect_from_forgery
-  
+
+  #layout 'home'
+  #before_filter :set_facebook_session
+  #helper_method :facebook_session
+
   def home
     url = signed_in? ? "/video/latest" : "/sign_in"
     redirect_to(url)

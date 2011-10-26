@@ -1,7 +1,10 @@
 <head>
 	<title>Home: Welcome to VtagO</title>
+    <%= javascript_include_tag :defaults%>
 </head>
 <body>
+<%= fb_connect_javascript_tag %>
+<%= init_fb_connect "XFBML" %>
 <!--Content Section -->
 
 <div id="content_sec">
@@ -146,5 +149,6 @@
 
 </div>
 <!--Content Section End -->
+</div>
 
 </body>
