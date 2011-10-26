@@ -3,7 +3,8 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   
   def home
-    redirect_to("/video/latest")
+    url = signed_in? ? "/video/latest" : "/sign_in"
+    redirect_to(url)
   end
 
   def render_404
