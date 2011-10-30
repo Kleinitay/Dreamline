@@ -101,6 +101,8 @@ GEM
     treetop (1.4.10)
       polyglot
       polyglot (>= 0.3.1)
+    typhoeus (0.3.2)
+      mime-types
     tzinfo (0.3.29)
     unidecoder (1.1.1)
     will_paginate (3.0.2)
@@ -120,4 +122,5 @@ DEPENDENCIES
   permalink_fu (~> 1.0.0)
   rails (= 3.0.9)
   ruby-debug19
+  typhoeus
   will_paginate (~> 3.0)
