@@ -1392,6 +1392,20 @@ padding-bottom:12px;
 font-family:Arial, Helvetica, sans-serif;
 color:#00555a;
 }
+
+.sigup_form_heading {
+width:297px;
+float:left;
+background:url(../images/db-border.gif) repeat-x bottom;
+padding-bottom:6px;
+margin-bottom:20px;
+}
+.signup_form_heading h1 {
+height:46px;
+background:url(../images/signup-heading.png) no-repeat left top;
+text-indent:-9999px;
+margin-bottom:8px;
+}
 .signin-form{
 float:left;
 width:297px;
