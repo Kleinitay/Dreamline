@@ -3,7 +3,6 @@
 
 require File.expand_path('../config/application', __FILE__)
 require 'rake'
-require 'tasks/facebooker-rails3'
 require 'facebooker-rails3'
 
 Dreamline::Application.load_tasks
