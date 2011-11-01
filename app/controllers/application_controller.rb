@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
   include Clearance::Authentication
-  protect_from_forgery
+  #protect_from_forgery Moozly: disabling for Facebook -Koala
 
   before_filter :parse_facebook_cookies
 
