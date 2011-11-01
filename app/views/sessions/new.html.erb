@@ -33,10 +33,10 @@
 						<li>
 							<div>
 							<!--a href="#" class="fb-connect">Connect With Fb</a-->
-              <p>or register with Facebook connect</p>
+              <!--p>or register with Facebook connect</p-->
                <p style="color: green"><%= flash[:notice] %></p>
                	<div id="fb-root"></div>
-								<script type="text/javascript">
+								<script type="text/javascript" src="http://connect.facebook.net/en_US/all.js">
 									FB.init({
                   	appId  : '<%= Facebook::APP_ID %>',
                   	status : true, // check login status
@@ -46,7 +46,7 @@
 
                   FB.login(function(response) {
                   	if (response.session) {
-                  		location.href = '/home'
+                  		location.href = '/video/latest'
 										}
 										else {
                   		// user cancelled login
