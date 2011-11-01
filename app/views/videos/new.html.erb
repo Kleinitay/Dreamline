@@ -7,24 +7,24 @@
 				<p>Here you can upload your own cool videos!</p>
 			</div>
 			<%= form_for(@video, :html => { :multipart => true }) do |f| %>
-                <%= f.error_messages %>
-                <div class="signin-form">
-                    <table border="0">
-                        <% if @likes %>
-                            <% for like in @likes %>
-                                <tr>
-                                    <td><b><%= h like["name"] %> </b></td>
-                                </tr>
-                                <tr>
-                                    <td><%= h like["category"] %></td>
-                                </tr>
-                                <tr>
-                                    <td>&ndash;</td>
-                                </tr>
-                            <% end %>
-                        <% end %>
-                    </table>
-                    <ul>
+      	<%= f.error_messages %>
+        	<div class="signin-form">
+          	<table border="0">
+            	<% if @likes %>
+              <% for like in @likes %>
+								<tr>
+									<td><b><%= h like["name"] %> </b></td>
+	              </tr>
+	              <tr>
+	              	<td><%= h like["category"] %></td>
+	              </tr>
+								<tr>
+	              	<td>&ndash;</td>
+	              </tr>
+							<% end %>
+						<% end %>
+					</table>
+          <ul>
 						<li>
 			    		<%= f.label :title %>
 							<span><%= f.text_field :title %></span>
