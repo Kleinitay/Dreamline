@@ -32,9 +32,27 @@
 						</li>
 						<li>
 							<div>
-								<!--a href="#" class="fb-connect">Connect With Fb</a-->
-                                <p>or register with Facebook connect</p>
-                                <%#= fb_login_button('window.location = "/users/link_user_accounts";')%>
+							<!--a href="#" class="fb-connect">Connect With Fb</a-->
+              <p>or register with Facebook connect</p>
+               <p style="color: green"><%= flash[:notice] %></p>
+               	<div id="fb-root"></div>
+								<script type="text/javascript">
+									FB.init({
+                  	appId  : '<%= Facebook::APP_ID %>',
+                  	status : true, // check login status
+                  	cookie : true, // enable cookies to allow the server to access the session
+                  	xfbml  : true  // parse XFBML
+                  });
+
+                  FB.login(function(response) {
+                  	if (response.session) {
+                  		location.href = '/home'
+										}
+										else {
+                  		// user cancelled login
+                  	}
+                 });
+              	</script>
 							</div>
 						</li>
 						<li>
