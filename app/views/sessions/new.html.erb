@@ -1,5 +1,17 @@
 <title>VtagO - Sign in</title>
-
+	<div id="fb-root"></div>
+ 	<script>
+		(function(d, s, id) {
+    	var js, fjs = d.getElementsByTagName(s)[0];
+    	if (d.getElementById(id)) {
+        return;
+    	}
+    	js = d.createElement(s);
+    	js.id = id;
+    	js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=117619831583011";
+    	fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));
+	</script>
 <!--Content Section -->
 <div id="signin_content_wrapper">
 	<div id="signin_content">
@@ -30,31 +42,7 @@
 								<%= link_to "Forgot password?", new_password_path %>
 							</div>
 						</li>
-						<li>
-							<div>
-							<!--a href="#" class="fb-connect">Connect With Fb</a-->
-              <!--p>or register with Facebook connect</p-->
-               <p style="color: green"><%= flash[:notice] %></p>
-               	<div id="fb-root"></div>
-								<script type="text/javascript" src="http://connect.facebook.net/en_US/all.js">
-									FB.init({
-                  	appId  : '<%= Facebook::APP_ID %>',
-                  	status : true, // check login status
-                  	cookie : true, // enable cookies to allow the server to access the session
-                  	xfbml  : true  // parse XFBML
-                  });
-
-                  FB.login(function(response) {
-                  	if (response.session) {
-                  		location.href = '/video/latest'
-										}
-										else {
-                  		// user cancelled login
-                  	}
-                 });
-              	</script>
-							</div>
-						</li>
+		        <div class="fb-login-button">Login with Facebook</div></br>
 						<li>
 							<div class="login-btn"><%= form.submit "Sign in" %></div>
 						</li>
