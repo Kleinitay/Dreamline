@@ -2,8 +2,9 @@
   <%= javascript_include_tag "comment.js" %>
 <% end %>
 
-<head>	
+<head>
 	<title> VtagO - "<%= @video.title %>"</title>
+
 </head>
 
 <body class="bg-body-v">
@@ -18,14 +19,15 @@
 					</div>
 				</div>
 				<div class="video-slider">
-					<object type="application/x-shockwave-flash" style="width:629px; height:353px;" data="http://www.youtube.com/v/XB0pGnzsAZI?fs=1&amp;hl=en_US&amp;rel=0">
-						<param name="movie" value="http://www.youtube.com/v/XB0pGnzsAZI?fs=1&amp;hl=en_US&amp;rel=0" />
-						<param value="application/x-shockwave-flash" name="type" /> 
-						<param value="true" name="allowfullscreen" /> 
-						<param value="always" name="allowscriptaccess" /> 
-						<param value="opaque" name="wmode" />
-					</object>
-				</div>
+				   <a
+                        href="<%=@video.path_for_origin%>.flv"
+                        style="display:block;width:629px;height:353px;"
+                        id="player">
+                    </a>
+                    <script language="JavaScript">
+                        flowplayer("player", "/flowplayer.swf");
+                    </script>
+                </div>
 			</div>
 			<div class="panel-video">
 				<div class="embed-code">

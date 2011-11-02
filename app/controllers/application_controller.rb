@@ -1,12 +1,13 @@
 class ApplicationController < ActionController::Base
   include Clearance::Authentication
-  #protect_from_forgery Moozly: disabling for Facebook -Koala
+  protect_from_forgery
 
-  before_filter :parse_facebook_cookies
+before_filter :parse_facebook_cookies
 
-  def parse_facebook_cookies
-    @facebook_cookies = Koala::Facebook::OAuth.new.get_user_info_from_cookie(cookies)
-  end
+
+def parse_facebook_cookies
+ @facebook_cookies = Koala::Facebook::OAuth.new.get_user_info_from_cookie(cookies)
+end
 
   def home
     url = signed_in? ? "/video/latest" : "/sign_in"
