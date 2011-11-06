@@ -1,11 +1,12 @@
-class Clearance::SessionsController < ApplicationController
+class SessionsController < ApplicationController
   unloadable
 
   skip_before_filter :authorize, :only => [:new, :create, :destroy]
   #protect_from_forgery :except => :create
 
-  def unused_new
-    render :template => 'users/sessions/new'
+  def new
+    
+    #@facebook_cookies
   end
 
   def create
