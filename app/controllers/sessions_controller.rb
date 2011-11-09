@@ -4,11 +4,6 @@ class SessionsController < ApplicationController
   skip_before_filter :authorize, :only => [:new, :create, :destroy]
   #protect_from_forgery :except => :create
 
-  def new
-    
-    #@facebook_cookies
-  end
-
   def create
     @user = authenticate(params)
     if @user.nil?
@@ -22,7 +17,9 @@ class SessionsController < ApplicationController
 
   def destroy
     sign_out
-    redirect_to(url_after_destroy)
+    fb_id = fb_oauth.get_user_from_cookies(cookies)
+    url = fb_id ? fb_logout_url : url_after_destroy
+    redirect_to(url)
   end
 
   private

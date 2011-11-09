@@ -55,8 +55,8 @@ class VideosController < ApplicationController
 
   def new
     @video = Video.new
-    graph = Koala::Facebook::GraphAPI.new(access_token)
-    @likes = graph.get_connections("me", "likes")
+    #graph = Koala::Facebook::GraphAPI.new(access_token)
+    #@likes = graph.get_connections("me", "likes")
   end
 
   def create

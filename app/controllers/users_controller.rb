@@ -48,7 +48,7 @@ class UsersController < ApplicationController
   # POST /users.xml
   def create
     @user = User.new(params[:user])
-    @user.status = 1 #pre-active
+    @user.status = 2 #for now active, later change to 1 - pre active
 
     respond_to do |format|
       if @user.save
