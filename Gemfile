@@ -14,6 +14,7 @@ gem 'will_paginate', '~> 3.0'
 
 gem 'koala'
 
+gem 'flowplayer'
 # Use unicorn as the web server
 # gem 'unicorn'
 

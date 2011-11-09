@@ -34,7 +34,7 @@ class Video < ActiveRecord::Base
 
   # Paperclip
   # http://www.thoughtbot.com/projects/paperclip
-  has_attached_file :source, :url => :path_for_origion
+  has_attached_file :source, :url => :path_for_origin
 
   # Paperclip Validations
   validates_attachment_presence :source
@@ -81,7 +81,7 @@ class Video < ActiveRecord::Base
 #--------------------- Global params --------------------------
   IMG_VIDEO_PATH = "/videos/"
   DEFAULT_IMG_PATH = "#{IMG_VIDEO_PATH}default_img/"
-  FULL_VIDEO_PATH = "#{RAILS_ROOT}/public/videos/"
+  FULL_VIDEO_PATH = "#{Rails.root.to_s}/public/videos/"
   CATEGORIES = CommonData[:video_categories]
   MAIN_LIST_LIMIT = 10
 
@@ -110,19 +110,19 @@ class Video < ActiveRecord::Base
   end
 
   # Moozly: path for saving temp origion uploaded video
-  def path_for_origion
+  def path_for_origin
       string_id = (id.to_s).rjust(9, "0")
       "#{IMG_VIDEO_PATH}#{string_id[0..2]}/#{string_id[3..5]}/#{string_id[6..8]}/#{id}"
   end
 
   def thumb_src
       thumb = "#{Video.directory_for_img(id)}/thumbnail.jpg"
-      FileTest.exists?("#{RAILS_ROOT}/public/#{thumb}") ? thumb : "#{DEFAULT_IMG_PATH}thumbnail.jpg"
+      FileTest.exists?("#{Rails.root.to_s}/public/#{thumb}") ? thumb : "#{DEFAULT_IMG_PATH}thumbnail.jpg"
   end
 
   def thumb_small_src
       thumb = "#{Video.directory_for_img(id)}/thumbnail_small.jpg"
-      FileTest.exists?("#{RAILS_ROOT}/public/#{thumb}") ? thumb : "#{DEFAULT_IMG_PATH}thumbnail_small.jpg"
+      FileTest.exists?("#{Rails.root.to_s}/public/#{thumb}") ? thumb : "#{DEFAULT_IMG_PATH}thumbnail_small.jpg"
   end
 
 

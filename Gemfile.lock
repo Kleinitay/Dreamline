@@ -106,6 +106,8 @@ GEM
     treetop (1.4.10)
       polyglot
       polyglot (>= 0.3.1)
+    typhoeus (0.3.2)
+      mime-types
     tzinfo (0.3.29)
     will_paginate (3.0.2)
 

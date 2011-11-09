@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   include helper::FacebookHelper
   #protect_from_forgery Moozly: disabling for Facebook -Koala
 
-  before_filter :parse_facebook_cookies
+before_filter :parse_facebook_cookies
 
   def parse_facebook_cookies
     unless signed_in?
@@ -18,7 +18,7 @@ class ApplicationController < ActionController::Base
       end
     end
   end
-  
+
   def home
     url = signed_in? ? "/video/latest" : "/sign_in"
     redirect_to(url)
