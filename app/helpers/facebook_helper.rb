@@ -35,7 +35,7 @@ module FacebookHelper
   end
   
   def fb_logout_url
-     "https://www.facebook.com/logout.php?next=http://#{FB_SITE_URL}/sign_in&access_token=#{fb_access_token}"
+     "https://www.facebook.com/logout.php?next=#{url_after_destroy}&access_token=#{fb_access_token}"
   end
 
 end

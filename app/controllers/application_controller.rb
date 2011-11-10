@@ -7,14 +7,18 @@ before_filter :parse_facebook_cookies
 
   def parse_facebook_cookies
     unless signed_in?
-      fb_id = fb_oauth.get_user_from_cookies(cookies)
-      if fb_id #Logged in with Facebook
-        user = User.find_by_fb_id(fb_id)
-        if user
-          sign_in(user)
-        else
-          subscribe_new_fb_user(fb_id) # new Facebook user
+      begin
+        fb_id = fb_oauth.get_user_from_cookies(cookies)
+        if fb_id #Logged in with Facebook
+          user = User.find_by_fb_id(fb_id)
+          if user
+            sign_in(user)
+          else
+            subscribe_new_fb_user(fb_id) # new Facebook user
+          end
         end
+      rescue Exception=>e
+        render :text => "Session Has gone away. Please refresh and try again. "
       end
     end
   end

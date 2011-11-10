@@ -43,7 +43,6 @@
 						</li>
 						<div id="fb-root"></div>
 						<script>
-					//	alert("init");
 							FB.init({
 								appId : '<%= FB_APP_ID %>',
 								status : true, // check login status
@@ -51,37 +50,28 @@
 								xfbml : true, // parse XFBML
 								oauth : true
 							});
-
-							/*FB.Event.subscribe('auth.sessionChange', function(response) {
-								if (response.authResponse) {
-									location.href = '/video/latest';
-									// A user has logged in, and a new cookie has been saved
-								} else {
-									location.href = '/sign_in';
-									// The user has logged out, and the cookie has been cleared
-								}
-							});*/
-							
+						
 							FB.getLoginStatus(function(response) {
+								//alert("status " + response.status);
 							  if (response.status === 'connected') {
-								alert("logged in");
-									location.href = '/video/latest';
-							    // the user is logged in and connected to your
-							    // app, and response.authResponse supplies
-							    // the user’s ID, a valid access token, a signed
-							    // request, and the time the access token 
-							    // and signed request each expire
-							    var uid = response.authResponse.userID;
-							    var accessToken = response.authResponse.accessToken;
+									location.href = '/video/latest'; // the user is logged in and connected to your app, and response.authResponse supplies the user’s ID, a valid access token, a signed request, and the time the access token and signed request each expire
+							    //var uid = response.authResponse.userID;
+							    //var accessToken = response.authResponse.accessToken;
 							  } else if (response.status === 'not_authorized') {
-								alert("in face, out app");
-							    // the user is logged in to Facebook, 
-							    //but not connected to the app
+									alert("in face, out app");
+							    // the user is logged in to Facebook, but not connected to the app
 							  } else {
-								alert("not logged in at all");
+									alert("not logged in at all");
 							    // the user isn't even logged in to Facebook.
 							  }
 							});
+							
+							FB.Event.subscribe('auth.login', function (response) {
+								//alert("login event");
+								 if (response.status === 'connected') {
+						          location.href = "video/latest?fb=true";
+										}
+						  });
 							
 						</script>
 		        <div class="fb-login-button">Login with Facebook</div></br>
