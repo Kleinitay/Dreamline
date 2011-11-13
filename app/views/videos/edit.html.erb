@@ -1,7 +1,7 @@
 <%= form_for :video, :url => video_path(@video), :html => { :method => 'put' } do |f| %>
     <div id="video_taggees">
         <% @video.video_taggees.each do |video_taggee| %>
-            <%= render :partial => 'VideoTaggees/video_taggee', :locals => { :video_taggee => video_taggee } %>
+            <%= render :partial => 'video_taggees/video_taggee', :locals => { :video_taggee => video_taggee } %>
         <% end %>
         <!--p><%#= add_taggee_link "Add a new tag" %></p-->
     </div>

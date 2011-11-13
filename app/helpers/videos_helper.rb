@@ -7,7 +7,7 @@ module VideosHelper
 
     def add_taggee_link(name)
         link_to_function name do |page|
-            page.insert_html :bottom, :VideoTaggees, :partial => 'VideoTaggees/video_taggee', :object => VideoTaggee.new
+            page.insert_html :bottom, :VideoTaggees, :partial => 'video_taggees/video_taggee', :object => VideoTaggee.new
         end
     end
 end
