@@ -17,8 +17,13 @@ class SessionsController < ApplicationController
 
   def destroy
     sign_out
-    fb_id = fb_oauth.get_user_from_cookies(cookies)
-    url = fb_id ? fb_logout_url : url_after_destroy
+    begin
+      fb_id = fb_oauth.get_user_from_cookies(cookies)
+      url = fb_id ? fb_logout_url : url_after_destroy
+    rescue
+      render :text => "Session Has gone away. Please refresh and try again."
+    end  
+    #url = url_after_destroy
     redirect_to(url)
   end
 

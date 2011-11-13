@@ -18,7 +18,7 @@ before_filter :parse_facebook_cookies
           end
         end
       rescue Exception=>e
-        render :text => "Session Has gone away. Please refresh and try again. "
+        render :text => "Session Has gone away. Please refresh and try again."
       end
     end
   end
