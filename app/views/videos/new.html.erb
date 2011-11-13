@@ -6,7 +6,7 @@
 				<h1>Upload Video</h1>
 				<p>Here you can upload your own cool videos!</p>
 			</div>
-			<%= form_for(@video, :html => { :multipart => true }) do |f| %>
+			<%= form_for(@video, :html => {:multipart => true}) do |f| %>
       	<%= f.error_messages %>
         	<div class="signin-form">
           	<table border="0">

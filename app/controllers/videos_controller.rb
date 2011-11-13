@@ -65,9 +65,9 @@ class VideosController < ApplicationController
       @video = Video.new(params[:video].merge(more_params))
       if @video.save
          @video.detect_and_convert
-         @taggees = @video.video_taggees
-        flash[:notice] = 'Video has been uploaded'
-        render 'edit_tags'
+         #@taggees = @video.video_taggees
+        flash[:notice] = "Video has been uploaded"
+        redirect_to "/video/#{@video.id}/edit_tags"
       else
         render 'new'
       end
@@ -76,27 +76,28 @@ class VideosController < ApplicationController
     end
   end
 
- def edit_tags
-     @video = Video.find(params[:id])
- end
+  def edit_tags
+    @video = Video.find(params[:id])
+    @taggees = @video.video_taggees
+  end
+  
+  def edit_video
+    @video = Video.find(params[:id])
+  end
 
- def edit_video
-     @video = Video.find(params[:id])
- end
-
- def update
-     unless !signed_in? || !params[:video]
-         params[:video][:existing_taggee_attributes] ||= { }
-         @video = Video.find(params[:id])
-         if @video.update_attributes(params[:video])
-             flash[:notice] = 'Tags saved'
-             redirect_to video_path (@video)
-         else
-             flash[:notice] = 'Tags not saved'
-             redirect_to video_path (@video)
-         end
-     else
-         redirect_to "/"
-     end
- end
+  def update
+    unless !signed_in? || !params[:video]
+      params[:video][:existing_taggee_attributes] ||= { }
+      @video = Video.find(params[:id])
+      if @video.update_attributes(params[:video])
+        flash[:notice] = 'Tags saved'
+        redirect_to video_path (@video)
+      else
+        flash[:notice] = 'Tags not saved'
+        redirect_to video_path (@video)
+      end
+    else
+      redirect_to "/"
+    end
+  end
 end
