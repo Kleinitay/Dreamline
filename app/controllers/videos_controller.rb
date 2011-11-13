@@ -67,7 +67,7 @@ class VideosController < ApplicationController
          @video.detect_and_convert
          @taggees = @video.video_taggees
         flash[:notice] = 'Video has been uploaded'
-        render 'edit'
+        render 'edit_tags'
       else
         render 'new'
       end
@@ -76,7 +76,11 @@ class VideosController < ApplicationController
     end
   end
 
- def edit
+ def edit_tags
+     @video = Video.find(params[:id])
+ end
+
+ def edit_video
      @video = Video.find(params[:id])
  end
 
