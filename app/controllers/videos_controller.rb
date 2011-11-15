@@ -8,6 +8,7 @@ class VideosController < ApplicationController
 		if !@video then render_404 and return end
 	  check_video_redirection(@video)
 	  @user = @video.user
+	  @own_videos = current_user == @user ? true : false
 	  @comments, @total_comments_count = Comment.get_video_comments(video_id)
 
 	  #sidebar
@@ -55,8 +56,6 @@ class VideosController < ApplicationController
 
   def new
     @video = Video.new
-    #graph = Koala::Facebook::GraphAPI.new(access_token)
-    #@likes = graph.get_connections("me", "likes")
   end
 
   def create
@@ -65,7 +64,6 @@ class VideosController < ApplicationController
       @video = Video.new(params[:video].merge(more_params))
       if @video.save
          @video.detect_and_convert
-         #@taggees = @video.video_taggees
         flash[:notice] = "Video has been uploaded"
         redirect_to "/video/#{@video.id}/edit_tags"
       else
@@ -76,13 +74,15 @@ class VideosController < ApplicationController
     end
   end
 
+  def edit
+     @video = Video.find(params[:id])
+  end
+
   def edit_tags
     @video = Video.find(params[:id])
     @taggees = @video.video_taggees
-  end
-  
-  def edit_video
-    @video = Video.find(params[:id])
+    @friends = fb_graph.get_connections(current_user.fb_id,'friends')
+    #@likes = graph.get_connections("me", "likes")
   end
 
   def update
