@@ -1,0 +1,19 @@
+<div id="facebook_friends" class="classic-channel">
+	<div class="heading-top">
+		<h2>Facebook Friends</h2>
+	</div>
+	<ul>
+    <% @friends[0..20].each do |friend| %>
+			<li>
+					<a href="https://www.facebook.com/<%= friend["id"] %>" class="silver">
+						<img src="https://graph.facebook.com/<%= friend["id"] %>/picture" alt="<%= friend['name'] %>" />
+						<span><%= friend["name"] %></span>
+					</a>
+			</li>
+    <% end %>
+	</ul>
+	
+	<div class="heading-top">
+			<a href="#">View More</a>
+	</div>
+</div>
