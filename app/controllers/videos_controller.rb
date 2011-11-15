@@ -80,9 +80,17 @@ class VideosController < ApplicationController
 
   def edit_tags
     @video = Video.find(params[:id])
+    @page_title = "#{@video.title.titleize} - Edit"
+    @user = current_user
     @taggees = @video.video_taggees
     @friends = fb_graph.get_connections(current_user.fb_id,'friends')
     #@likes = graph.get_connections("me", "likes")
+    
+    #sidebar
+	  get_sidebar_data # latest
+	  @user_videos = Video.get_videos_by_user(1, @user.id, true, 3)
+	  @trending_videos = Video.get_videos_by_sort(1,"popular", true ,3)
+	  @active_users = User.get_users_by_activity
   end
 
   def update
