@@ -87,6 +87,9 @@ class Video < ActiveRecord::Base
 
   FACE_RESULTS = "faces.xml"
   FACES_DIR = "faces"
+  MOVIE_FACE_RECOGNITION_EXEC_PATH = "#{Rails.root.to_s}/MovieFaceDetector/MovieFaceRecognition"
+  HAAR_CASCADES_PATH = "#{Rails.root.to_s}/MovieFaceDetector/haarcascades/haarcascade_frontalface_alt_tree.xml"
+
 
 #------------------------------------------------------ Instance methods -------------------------------------------------------
   def add_new_video(user_id, title)
@@ -233,6 +236,8 @@ end
   def detect_face_and_timestamps
     create_faces_directory
     cmd = detect_command
+    logger.info cmd
+    puts cmd
     success = system(cmd)
     if success && $?.exitstatus == 0
         parse_xml_add_tagees_and_timesegments(get_timestamps_xml_file_name)
@@ -253,7 +258,7 @@ end
   def detect_command
     output_dir = faces_directory
     input_file = File.join(Video.full_directory(id),id.to_s)
-    "MovieFaceRecognition Dreamline #{input_file} #{output_dir}"
+    "#{MOVIE_FACE_RECOGNITION_EXEC_PATH} Dreamline #{input_file} #{output_dir} #{HAAR_CASCADES_PATH}"
   end
 
   def faces_directory
