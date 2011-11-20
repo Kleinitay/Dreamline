@@ -118,13 +118,21 @@ class Video < ActiveRecord::Base
       "#{IMG_VIDEO_PATH}#{string_id[0..2]}/#{string_id[3..5]}/#{string_id[6..8]}/#{id}"
   end
 
-  def thumb_src
-      thumb = "#{Video.directory_for_img(id)}/thumbnail.jpg"
+  def thumb_path
+      File.join(Video.directory_for_img(id), "thumbnail.jpg")
+  end
+
+  def thumb_path_small
+      File.join(Video.directory_for_img(id), "thumbnail_small.jpg")
+  end
+
+    def thumb_src
+      thumb = thumb_path
       FileTest.exists?("#{Rails.root.to_s}/public/#{thumb}") ? thumb : "#{DEFAULT_IMG_PATH}thumbnail.jpg"
   end
 
   def thumb_small_src
-      thumb = "#{Video.directory_for_img(id)}/thumbnail_small.jpg"
+      thumb = thumb_path_small
       FileTest.exists?("#{Rails.root.to_s}/public/#{thumb}") ? thumb : "#{DEFAULT_IMG_PATH}thumbnail_small.jpg"
   end
 
@@ -258,7 +266,8 @@ end
   def detect_command
     output_dir = faces_directory
     input_file = File.join(Video.full_directory(id),id.to_s)
-    "#{MOVIE_FACE_RECOGNITION_EXEC_PATH} Dreamline #{input_file} #{output_dir} #{HAAR_CASCADES_PATH}"
+
+    "#{MOVIE_FACE_RECOGNITION_EXEC_PATH} Dreamline #{input_file} #{output_dir} #{HAAR_CASCADES_PATH} #{Rails.root.to_s}/public#{thumb_path} #{Rails.root.to_s}/public#{thumb_path_small}"
   end
 
   def faces_directory
