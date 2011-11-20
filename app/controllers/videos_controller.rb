@@ -19,6 +19,22 @@ class VideosController < ApplicationController
 	end
 	
 	def list
+	  if params[:fb]
+	    begin
+        fb_id = fb_oauth.get_user_from_cookies(cookies)
+        if fb_id #Logged in with Facebook
+          user = User.find_by_fb_id(fb_id)
+          if user
+            sign_in(user)
+          else
+            subscribe_new_fb_user(fb_id) # new Facebook user
+          end
+        end
+      rescue Exception=>e
+        render :text => "Session Has gone away. Please refresh and try again."
+      end
+    end
+	  
 	  @videos = []
 	  @order = params[:order]
 	  current_page = (params[:page] == "0" ? "1" : params[:page]).to_i
@@ -83,7 +99,11 @@ class VideosController < ApplicationController
     @page_title = "#{@video.title.titleize} - Edit"
     @user = current_user
     @taggees = @video.video_taggees
-    @friends = fb_graph.get_connections(current_user.fb_id,'friends')
+    friends = fb_graph.get_connections(current_user.fb_id,'friends')
+    @friends = {}
+    friends.map {|friend| @friends[friend["name"]] = friend["id"]}
+    @names_arr = @friends.keys
+    #@friends_names = @friends.map(&:name)
     #@likes = graph.get_connections("me", "likes")
     
     #sidebar

@@ -21,9 +21,11 @@ class SessionsController < ApplicationController
       fb_id = fb_oauth.get_user_from_cookies(cookies)
       url = fb_id ? fb_logout_url : url_after_destroy
     rescue
-      render :text => "Session Has gone away. Please refresh and try again."
+      cookies.each { |x,v| cookies.delete(x) }
+      #cookies.delete_all
+      #render :text => "Session Has gone away. Please refresh and try again."
     end  
-    #url = url_after_destroy
+    url = url_after_destroy
     redirect_to(url)
   end
 

@@ -51,10 +51,10 @@
 								oauth : true
 							});
 						
-							FB.getLoginStatus(function(response) {
+				/*			FB.getLoginStatus(function(response) {
 								//alert("status " + response.status);
-							  if (response.status === 'connected') {
-									location.href = '/video/latest'; // the user is logged in and connected to your app, and response.authResponse supplies the user’s ID, a valid access token, a signed request, and the time the access token and signed request each expire
+							  if (response.status == 'connected') {
+									//location.href = '/video/latest'; // the user is logged in and connected to your app, and response.authResponse supplies the user’s ID, a valid access token, a signed request, and the time the access token and signed request each expire
 							    //var uid = response.authResponse.userID;
 							    //var accessToken = response.authResponse.accessToken;
 							  } else if (response.status === 'not_authorized') {
@@ -64,11 +64,10 @@
 									alert("not logged in at all");
 							    // the user isn't even logged in to Facebook.
 							  }
-							});
+							});*/
 							
 							FB.Event.subscribe('auth.login', function (response) {
-								//alert("login event");
-								 if (response.status === 'connected') {
+								 if (response.status == 'connected') {
 						          location.href = "video/latest?fb=true";
 										}
 						  });
