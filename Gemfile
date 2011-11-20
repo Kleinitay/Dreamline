@@ -11,10 +11,10 @@ gem 'acts_as_state_machine'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 gem 'mysql', '~> 2.8.1'
 gem 'will_paginate', '~> 3.0'
-
 gem 'koala'
-
 gem 'flowplayer'
+gem 'jquery-rails', '>= 1.0.12'
+
 # Use unicorn as the web server
 # gem 'unicorn'
 
