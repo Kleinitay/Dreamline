@@ -17,6 +17,26 @@
 #  source_file_size    :integer(4)
 #  state               :string(255)
 #
+
+# == Schema Information
+#
+# Table name: videos
+#
+#  id                  :integer(4)      not null, primary key
+#  user_id             :integer(4)      not null
+#  title               :string(255)
+#  views_count         :integer(4)      default(0)
+#  created_at          :datetime
+#  updated_at          :datetime
+#  duration            :integer(4)      not null
+#  category            :integer(4)      not null
+#  description         :string(255)
+#  keywords            :string(255)
+#  source_content_type :string(255)
+#  source_file_name    :string(255)
+#  source_file_size    :integer(4)
+#  state               :string(255)
+#
 require "rexml/document"
 class Video < ActiveRecord::Base
 
@@ -287,7 +307,7 @@ end
     doc = REXML::Document.new file
     doc.elements.each('//face') do |face|
       taggee = self.video_taggees.build
-      taggee.contact_id =  ""
+      taggee.contact_info =  ""
       taggee.save
       dir = File.dirname(face.attributes["path"])
       newFilename = File.join(dir, "#{taggee.id.to_s}.tif")
