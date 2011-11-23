@@ -1,3 +1,8 @@
+</script>
+<link type="text/css" href="/javascripts/css/ui-lightness/jquery-ui-1.8.16.custom.css" rel="stylesheet" />
+<script type="text/javascript" src="/javascripts/js/jquery-1.6.2.min.js"></script>
+<script type="text/javascript" src="/javascripts/js/jquery-ui-1.8.16.custom.min.js"></script>
+
 <div id="video_taggee<%= video_taggee.id.to_s %>">
     <%= fields_for_taggee(video_taggee) do |tag| %>
         <div id="face_tag">
@@ -5,5 +10,18 @@
             <%= tag.text_field :contact_id %>
             <%= link_to_function "remove", "var node1 = document.getElementById(\'video_taggee#{video_taggee.id.to_s}\');node1.parentNode.removeChild(node1)" %>
         </div>
+        <div class="ui-widget">
+		    <label for="tags">Who is it? </label>
+		    <input id="tags">
+	    </div>
     <% end %>
 </div>
+
+	<script type="text/javascript">
+		$(function() {
+			var availableTags = <%= raw @names_arr.to_json %>;
+			$( "#tags" ).autocomplete({
+				source: availableTags
+			});
+		});
+	</script>

@@ -19,22 +19,6 @@ class VideosController < ApplicationController
 	end
 	
 	def list
-	  if params[:fb]
-	    begin
-        fb_id = fb_oauth.get_user_from_cookies(cookies)
-        if fb_id #Logged in with Facebook
-          user = User.find_by_fb_id(fb_id)
-          if user
-            sign_in(user)
-          else
-            subscribe_new_fb_user(fb_id) # new Facebook user
-          end
-        end
-      rescue Exception=>e
-        render :text => "Session Has gone away. Please refresh and try again."
-      end
-    end
-	  
 	  @videos = []
 	  @order = params[:order]
 	  current_page = (params[:page] == "0" ? "1" : params[:page]).to_i
