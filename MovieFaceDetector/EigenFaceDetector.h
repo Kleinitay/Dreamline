@@ -128,7 +128,7 @@ int main( int argc, char** argv )
 	if( !strcmp(argv[1], "train") ) learn();
 	else if( !strcmp(argv[1], "test") ) recognize();
 	else if ( !strcmp(argv[1], "Dreamline_test") ) Dreamline( "C:\\TestData\\Movies\\IMG_1411_mpeg1video.mpg", 
-		"C:\\TestOutputs", "C:\\OpenCV2.2\\data\\haarcascades\\haarcascade_frontalface_alt_tree.xml", "C:\\TestOutputs\\tn.jpg", "C:\\TestOutputs\\tn_s.jpg");
+		"C:\\TestOutputs", "C:\\OpenCV2.2\\data\\haarcascades\\haarcascade_frontalface_alt_tree.xml", "C:/TestOutputs/tn.jpg", "C:/TestOutputs/tn_s.jpg");
 	else if ( !strcmp(argv[1], "Dreamline") && argc < 4 ) Dreamline( argv[2], argv[3], 
 		"./haarcascades/haarcascade_frontalface_alt_tree.xml", NULL, NULL);
 	else if ( !strcmp(argv[1],  "Dreamline") && argc < 5 ) Dreamline( argv[2], argv[3],argv[4], NULL, NULL);
@@ -144,9 +144,9 @@ int main( int argc, char** argv )
 	return 0;
 }
 
-
 void Dreamline(char *movieClipPath, char *outputPath, char *haarClassifierPath, char *thumbPath, char *smallThumbPath)
 {
+	printf("\n\nargs clip: %s, output: %s, haar: %s\n", movieClipPath, outputPath, haarClassifierPath);
 	if (!movieClipPath || strlen(movieClipPath) < 2)
 	{
 		printf("error in input path");
@@ -174,8 +174,10 @@ void Dreamline(char *movieClipPath, char *outputPath, char *haarClassifierPath, 
 			if (smallThumbPath && strlen(smallThumbPath) > 0)
 			{
 				IplImage *thumb_s = cvCreateImage(cvSize(90, 48), IPL_DEPTH_8U, 3);
-				cvResize(frm, thumb_s);
+				cvSetImageROI(thumb, cvRect((134 - 90) / 2, (110 - 48) / 2, 90, 48));
+				cvCopyImage(thumb, thumb_s);
 				cvSaveImage(smallThumbPath, thumb_s);
+				cvReleaseImage(&thumb_s);
 			}
 		}
 		cvReleaseImage(&thumb);
@@ -187,6 +189,7 @@ void Dreamline(char *movieClipPath, char *outputPath, char *haarClassifierPath, 
 	printf("saving to xml");
 	saveToXML(outputFilePath);
 }
+
 
 void addStartSegment(int time, DlFaceAndTime *fandt)
 {
