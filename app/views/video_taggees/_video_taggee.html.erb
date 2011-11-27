@@ -5,23 +5,22 @@
 
 <div id="video_taggee<%= video_taggee.id.to_s %>">
     <%= fields_for_taggee(video_taggee) do |tag| %>
-        <div id="face_tag">
+        <div id="face_tag" class="ui-widget">
             <img src="<%= "#{video_taggee.img_path}" %>">
-            <%= tag.text_field :contact_id %>
-            <%= link_to_function "remove", "var node1 = document.getElementById(\'video_taggee#{video_taggee.id.to_s}\');node1.parentNode.removeChild(node1)" %>
+						<label for="tags">Who is this? </label>
+            <%= tag.text_field 	 :contact_info, :class => "contact_info" %>
+            <%= tag.hidden_field :fb_id, :class =>"fb_id" %>
+						<%= link_to_function "remove", "var node1 = document.getElementById(\'video_taggee#{video_taggee.id.to_s}\');node1.parentNode.removeChild(node1)" %>
         </div>
-        <div class="ui-widget">
-		    <label for="tags">Who is it? </label>
-		    <input id="tags">
-	    </div>
     <% end %>
 </div>
-
-	<script type="text/javascript">
-		$(function() {
-			var availableTags = <%= raw @names_arr.to_json %>;
-			$( "#tags" ).autocomplete({
+	
+<script type="text/javascript">
+	$(function() {
+		var availableTags = <%= raw @names_arr.to_json %>;
+		var contacts = document.getElementsByClassName("contact_info");
+		$(contacts).autocomplete({
 				source: availableTags
-			});
 		});
-	</script>
+	});
+</script>

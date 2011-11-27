@@ -87,7 +87,7 @@ class VideosController < ApplicationController
     @friends = {}
     friends.map {|friend| @friends[friend["name"]] = friend["id"]}
     @names_arr = @friends.keys
-    #@friends_names = @friends.map(&:name)
+    #@ids_arr = @friends.values
     #@likes = graph.get_connections("me", "likes")
     
     #sidebar
