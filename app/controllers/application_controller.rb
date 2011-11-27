@@ -47,7 +47,8 @@ class ApplicationController < ActionController::Base
     nick = profile["name"]
     email = profile["email"]
     fb_id = profile["id"]
-    user = User.create(:status => 2, :nick => nick, :email => email, :fb_id => fb_id)
+    password = SecureRandom.hex(10)
+    user = User.create(:status => 2, :nick => nick, :email => email, :fb_id => fb_id, :password => password)
     sign_in(user)
   end
   

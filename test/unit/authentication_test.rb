@@ -10,14 +10,11 @@
 #  updated_at :datetime
 #
 
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+require 'test_helper'
 
-one:
-  user_id: 1
-  provider: MyString
-  uid: MyString
-
-two:
-  user_id: 1
-  provider: MyString
-  uid: MyString
+class AuthenticationTest < ActiveSupport::TestCase
+  # Replace this with your real tests.
+  test "the truth" do
+    assert true
+  end
+end
