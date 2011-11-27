@@ -3,12 +3,12 @@ class ApplicationController < ActionController::Base
   include helper::FacebookHelper
   #protect_from_forgery Moozly: disabling for Facebook -Koala
 
-#before_filter :parse_facebook_cookies
 
   def parse_facebook_cookies
     unless signed_in?
       begin
-        fb_id = fb_oauth.get_user_from_cookies(cookies)
+
+        fb_id = session['fb_uid']
         if fb_id #Logged in with Facebook
           user = User.find_by_fb_id(fb_id)
           if user
@@ -22,6 +22,8 @@ class ApplicationController < ActionController::Base
       end
     end
   end
+
+
 
   def home
     url = signed_in? ? "/video/latest" : "/sign_in"

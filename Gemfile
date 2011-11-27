@@ -14,6 +14,7 @@ gem 'will_paginate', '~> 3.0'
 gem 'koala'
 gem 'flowplayer'
 gem 'jquery-rails', '>= 1.0.12'
+gem 'omniauth-facebook'
 
 # Use unicorn as the web server
 # gem 'unicorn'
