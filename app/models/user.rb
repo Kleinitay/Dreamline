@@ -21,6 +21,7 @@ class User < ActiveRecord::Base
   
   has_many :videos, :dependent => :destroy
   has_many :comments, :dependent => :destroy
+  has_many :authentications, :dependent => :destroy
 
   validates_presence_of :nick, :message => "must be entered."
   validates_uniqueness_of :nick, :message => "already taken."

@@ -8,7 +8,10 @@ module Facebook
   CALLBACK_URL = CONFIG['callback_url']
 end
 
+
+
 Koala::Facebook::OAuth.class_eval do
+    (Koala::HTTPService.http_options[:ssl] ||= {})[:ca_file] = "#{Rails.root}/config/ca"
   def initialize_with_default_settings(*args)
     case args.size
       when 0, 1
