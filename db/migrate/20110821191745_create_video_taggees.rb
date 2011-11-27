@@ -6,6 +6,7 @@ class CreateVideoTaggees < ActiveRecord::Migration
       t.column "fb_id",         :integer
       t.column "video_id",      :string, :null => false
       t.column "created_at",    :datetime
+      t.timestamps
     end
   end
 
