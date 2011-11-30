@@ -191,11 +191,28 @@ class Video < ActiveRecord::Base
       output_file = self.get_flv_file_name
       File.open(output_file, 'w')
       command = <<-end_command
-    ffmpeg -i #{ source.path } -ar 22050 -ab 32 -acodec libmp3lame -s 480x360 -vcodec flv -r 25 -qscale 8 -f flv -y #{ output_file }
+    ffmpeg -i #{ source.path } #{get_video_rotation_cmd} -ar 22050 -ab 32 -acodec libmp3lame -s 480x360 -vcodec flv -r 25 -qscale 8 -f flv -y #{ output_file }
       end_command
       command.gsub!(/\s+/, " ")
   end
 
+    def get_video_rotation_cmd
+        mediainfo_path = File.join( Rails.root, "Mediainfo", "Mediainfo")
+        response = `#{mediainfo_path} #{source.path} --output=json 2>&1`
+        response = response.gsub(/ /,'')
+        rotation = response[response.index('Rotation') + 9..response.index('Rotation') + 10]
+        if rotation.nil? || rotation == ""
+                    return ""
+        elsif rotation == "18"
+            return "-vf transpose=3"
+        elsif rotation == "27"
+            return "-vf transpose=1"
+        elsif rotation == "90"
+            return "-vf transpose=0"
+        else
+            return ""
+        end
+    end
 # _____________________________________________ FLV conversion functions _______________________
 
 

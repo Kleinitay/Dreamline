@@ -25,7 +25,11 @@
                         id="player">
                     </a>
                     <script language="JavaScript">
-                        flowplayer("player", "/flowplayer.swf");
+                        flowplayer("player", "/flowplayer.swf", {
+                            clip:  {
+                                scaling: "fit"
+                            }
+                        });
                     </script>
                 </div>
 			</div>
