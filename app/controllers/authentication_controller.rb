@@ -40,6 +40,15 @@ class AuthenticationController < ApplicationController
     end
   end
 
+  def subscribe_new_fb_user(fb_id)
+    profile = fb_graph.get_object("me")
+    nick = profile["name"]
+    email = profile["email"]
+    fb_id = profile["id"]
+    password = SecureRandom.hex(10)
+    user = User.create(:status => 2, :nick => nick, :email => email, :fb_id => fb_id, :password => password)
+    sign_in(user)
+  end
   def destroy
   end
 
