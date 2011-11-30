@@ -1,20 +1,34 @@
+<link type="text/css" href="/javascripts/css/ui-lightness/jquery-ui-1.8.16.custom.css" rel="stylesheet" />
+<script type="text/javascript" src="/javascripts/js/jquery-1.6.2.min.js"></script>
+<script type="text/javascript" src="/javascripts/js/jquery-ui-1.8.16.custom.min.js"></script>
+
 <head>
 	<title>VtagO - <%= @page_title %></title>
 </head>
 <body>
 	<div id="content_sec">
 		<div id="left_content">
-			<%= form_for :video, :url => video_path(@video), :html => { :method => 'put' } do |f| %>
+			<%= form_for :video, :url => "update",  do |f| %>
 				<div id="video_taggees">
 					<% @video.video_taggees.each do |video_taggee| %>
-						<%= render :partial => 'video_taggees/video_taggee', :locals => { :video_taggee => video_taggee } %>
+						<div id="video_taggee<%= video_taggee.id.to_s %>">
+						    <%= fields_for_taggee(video_taggee) do |tag| %>
+						        <div id="face_tag" class="ui-widget">
+						            <img src="<%= "#{video_taggee.img_path}" %>">
+												<label for="tags">Who is this? </label>
+						            <%= tag.text_field 	 :contact_info, :class => "contact_info" %>
+						            <%= tag.hidden_field :fb_id, :class =>"fb_id" %>
+												<%= link_to_function "remove", "var node1 = document.getElementById(\'video_taggee#{video_taggee.id.to_s}\');node1.parentNode.removeChild(node1)" %>
+						        </div>
+						    <% end %>
+						</div>
 					<% end %>
 					<!--p><%#= add_taggee_link "Add a new tag" %></p-->
 				</div>
-				<%#= render :partial => "video_taggees/facebook_friends" %>
 				<br class="clear" />
 				<div>
 					<p><input  type="submit" onclick = "update_fb_ids();" value="Update video" name="commit"></p>
+						<%#= submit_tag "Update Video" %>
 				</div>
 			<% end %>
 		</div>
@@ -25,12 +39,23 @@
 </body>
 
 <script type="text/javascript">
+	$(function() {
+		var availableTags = <%= raw @names_arr.to_json %>;
+		var contacts = document.getElementsByClassName("contact_info");
+		$(contacts).autocomplete({
+				source: availableTags
+		});
+	});
+
 	var friends_hash = <%= raw @friends.to_json %>;
 	function update_fb_ids(){
 		var contacts = document.getElementsByClassName("contact_info");
 		$(contacts).each (function(contact) {
-			var fb_id_field = document.getElementsByClassName("contact_info")[0].nextElementSibling;
-			fb_id_field.value = friends_hash[contact.value];
+			//var fb_id_field = $(contact).nextElementSibling;
+			contact.nextElementSibling.value = friends_hash[contact.value];
 		});
+			alert("in)";
+		alert($(contacts)[0].nextElementSibling.value);
+		document.forms[0].submit();
   }
 </script>

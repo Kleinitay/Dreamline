@@ -3,13 +3,13 @@ class AuthenticationController < ApplicationController
       @authetications = Authentication.all
   end
 
-  def create
-      auth = request.env["omniauth.auth"] .to_yaml
-      current_user.authentications.build(:provider => auth['provider'], :uid => auth['uid'])
-      session['fb_uid'] = auth['uid']
-      session['fb_access_token'] =
-      redirect_to authentications_url
-  end
+  #def create
+  #    auth = request.env["omniauth.auth"] .to_yaml
+  #    current_user.authentications.build(:provider => auth['provider'], :uid => auth['uid'])
+  #    session['fb_uid'] = auth['uid']
+  #    session['fb_access_token'] =
+  #    redirect_to authentications_url
+  #end
 
   def get_uid_and_access_token
       auth = request.env["omniauth.auth"]
@@ -21,7 +21,24 @@ class AuthenticationController < ApplicationController
       redirect_to '/video/latest'
   end
 
-
+  def parse_facebook_cookies
+    unless signed_in?
+      begin
+        fb_id = session['fb_uid']
+        if fb_id #Logged in with Facebook
+          user = User.find_by_fb_id(fb_id)
+          if user
+            sign_in(user)
+          else
+            subscribe_new_fb_user(fb_id) # new Facebook user
+          end
+        end
+      rescue Exception=>e
+        #render :text => "Session Has gone away. Please refresh and try again."
+        sign_out(user)
+      end
+    end
+  end
 
   def destroy
   end
