@@ -1,6 +1,6 @@
 class VideosController < ApplicationController
 
- before_filter :redirect_first_page_to_base
+ before_filter :redirect_first_page_to_base, :authorize, :only => [:edit, :edit_tags]
 	
 	def show
 		video_id = params[:id].to_i
@@ -75,26 +75,31 @@ class VideosController < ApplicationController
   end
 
   def edit
-     @video = Video.find(params[:id])
+    @video = Video.find(params[:id])
   end
 
   def edit_tags
-    @video = Video.find(params[:id])
-    @page_title = "#{@video.title.titleize} - Edit"
-    @user = current_user
-    @taggees = @video.video_taggees
-    friends = fb_graph.get_connections(current_user.fb_id,'friends')
-    @friends = {}
-    friends.map {|friend| @friends[friend["name"]] = friend["id"]}
-    @names_arr = @friends.keys
-    #@ids_arr = @friends.values
-    #@likes = graph.get_connections("me", "likes")
+    begin
+      @video = Video.find(params[:id])
+      @page_title = "#{@video.title.titleize} - Edit"
+      @user = current_user
+      @taggees = @video.video_taggees
+      friends = fb_graph.get_connections(current_user.fb_id,'friends')
+      @friends = {}
+      friends.map {|friend| @friends[friend["name"]] = friend["id"]}
+      @names_arr = @friends.keys
+      #@likes = graph.get_connections("me", "likes")
     
-    #sidebar
-	  get_sidebar_data # latest
-	  @user_videos = Video.get_videos_by_user(1, @user.id, true, 3)
-	  @trending_videos = Video.get_videos_by_sort(1,"popular", true ,3)
-	  @active_users = User.get_users_by_activity
+      #sidebar
+  	  get_sidebar_data # latest
+  	  @user_videos = Video.get_videos_by_user(1, @user.id, true, 3)
+  	  @trending_videos = Video.get_videos_by_sort(1,"popular", true ,3)
+  	  @active_users = User.get_users_by_activity
+  
+    rescue Exception=>e
+    render :text => "Session Has gone away. Please refresh and try again."
+    sign_out(user)
+    end
   end
 
   def update
@@ -103,6 +108,7 @@ class VideosController < ApplicationController
       @video = Video.find(params[:id])
       if @video.update_attributes(params[:video])
         flash[:notice] = 'Tags saved'
+        #fb_graph.put_wall_post("Hi, here is a new post", {"name" => "VtagO post", "caption" => "Eli has uplaoded a new VtagO", "privacy" => {"value" => "CUSTOM", "friend" => "SELF"}}, "me", {})
         redirect_to video_path (@video)
       else
         flash[:notice] = 'Tags not saved'
