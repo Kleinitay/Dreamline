@@ -302,7 +302,8 @@ end
 
   def detect_command
     output_dir = faces_directory
-    input_file = File.join(Video.full_directory(id),id.to_s)
+    #input_file = File.join(Video.full_directory(id),id.to_s)
+    input_file = get_flv_file_name
 
     "#{MOVIE_FACE_RECOGNITION_EXEC_PATH} Dreamline #{input_file} #{output_dir} #{HAAR_CASCADES_PATH} #{Rails.root.to_s}/public#{thumb_path} #{Rails.root.to_s}/public#{thumb_path_small}"
   end

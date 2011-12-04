@@ -14,7 +14,7 @@
 						<div id="video_taggee<%= video_taggee.id.to_s %>">
 						    <%= fields_for_taggee(video_taggee) do |tag| %>
 						        <div id="face_tag" class="ui-widget">
-						            <img src="<%= "#{video_taggee.img_path}" %>">
+						            <img src="<%= "#{video_taggee.img_path}" %>" width="60" height="70">
 												<label for="tags">Who is this? </label>
 						            <%= tag.text_field 	 :contact_info, :class => "contact_info" %>
 						            <%= tag.hidden_field :fb_id, :class =>"fb_id" %>
