@@ -10,4 +10,6 @@ module VideosHelper
             page.insert_html :bottom, :VideoTaggees, :partial => 'video_taggees/video_taggee', :object => VideoTaggee.new
         end
     end
+
+
 end
