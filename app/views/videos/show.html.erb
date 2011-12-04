@@ -19,19 +19,15 @@
 					</div>
 				</div>
 				<div class="video-slider">
-				   <a
-                        href="<%=@video.path_for_origin%>.flv"
-                        style="display:block;width:629px;height:353px;"
-                        id="player">
-                    </a>
-                    <script language="JavaScript">
-                        flowplayer("player", "/flowplayer.swf", {
-                            clip:  {
-                                scaling: "fit"
-                            }
-                        });
-                    </script>
-                </div>
+					<a href="<%=@video.path_for_origin%>.flv" style="display:block;width:629px;height:353px;" id="player"></a>
+					<script language="JavaScript">
+						flowplayer("player", "/flowplayer.swf", {
+                        clip: {
+                        scaling: "fit"
+                       }
+            });
+					</script>
+				</div>
 			</div>
 			<div class="panel-video">
 				<div class="embed-code">
