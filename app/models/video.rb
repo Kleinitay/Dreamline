@@ -18,25 +18,6 @@
 #  state               :string(255)
 #
 
-# == Schema Information
-#
-# Table name: videos
-#
-#  id                  :integer(4)      not null, primary key
-#  user_id             :integer(4)      not null
-#  title               :string(255)
-#  views_count         :integer(4)      default(0)
-#  created_at          :datetime
-#  updated_at          :datetime
-#  duration            :integer(4)      not null
-#  category            :integer(4)      not null
-#  description         :string(255)
-#  keywords            :string(255)
-#  source_content_type :string(255)
-#  source_file_name    :string(255)
-#  source_file_size    :integer(4)
-#  state               :string(255)
-#
 require "rexml/document"
 class Video < ActiveRecord::Base
 
@@ -198,7 +179,7 @@ class Video < ActiveRecord::Base
 
     def get_video_rotation_cmd
         mediainfo_path = File.join( Rails.root, "Mediainfo", "Mediainfo")
-        response = `#{mediainfo_path} #{source.path} --output=json 2>&1`
+        response =`mediainfo #{source.path} --output=json 2>&1`
         response = response.gsub(/ /,'')
         rotation = response[response.index('Rotation') + 9..response.index('Rotation') + 10]
         if rotation.nil? || rotation == ""

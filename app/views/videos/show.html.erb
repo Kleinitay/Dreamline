@@ -59,6 +59,18 @@
 					</ul>
 				</div>
 			</div>
+			<div id="in_this_video">
+				<h2>In this video:</h2>
+				<div id="tagged">
+					<% @video.video_taggees.each do |taggee| %>
+						<% if taggee.contact_info != "" %>
+							<% href = "href=#{FacebookHelper::FACEBOOK_URL}/#{taggee.fb_id}" if taggee.fb_id %>
+							<a <%= href %>><%= taggee.contact_info %></a>
+						<% end %>
+					<% end %>
+				</div>
+				</br>
+			</div>
 			<div class="panel-video">
 				<div class="panel-left">
 					<ul>
