@@ -19,19 +19,15 @@
 					</div>
 				</div>
 				<div class="video-slider">
-				   <a
-                        href="<%=@video.path_for_origin%>.flv"
-                        style="display:block;width:629px;height:353px;"
-                        id="player">
-                    </a>
-                    <script language="JavaScript">
-                        flowplayer("player", "/flowplayer.swf", {
-                            clip:  {
-                                scaling: "fit"
-                            }
-                        });
-                    </script>
-                </div>
+					<a href="<%=@video.path_for_origin%>.flv" style="display:block;width:629px;height:353px;" id="player"></a>
+					<script language="JavaScript">
+						flowplayer("player", "/flowplayer.swf", {
+                        clip: {
+                        scaling: "fit"
+                       }
+            });
+					</script>
+				</div>
 			</div>
 			<div class="panel-video">
 				<div class="embed-code">
@@ -43,8 +39,8 @@
 			<div class="share-panel">
 				<em class="shout-out">&nbsp;</em>
 				<div class="social-connect">
-					<div class="twitter"><a href="#"><img src="bg-tweet.gif" alt="" /></a></div>
-					<div class="facebook"><a href="#"><img src="bg-facebook.gif" alt="" /></a></div>
+					<div class="twitter"><a href="#"><img src="/images/bg-tweet.gif" alt="" /></a></div>
+					<div class="facebook"><a href="#"><img src="/images/bg-facebook.gif" alt="" /></a></div>
 				</div>
 				<div class="social-network-group">
 					<ul>
@@ -62,6 +58,18 @@
 						<!--li><a href="#"><img src="/images/icon-social-12.png" alt="" /></a></li-->
 					</ul>
 				</div>
+			</div>
+			<div id="in_this_video">
+				<h2>In this video:</h2>
+				<div id="tagged">
+					<% @video.video_taggees.each do |taggee| %>
+						<% if taggee.contact_info != "" %>
+							<% href = "href=#{FacebookHelper::FACEBOOK_URL}/#{taggee.fb_id}" if taggee.fb_id %>
+							<a <%= href %>><%= taggee.contact_info %></a>
+						<% end %>
+					<% end %>
+				</div>
+				</br>
 			</div>
 			<div class="panel-video">
 				<div class="panel-left">

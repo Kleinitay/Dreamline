@@ -1,5 +1,7 @@
 module FacebookHelper
 
+FACEBOOK_URL = "http://facebook.com"
+
   def fb_oauth
     @oauth ||= Koala::Facebook::OAuth.new(FB_APP_ID, FB_APP_SECRET, FB_SITE_URL)
   end
