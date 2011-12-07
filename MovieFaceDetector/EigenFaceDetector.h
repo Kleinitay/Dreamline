@@ -22,17 +22,25 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <time.h>
 #include "cv.h"
 #include "cvaux.h"
 #include "highgui.h"
 #define SKIN_PIX_THRESH_PERCENT 70
-#define TIME_DIFF_THRESHOLD 1
-#define X_POS_THRESHOLD 5
-#define Y_POS_THRESHOLD 5
+#define TIME_DIFF_THRESHOLD 100
+#define X_POS_THRESHOLD 10
+#define Y_POS_THRESHOLD 10
 #define EIGEN_IMG_DIM 40
 #define NEAREST_NEIGHBOR_THRESHOLD 2700000
 #define NORM_THRESHOLD 3000
 #define MAX_FACES 1000
+#define THUMB_WIDTH 134
+#define THUMB_HEIGHT 110
+#define SMALL_THUMB_WIDTH 90
+#define SMALL_THUMB_HEIGHT 48
+#define SCALING_RATIO 1.2
+#define ADDED_TIME 1000
+#define TEST_MOVIE_PATH "C:\\TestData\\Movies\\IMG_1411_mpeg1video.mpg"
 
 /* Macros to get the max/min of 3 values */
 #define MAX3(r,g,b) ((r)>(g)?((r)>(b)?(r):(b)):((g)>(b)?(g):(b)))
@@ -98,8 +106,8 @@ void printUsage();
 
 void myLearn();
 
-void  addStartSegment(int time, DlFaceAndTime *fandt);
-void addEndTime(int time, DlFaceAndTime *fandt);
+void  addStartSegment(int time, DlFaceAndTime &fandt);
+void addEndTime(int time, DlFaceAndTime &fandt);
 int findNearestNeighbor(float *testVec, double threshold);
 void setEigenVecsToDlFaces();
 int findTotalNumOfFaces();
@@ -107,7 +115,7 @@ void fillFaceImgArr();
 void doTheEigenFaces();
 int recognizeAndAddFace(IplImage *inputImg, float *projectedVec);
 void standardizeImage(IplImage *inputImg, IplImage **outputImg,  int width, int height);
-bool isSameFace (IplImage *img, DlFaceAndTime face, int timeCount, CvRect *location);
+int findSimilarFaceNum (IplImage *img, DlFaceAndTime *faces, int timeCount, CvRect *location);
 int skinColorPixelsCounter(IplImage *img, int skinPixelsThreshold);
 bool isSkinPixelsInImg(IplImage *img, int skinPixelsThreshold);
 void detectFace( IplImage* img, CvSeq** outSec, bool scaleDown);
@@ -127,7 +135,7 @@ int main( int argc, char** argv )
 
 	if( !strcmp(argv[1], "train") ) learn();
 	else if( !strcmp(argv[1], "test") ) recognize();
-	else if ( !strcmp(argv[1], "Dreamline_test") ) Dreamline( "C:\\TestData\\Movies\\IMG_1411_mpeg1video.mpg", 
+	else if ( !strcmp(argv[1], "Dreamline_test") ) Dreamline(TEST_MOVIE_PATH, 
 		"C:\\TestOutputs", "C:\\OpenCV2.2\\data\\haarcascades\\haarcascade_frontalface_alt_tree.xml", "C:/TestOutputs/tn.jpg", "C:/TestOutputs/tn_s.jpg");
 	else if ( !strcmp(argv[1], "Dreamline") && argc < 4 ) Dreamline( argv[2], argv[3], 
 		"./haarcascades/haarcascade_frontalface_alt_tree.xml", NULL, NULL);
@@ -144,14 +152,28 @@ int main( int argc, char** argv )
 	return 0;
 }
 
+void printTimeDiffFromNow(int t1)
+{
+
+	int diff = abs (clock() - t1);	
+	int diff_tmp_seconds = ((long)diff / 1000);
+
+	int diff_tmp_minutes = (int)(diff_tmp_seconds / 60);
+	int diff_minutes = (diff_tmp_minutes % 60);
+	int diff_hours = (diff_tmp_minutes / 60);
+
+	//printf("%02d:%02d:%02d:%f-----%f\n", diff_hours, diff_minutes, diff_seconds,((double)absDiff - (double)diff_seconds - (double)diff_hours - (double)diff_minutes) * 1000, diff);
+	printf("%d,%03d\n", diff / 1000, diff % 1000);
+}
+
 void Dreamline(char *movieClipPath, char *outputPath, char *haarClassifierPath, char *thumbPath, char *smallThumbPath)
 {
-	printf("\n\nargs clip: %s, output: %s, haar: %s\n", movieClipPath, outputPath, haarClassifierPath);
 	if (!movieClipPath || strlen(movieClipPath) < 2)
 	{
 		printf("error in input path");
 		return;
 	}
+	int start = clock();
 	char *filename = movieClipPath;
 	CvCapture* cap  = cvCreateFileCapture(filename);
 	if (cap == NULL)
@@ -163,7 +185,7 @@ void Dreamline(char *movieClipPath, char *outputPath, char *haarClassifierPath, 
 	cascade = (CvHaarClassifierCascade*)cvLoad( haarClassifierPath, 0, 0, 0 );
 	if (thumbPath && strlen(thumbPath) > 0)
 	{
-		IplImage *thumb = cvCreateImage(cvSize(134, 110), IPL_DEPTH_8U, 3);
+		IplImage *thumb = cvCreateImage(cvSize(THUMB_WIDTH, THUMB_HEIGHT), IPL_DEPTH_8U, 3);
 		
 		IplImage *frm = cvQueryFrame(cap);
 		if (frm)
@@ -173,38 +195,49 @@ void Dreamline(char *movieClipPath, char *outputPath, char *haarClassifierPath, 
 			cvSaveImage(thumbPath, thumb);
 			if (smallThumbPath && strlen(smallThumbPath) > 0)
 			{
-				IplImage *thumb_s = cvCreateImage(cvSize(90, 48), IPL_DEPTH_8U, 3);
-				cvSetImageROI(thumb, cvRect((134 - 90) / 2, (110 - 48) / 2, 90, 48));
+				IplImage *thumb_s = cvCreateImage(cvSize(SMALL_THUMB_WIDTH, SMALL_THUMB_HEIGHT), IPL_DEPTH_8U, 3);
+				cvSetImageROI(thumb, cvRect((THUMB_WIDTH - SMALL_THUMB_WIDTH) / 2, (THUMB_HEIGHT - SMALL_THUMB_HEIGHT) / 2, SMALL_THUMB_WIDTH, SMALL_THUMB_HEIGHT));
 				cvCopyImage(thumb, thumb_s);
 				cvSaveImage(smallThumbPath, thumb_s);
 				cvReleaseImage(&thumb_s);
 			}
 		}
+		
 		cvReleaseImage(&thumb);
+
 	}
-	saveFacesToDiskAndGetTimeStamps(cap, outputPath, 3, 1, false);
+	saveFacesToDiskAndGetTimeStamps(cap, outputPath, 3, 1, true);
 	cvReleaseCapture(&cap);
 	char outputFilePath[256];
 	sprintf(outputFilePath, "%s/faces.xml", outputPath);
 	printf("saving to xml");
 	saveToXML(outputFilePath);
+	time_t end = time(NULL);
+	printf("entire process took:");
+	printTimeDiffFromNow (start);
 }
 
 
-void addStartSegment(int time, DlFaceAndTime *fandt)
+void addStartSegment(int time, DlFaceAndTime &fandt)
 {
-
-	fandt->timeSegments[fandt->numOfTimeSegments].start_time = time;
-	fandt->timeSegments[fandt->numOfTimeSegments].end_time = time;
-	fandt->numOfTimeSegments++;
-	fandt->lastTimeStamp = time;
-	fandt->lastSegmentClosed = false;
+	if (fandt.timeSegments[fandt.numOfTimeSegments - 1].end_time > time)
+	{
+		fandt.timeSegments[fandt.numOfTimeSegments - 1].end_time = time + ADDED_TIME;
+	}
+	else
+	{
+		fandt.timeSegments[fandt.numOfTimeSegments].start_time = time;
+		fandt.timeSegments[fandt.numOfTimeSegments].end_time = time + ADDED_TIME;
+		fandt.numOfTimeSegments++;
+		fandt.lastTimeStamp = time;
+		fandt.lastSegmentClosed = false;
+	}
 }
 
-void addEndTime(int time, DlFaceAndTime *fandt)
+void addEndTime(int time, DlFaceAndTime &fandt)
 {
-	fandt->timeSegments[fandt->numOfTimeSegments - 1].end_time = time;
-	fandt->lastTimeStamp = time;
+	fandt.timeSegments[fandt.numOfTimeSegments - 1].end_time = time;
+	fandt.lastTimeStamp = time;
 }
 
 
@@ -285,6 +318,7 @@ void fillFaceImgArr()
 
 void doTheEigenFaces()
 {
+	//int start = clock();
 	fillFaceImgArr();
 	myLearn();
 	//IplImage *tmp = cvCreateImage(cvGetSize(pAvgTrainImg), IPL_DEPTH_8U, 1);
@@ -292,11 +326,14 @@ void doTheEigenFaces()
 	//cvSaveImage("C:\\TestOutputs\\avg.tif", tmp);
 	//cvReleaseImage(&tmp);
 	setEigenVecsToDlFaces();
+	time_t end = time(NULL);
+	//printf("-----eigen Faces took:");
+	//printTimeDiffFromNow(start);
 }
 
 int recognizeAndAddFace(IplImage *inputImg, float **projectedTestFace)
 {
-
+	//int start = clock();
 	*projectedTestFace = (float *)cvAlloc( nEigens*sizeof(float) );
 	// project the test image onto the PCA subspace
 	cvEigenDecomposite(
@@ -314,6 +351,8 @@ int recognizeAndAddFace(IplImage *inputImg, float **projectedTestFace)
 		dlFaces[nearest].eigenVecs[dlFaces[nearest].numOfFacesFound] = *projectedTestFace; 
 		dlFaces[nearest].numOfFacesFound++;
 	}
+	//printf("-----eigen decomposite and find nearest neighbor took:");
+	//printTimeDiffFromNow(start);
 	return nearest;
 }
 
@@ -326,13 +365,15 @@ void standardizeImage(IplImage *inputImg, IplImage **outputImg,  int width, int 
 	cvEqualizeHist(*outputImg, *outputImg);
 }
 
-bool isSameFace (IplImage *img, DlFaceAndTime face, int timeCount, CvRect *location)
+int findSimilarFaceNum (IplImage *img, DlFaceAndTime *faces, int timeCount, CvRect *location)
 {
-	if ( abs(timeCount - face.lastTimeStamp < TIME_DIFF_THRESHOLD)
-		&& abs(face.location.x - location->x) < X_POS_THRESHOLD
-		&& abs(face.location.y - location->y) < Y_POS_THRESHOLD )
-		return true;
-
+	for (int i = 0 ; i < numOfDlFaces ; ++i)
+	{
+		if ( abs(timeCount - faces[i].lastTimeStamp < TIME_DIFF_THRESHOLD)
+			&& abs(faces[i].location.x - location->x) < X_POS_THRESHOLD
+			&& abs(faces[i].location.y - location->y) < Y_POS_THRESHOLD )
+			return i;
+	}
 
 	//add more face comparison logic here
 	IplImage *workImg;
@@ -341,28 +382,16 @@ bool isSameFace (IplImage *img, DlFaceAndTime face, int timeCount, CvRect *locat
 	if (numOfDlFaces == 1)
 	{
 		double images_diff = cvNorm(workImg, dlFaces[0].StandardizedFaces[0]);
-		return (images_diff < NORM_THRESHOLD);
+		return (images_diff < NORM_THRESHOLD ? 0 : -1);
 	}
 	static int count = 0;
 	float *projectedVec;
-	int faceIndex = nTrainFaces > 1 ? recognizeAndAddFace(workImg, &projectedVec) : -1;
-	if (faceIndex != -1)
-	{
-		//this already happensin the recognize function
-		/*if (dlFaces[faceIndex].numOfFacesFound < 20)
-		{
-		int numberOfFaceCurrntllyFoundForFace = dlFaces[faceIndex].numOfFacesFound;
-		dlFaces[faceIndex].StandardizedFaces[numberOfFaceCurrntllyFoundForFace] = workImg;
-		dlFaces[faceIndex].eigenVecs[numberOfFaceCurrntllyFoundForFace] = projectedVec;
-		dlFaces[faceIndex].numOfFacesFound++;
-		}*/
-		return true;
-	}
+	int res = nTrainFaces > 1 ? recognizeAndAddFace(workImg, &projectedVec) : -1;
+	return res;
 	/*char stam[256];
 	sprintf(stam, "C:\\TestOutputs\\standard_%d.tif", count++);
 	cvSaveImage(stam, workImg);
 	cvReleaseImage(&workImg);*/
-	return false;
 }
 
 int skinColorPixelsCounter(IplImage *img, int skinPixelsThreshold)
@@ -425,22 +454,25 @@ int skinColorPixelsCounter(IplImage *img, int skinPixelsThreshold)
 
 bool isSkinPixelsInImg(IplImage *img, int skinPixelsThreshold)
 {
+	//int t = clock();
 	static int countEntrances = 0;
 	int numOfPix = skinColorPixelsCounter(img, skinPixelsThreshold);
 	bool isItTrue = numOfPix >= skinPixelsThreshold;
+	//printf("---skin pixel took: "); 
+	//printTimeDiffFromNow(t);
 	return isItTrue;
 }
 
 void detectFace( IplImage* img, CvSeq** outSec, bool scaleDown)
 {
 	static int i = 0;
-
+	//int t = clock();
 	int scale = scaleDown ? 2 : 1;
 	IplImage* small_image = img;
 	if( scaleDown )
 	{
-		small_image = cvCreateImage( cvSize(img->width / 2, img->height / 2), IPL_DEPTH_8U, 3 );
-		cvPyrDown( img, small_image, CV_GAUSSIAN_5x5 );
+		small_image = cvCreateImage( cvSize(img->width * SCALING_RATIO, img->height * SCALING_RATIO), IPL_DEPTH_8U, 3 );
+		cvResize( img, small_image);
 		scale = 2;
 	}
 	//char stam[256];
@@ -471,6 +503,8 @@ void detectFace( IplImage* img, CvSeq** outSec, bool scaleDown)
 		// Release the temp image created.
 		cvReleaseImage( &small_image );
 	}
+	//printf("==========detect faces took ");
+	//printTimeDiffFromNow(t);
 }
 
 void addToDlFacesVec(IplImage *img, int timestamp, char *outputPath, CvRect location)
@@ -479,7 +513,7 @@ void addToDlFacesVec(IplImage *img, int timestamp, char *outputPath, CvRect loca
 	faceAndTime.numOfFacesFound = 1;
 	faceAndTime.numOfTimeSegments = 0;
 	faceAndTime.face = img;
-	addStartSegment(timestamp, &faceAndTime);
+	addStartSegment(timestamp, faceAndTime);
 	faceAndTime.lastTimeStamp = timestamp;
 	faceAndTime.location = location;
 	strcpy(faceAndTime.pathToSave, outputPath);
@@ -506,7 +540,7 @@ void doThEigensWhen(int modWhen)
 void saveFacesToDiskAndGetTimeStamps(CvCapture* movieClip, 
 	char *outputPath, int minPixels, int timeDelta, bool scaleDown)
 {
-	int scale = scaleDown ? 2 : 1;
+	double scale = scaleDown ? SCALING_RATIO : 1;
 	char imgOutputPath[256];
 	int timeCount = 0;
 	int count = 0;
@@ -531,47 +565,51 @@ void saveFacesToDiskAndGetTimeStamps(CvCapture* movieClip,
 		CvRect *faceRect;
 		int foundFaces[100];
 		int foundFacesCount = 0;
+		if (faces->total > 0) printf("|");
+
 		for( int i = 0; i < (faces ? faces->total : 0); i++ )
 		{
+			int nowTimeInSec = cvGetCaptureProperty(movieClip, CV_CAP_PROP_POS_MSEC);
 			faceRect = (CvRect*)cvGetSeqElem( faces, i );
 			if ((faceRect->height < 1) || (faceRect->width < 1)) continue; 
-			CvRect roi = cvRect(faceRect->x *scale, faceRect->y * scale, faceRect->width * scale, faceRect->height);
+			CvRect roi = cvRect((int)((double)faceRect->x / scale), 
+				(int)((double)faceRect->y / scale), 
+				(int)((double)faceRect->width / scale), 
+				(int)((double)faceRect->height / scale));
 			IplImage* imgToSave = cvCreateImage(cvSize(roi.width, roi.height), img->depth, img->nChannels);
 			cvSetImageROI(img, roi);
 			cvCopy(img, imgToSave);
 			cvResetImageROI(img);
 			if (!isSkinPixelsInImg(imgToSave, imgToSave->width * imgToSave->height * SKIN_PIX_THRESH_PERCENT / 100))
 			{
-
 				cvReleaseImage(&imgToSave);
 				continue;
 			}
 			bool matchFound = false;
-			for (int j = 0; j < numOfDlFaces; ++j)
+			int faceNum = findSimilarFaceNum(imgToSave, dlFaces, timeCount, faceRect);
+			
+			if (faceNum >= 0)
 			{
-				if (isSameFace(imgToSave, dlFaces[j], timeCount, faceRect))
+				foundFaces[foundFacesCount++] = faceNum;
+				matchFound = true;
+				if (dlFaces[faceNum].lastSegmentClosed)
 				{
-					foundFaces[foundFacesCount++] = j;
-
-					matchFound = true;
-					if (dlFaces[j].lastSegmentClosed)
-					{
-						addStartSegment(timeCount, &dlFaces[j]);
-					}
-					else
-					{
-						addEndTime(timeCount, &dlFaces[j]);
-					}
-					doThEigensWhen(5);
-					break;
+					addStartSegment(nowTimeInSec - ADDED_TIME, dlFaces[faceNum]);
 				}
+				else
+				{
+					addEndTime(nowTimeInSec + ADDED_TIME, dlFaces[faceNum]);
+				}
+				doThEigensWhen(5);
+				break;
 			}
+
 			if (matchFound)
 			{
 				continue;
 			}
 			sprintf(imgOutputPath, "%s/face_%d_%d.jpg", outputPath, numOfDlFaces + 1, i);
-			addToDlFacesVec(imgToSave, timeCount, imgOutputPath, *faceRect);
+			addToDlFacesVec(imgToSave, nowTimeInSec, imgOutputPath, *faceRect);
 			cvSaveImage(imgOutputPath, imgToSave);			
 			//dont release it is kept in vector - cvReleaseImage(&imgToSave);
 			int fnum = cvGetCaptureProperty(movieClip, CV_CAP_PROP_POS_FRAMES);
