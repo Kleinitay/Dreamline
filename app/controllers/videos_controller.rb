@@ -65,7 +65,7 @@ class VideosController < ApplicationController
       if @video.save
          @video.detect_and_convert
         flash[:notice] = "Video has been uploaded"
-        redirect_to "/video/#{@video.id}/edit_tags"
+        redirect_to "/video/#{@video.id}/edit_tags/new"
       else
         render 'new'
       end
@@ -80,8 +80,9 @@ class VideosController < ApplicationController
 
   def edit_tags
     begin
+      @new = params[:new]=="new" ? true : false
       @video = Video.find(params[:id])
-      @page_title = "#{@video.title.titleize} - Edit"
+      @page_title = "#{@video.title.titleize} - #{@new ? "Add Tags" : "Edit"} Tags"
       @user = current_user
       @taggees = @video.video_taggees
       friends = fb_graph.get_connections(current_user.fb_id,'friends')
@@ -89,7 +90,7 @@ class VideosController < ApplicationController
       friends.map {|friend| @friends[friend["name"]] = friend["id"]}
       @names_arr = @friends.keys
       #@likes = graph.get_connections("me", "likes")
-    
+
       #sidebar
   	  get_sidebar_data # latest
   	  @user_videos = Video.get_videos_by_user(1, @user.id, true, 3)
@@ -101,19 +102,25 @@ class VideosController < ApplicationController
     sign_out
     end
   end
-
+ 
   def update
     unless !signed_in? || !params[:video]
-      params[:video][:existing_taggee_attributes] ||= { }
       @video = Video.find(params[:id])
+      @new = params[:new]=="new" ? true : false
+      existing_taggees = @video.video_taggees_uniq.map(&:fb_id)
+      updated_taggees_ids = []
+      updated_taggees_ids = params[:video][:existing_taggee_attributes].values.map!{|h| h["fb_id"].to_i}.uniq.reject{ |id| id==0 } 
       if @video.update_attributes(params[:video])
-        flash[:notice] = 'Tags saved'
-        #fb_graph.put_wall_post("Hi, here is a new post", {"name" => "VtagO post", "caption" => "Eli has uplaoded a new VtagO", "privacy" => {"value" => "CUSTOM", "friend" => "SELF"}}, "me", {})
+        if updated_taggees_ids.any?
+          if @new
+            new_taggees = updated_taggees_ids
+          else     
+            new_taggees = (updated_taggees_ids - existing_taggees)
+          end
+          post_vtag(@new, new_taggees, @video.title.titleize)
+        end #if ids
         redirect_to video_path (@video)
-      else
-        flash[:notice] = 'Tags not saved'
-        redirect_to video_path (@video)
-      end
+      end# if update_attributes
     else
       redirect_to "/"
     end

@@ -27,8 +27,8 @@ Dreamline::Application.routes.draw do |map|
 
   match 'video/:id'                 => 'videos#show', :as => :video, :requirements => { :id => /([0-9]*)?/ }
   match 'video/:id/edit'            => 'videos#edit', :as => :edit_video, :requirements => { :id => /([0-9]*)?/ }
-  match 'video/:id/edit_tags'       => 'videos#edit_tags', :as => :edit_video_tags, :requirements => { :id => /([0-9]*)?/ }
-  match 'video/:id/update'          => "videos#update", :as =>:update_video
+  match 'video/:id/edit_tags(/new)' => 'videos#edit_tags', :as => :edit_video_tags, :requirements => { :id => /([0-9]*)?/ }
+  match 'video/:id/update(/new)'    => "videos#update", :as =>:update_video
 
 # ___________________ Users ______________________________________________________
 

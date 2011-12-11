@@ -147,6 +147,10 @@ class Video < ActiveRecord::Base
         end
     end
 
+    def video_taggees_uniq
+      VideoTaggee.find(:all, :select => "DISTINCT contact_info, fb_id", :conditions => {:video_id => self.id})
+    end
+
 # _____________________________________________ FLV conversion functions _______________________
 
   def convert_to_flv
