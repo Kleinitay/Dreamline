@@ -30,7 +30,7 @@
 #define TIME_DIFF_THRESHOLD 100
 #define X_POS_THRESHOLD 10
 #define Y_POS_THRESHOLD 10
-#define EIGEN_IMG_DIM 40
+#define EIGEN_IMG_DIM 35
 #define NEAREST_NEIGHBOR_THRESHOLD 2700000
 #define NORM_THRESHOLD 3000
 #define MAX_FACES 1000
@@ -38,7 +38,7 @@
 #define THUMB_HEIGHT 110
 #define SMALL_THUMB_WIDTH 90
 #define SMALL_THUMB_HEIGHT 48
-#define SCALING_RATIO 1.2
+#define SCALING_RATIO 1.4
 #define ADDED_TIME 1000
 #define TEST_MOVIE_PATH "C:\\TestData\\Movies\\IMG_1411_mpeg1video.mpg"
 
@@ -188,6 +188,7 @@ void Dreamline(char *movieClipPath, char *outputPath, char *haarClassifierPath, 
 		IplImage *thumb = cvCreateImage(cvSize(THUMB_WIDTH, THUMB_HEIGHT), IPL_DEPTH_8U, 3);
 		
 		IplImage *frm = cvQueryFrame(cap);
+
 		if (frm)
 		{
 			cvResize(frm, thumb);
@@ -551,6 +552,7 @@ void saveFacesToDiskAndGetTimeStamps(CvCapture* movieClip,
 		//char tmppath[256];
 		//sprintf(tmppath, "%s/%s%d.tif", outputPath, "frame", timeCount);
 		IplImage *img = NULL;
+		img = cvQueryFrame(movieClip);
 		img = cvQueryFrame(movieClip);
 		if (img == NULL)
 		{
