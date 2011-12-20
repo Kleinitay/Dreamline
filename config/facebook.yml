@@ -25,7 +25,7 @@ test:
 production:
   app_id: 117619831583011
   secret_key: 2eab4df3fb3f1397d6f6ddca929db4af
-  canvas_page_name:
+  canvas_page_name: /video/
   callback_url: http://localhost:3000/
   pretty_errors: true
   set_asset_host_to_callback_url: true
