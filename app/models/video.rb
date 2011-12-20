@@ -139,11 +139,38 @@ class Video < ActiveRecord::Base
 
 
 # run process
-    def detect_and_convert
-        if convert_to_flv
+    def detect_and_convert(access_token=nil)
+        if fbid != nil
+            #do the analysis on the facebook link
+        elsif access_token != nil &&  access_token != ""
+            rotate_if_needed
             detect_face_and_timestamps
+            @graph = Koala::Facebook::API.new(access_token)
+            result = @graph.put_video(source_file_name)
+            self.fbid = result["id"]
+            File.delete(source_file_name)
         else
-            false
+            if convert_to_flv
+                detect_face_and_timestamps
+            else
+                false
+            end
+
+        end
+    end
+
+    def rotate_if_needed
+        rotation_param = get_video_rotation_cmd
+        new_source = " #{source.path_rotated}"
+        if rotation_param != ""
+            cmd = "ffmpeg #{source.path} #{rotation_param} #{new_source}"
+            success = system(cmd)
+            if success && $?.exitstatus == 0
+                set_rotated_filename
+                self.converted!
+            else
+                self.failed!
+            end
         end
     end
 
@@ -167,6 +194,10 @@ class Video < ActiveRecord::Base
       update_attribute(:source_file_name, "#{id}.flv")
   end
 
+    def set_rotated_filename
+        update_attribute(:source_file_name, "#{id}_rotated")
+    end
+
   def get_flv_file_name
       dirname = Video.full_directory(id)
       File.join(dirname, "#{id}.flv")
@@ -183,8 +214,11 @@ class Video < ActiveRecord::Base
 
     def get_video_rotation_cmd
         mediainfo_path = File.join( Rails.root, "Mediainfo", "Mediainfo")
-        response =`mediainfo #{source.path} --output=json 2>&1`
+        response =`#{mediainfo_path} #{source.path} --output=json 2>&1`
         response = response.gsub(/ /,'')
+        if response.index('Rotation') == nil
+            return ""
+        end
         rotation = response[response.index('Rotation') + 9..response.index('Rotation') + 10]
         if rotation.nil? || rotation == ""
                     return ""
@@ -289,6 +323,9 @@ end
     output_dir = faces_directory
     #input_file = File.join(Video.full_directory(id),id.to_s)
     input_file = get_flv_file_name
+    if !File.exist?(input_file)
+        input_file = source_file_name
+    end
 
     "#{MOVIE_FACE_RECOGNITION_EXEC_PATH} Dreamline #{input_file} #{output_dir} #{HAAR_CASCADES_PATH} #{Rails.root.to_s}/public#{thumb_path} #{Rails.root.to_s}/public#{thumb_path_small}"
   end
@@ -350,5 +387,10 @@ end
         end
     end
     #___________________________________________taggees handling______________________
+
+    def test_facebook_video
+          output_dir = faces_directory
+         "#{MOVIE_FACE_RECOGNITION_EXEC_PATH} Dreamline https://fbcdn-video-a.akamaihd.net/cfs-ak-ash4/348369/702/10150436322608645_35460.mp4?oh=8e1db8c843f46df7b6d08693a0777387&oe=4EEB3C00&__gda__=1324039168_f09d0e23443449ae0c8365e36dab4e53 #{output_dir} #{HAAR_CASCADES_PATH} #{Rails.root.to_s}/public#{thumb_path} #{Rails.root.to_s}/public#{thumb_path_small}"
+    end
 end
 

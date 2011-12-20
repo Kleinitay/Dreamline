@@ -6,8 +6,9 @@ public/videos/
 public/.DS_Store
 ruby-debug/
 Gemfile
-.gitignore
 /app/.DS_Store
 .idea/
 ruby/
 Gemfile.lock
+MovieFaceDetector/MovieFaceRecognition.exe
+.gitignore
