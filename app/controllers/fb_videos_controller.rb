@@ -1,4 +1,4 @@
-class VideosController < ApplicationController
+class FbVideosController < ApplicationController
 
  before_filter :redirect_first_page_to_base, :authorize, :only => [:edit, :edit_tags]
 	
@@ -22,16 +22,8 @@ class VideosController < ApplicationController
 	  @videos = []
 	  @order = params[:order]
 	  current_page = (params[:page] == "0" ? "1" : params[:page]).to_i
-	  case
-      when @order == "most popular" || @order == "latest"
-        @videos = Video.get_videos_by_sort(current_page, @order, false)
-	    when key = Video::CATEGORIES.key(@order)
-	      @videos = Video.get_videos_by_category(key)
-	      @category = true
-	    else
-	      render_404 and return
-    end
-    @page_title = @order.titleize
+	
+    @page_title = "Videos List"
     get_sidebar_data
 
   end
