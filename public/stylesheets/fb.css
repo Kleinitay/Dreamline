@@ -1,0 +1,303 @@
+@charset "utf-8";
+/* CSS Document */
+
+            /* Default Facebook CSS */
+            .fbbody
+            {
+	font-family: "lucida grande" ,tahoma,verdana,arial,sans-serif;
+	font-size: 11px;
+	color: #333333;
+	height: 768px;
+	width: 760px;
+	margin-left: auto;
+	margin-right: auto;
+	background-color: #FFF;
+            }
+.logo {
+	height: 50px;
+	width: 193px;
+	padding-right: 20px;
+	padding-top: 20px;
+	float: left;
+	text-align: center;
+	vertical-align: middle;
+}
+.main_tabs {
+	float: left;
+	height: 31px;
+	width: 400px;
+	vertical-align: bottom;
+	border-bottom-style: solid;
+	border-bottom-color: #666;
+	border-bottom-width: 3px;
+	padding-bottom: 2px;
+	padding-top: 35px;
+}
+.video_list {
+	height: 700px;
+	width: 547px;
+	text-align: center;
+	float: left;
+}
+.upload_form {
+	height: 600px;
+	width: 547px;
+	text-align: left;
+	float: left;
+}
+#main #new_video .upload_form ul li label {
+	float: left;
+	font-family: Verdana, Geneva, sans-serif;
+	font-size: 14px;
+	color: #3B5998;
+	width: 27px;
+}
+#main #new_video .upload_form ul li span {
+	text-align: left;
+	padding-left: 10px;
+	width: 460px;
+}
+#main #new_video .upload_form ul li span input {
+	padding-left: 10px;
+}
+
+
+
+
+
+.left_sidebar {
+	height: 600px;
+	width: 213px;
+	text-align: center;
+	float: left;
+}
+
+.video_thumb {
+	height: 48px;
+	width: 90px;
+	float: left;
+}
+.tag_button {
+	float: left;
+	height: 33px;
+	padding-top: 15px;
+	padding-left: 20px;
+}
+
+
+
+            /* Default Anchor Style */
+            .fbbody a
+            {
+                color: #3b5998;
+                outline-style: none;
+                text-decoration: none;
+                font-size: 11px;
+                font-weight: bold;
+            }
+            .fbbody a:hover
+            {
+                text-decoration: underline;
+            }
+            /* Facebook Box Styles */
+            .fbgreybox
+            {
+                background-color: #f7f7f7;
+                border: 1px solid #cccccc;
+                color: #333333;
+                padding: 10px;
+                font-size: 13px;
+                font-weight: bold;
+            }
+
+            .fbbluebox
+            {
+                background-color: #eceff6;
+                border: 1px solid #d4dae8;
+                color: #333333;
+                padding: 10px;
+                font-size: 13px;
+                font-weight: bold;
+            }
+#main .video_list .video_div {
+	width: 553px;
+	text-align: center;
+	clear: both;
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+
+            .fbinfobox
+            {
+                background-color: #fff9d7;
+                border: 1px solid #e2c822;
+                color: #333333;
+                padding: 10px;
+                font-size: 13px;
+                font-weight: bold;
+            }
+            .fberrorbox
+            {
+                background-color: #ffebe8;
+                border: 1px solid #dd3c10;
+                color: #333333;
+                padding: 10px;
+                font-size: 13px;
+                font-weight: bold;
+            }
+            /* Content Divider on White Background */
+            .fbcontentdivider
+            {
+                margin-top: 15px;
+                margin-bottom: 15px;
+                width: 520px;
+                height: 1px;
+                background-color: #d8dfea;
+            }
+            /* Facebook Tab Style */
+            .fbtab
+            {
+	background-color: #d8dfea;
+	color: #3b5998;
+	font-weight: bold;
+	float: left;
+	margin-right: 4px;
+	text-decoration: none;
+	padding-top: 8px;
+	padding-right: 8px;
+	padding-bottom: 8px;
+	padding-left: 8px;
+            }
+#main .header {
+	width: 760px;
+	height: 100px;
+	margin-bottom: 30px;
+}
+
+.fbtab_selected {
+	background-color: #A4C4C6;
+	color: #3b5998;
+	font-weight: bold;
+	float: left;
+	margin-right: 4px;
+	text-decoration: none;
+	padding-top: 8px;
+	padding-right: 8px;
+	padding-bottom: 8px;
+	padding-left: 8px;
+}
+
+            .fbtab:hover
+            {
+                background-color: #3b5998;
+                color: #ffffff;
+                cursor: hand;
+            }
+.signin-form_fb li label input  {
+	float:left;
+	margin-right:6px;
+	width:380px;
+	height:15px;
+	line-height:0;
+	font-size:0;
+}
+.signin-form_fb {
+	float:left;
+	width:487px;
+	padding-top:5px;
+}
+.upload_form table tr  label{
+	float:left;
+	width:100px;
+	padding-top:5px;
+	font-family: Verdana, Geneva, sans-serif;
+	font-size: 13px;
+	color: #3B59A7;
+	padding-right: 5px;
+	font-style: normal;
+	font-weight: bold;
+}
+.upload_form table tr .td_input {
+}
+
+
+
+.signin-form_fb li {
+	float:left;
+	width:500px;
+	padding-bottom:13px;
+}
+.signin-form_fb li label {
+	display:block;
+	float:left;
+	width:207px;
+	font-weight:bold;
+	font-size:12px;
+	color:#3B5998;
+	font-family:Arial, Helvetica, sans-serif;
+	line-height:27px;
+	text-align: left;
+}
+#main #new_video .upload_form .signin-form_fb ul li #video_source {
+	padding-left: 10px;
+	float: left;
+}
+
+.signin-form_fb li span {
+	display:block;
+	float:left;
+	width:380px;
+	height:27px;
+	background:url(../images/bg-input-usr.png) no-repeat left top;
+	padding-left: 10px;
+}
+.signin-form_fb li textarea {
+	display:block;
+	float:left;
+	width:211px;
+	height:27px;
+	background:url(../images/bg-input-usr.png) no-repeat left top;
+	padding-left: 10px;
+}
+.signin-form_fb li select {
+	display:block;
+	float:left;
+	width:211px;
+	height:27px;
+	background:url(../images/bg-input-usr.png) no-repeat left top;
+	padding-left: 10px;
+}
+
+
+.signin-form_fb li span input {
+	float:left;
+	width:191px;
+	font-size:12px;
+	color:#3B5998;
+	font-family:Arial, Helvetica, sans-serif;
+	background:none;
+	padding-top: 6px;
+	padding-right: 10px;
+	padding-bottom: 6px;
+	padding-left: 10px;
+	border-top-style: solid;
+	border-right-style: solid;
+	border-bottom-style: solid;
+	border-left-style: solid;
+	height: 15px;
+}
+.signin-form_fb li div {
+	float:left;
+	padding-left:81px;
+	width:211px;
+	padding-top:5px;
+	padding-bottom:2px;
+}
+.signin-form_fb li div label {
+	font-weight:normal;
+	width:auto;
+	font-size:11px;
+	line-height:15px;
+	color:#6f6f6f;
+	width:120px;
+}
