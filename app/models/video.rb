@@ -143,10 +143,12 @@ class Video < ActiveRecord::Base
         if fbid != nil
             #do the analysis on the facebook link
         elsif access_token != nil &&  access_token != ""
-            rotate_if_needed
-            detect_face_and_timestamps path_for_origin
+            unless convert_to_flv
+                return false
+            end
+            detect_face_and_timestamps get_flv_file_name
             @graph = Koala::Facebook::API.new(access_token)
-            result = @graph.put_video(path_for_origin)
+            result = @graph.put_video(get_flv_file_name)
             self.fbid = result["id"]
             File.delete(source_file_name)
         else
