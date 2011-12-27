@@ -144,14 +144,14 @@ class Video < ActiveRecord::Base
             #do the analysis on the facebook link
         elsif access_token != nil &&  access_token != ""
             rotate_if_needed
-            detect_face_and_timestamps
+            detect_face_and_timestamps path_for_origin
             @graph = Koala::Facebook::API.new(access_token)
-            result = @graph.put_video(source_file_name)
+            result = @graph.put_video(path_for_origin)
             self.fbid = result["id"]
             File.delete(source_file_name)
         else
             if convert_to_flv
-                detect_face_and_timestamps
+                detect_face_and_timestamps get_flv_file_name
             else
                 false
             end
@@ -161,7 +161,7 @@ class Video < ActiveRecord::Base
 
     def rotate_if_needed
         rotation_param = get_video_rotation_cmd
-        new_source = " #{source.path_rotated}"
+        new_source = " #{source.path}_rotated"
         if rotation_param != ""
             cmd = "ffmpeg #{source.path} #{rotation_param} #{new_source}"
             success = system(cmd)
@@ -297,9 +297,9 @@ end
 
 # _____________________________________________ Face detection _______________________
 
-  def detect_face_and_timestamps
+  def detect_face_and_timestamps(filename)
     create_faces_directory
-    cmd = detect_command
+    cmd = detect_command filename
     logger.info cmd
     puts cmd
     success = system(cmd)
@@ -319,10 +319,10 @@ end
     File.join(Video.full_directory(id), FACES_DIR, FACE_RESULTS)
   end
 
-  def detect_command
+  def detect_command (filename)
     output_dir = faces_directory
     #input_file = File.join(Video.full_directory(id),id.to_s)
-    input_file = get_flv_file_name
+    input_file = filename
     if !File.exist?(input_file)
         input_file = source_file_name
     end

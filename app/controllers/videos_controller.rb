@@ -64,7 +64,7 @@ class VideosController < ApplicationController
       @video = Video.new(params[:video].merge(more_params))
       access_token = fb_access_token
       if @video.save
-         @video.detect_and_convert
+         @video.detect_and_convert access_token
         flash[:notice] = "Video has been uploaded"
         redirect_to "/video/#{@video.id}/edit_tags/new"
       else
