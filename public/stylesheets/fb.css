@@ -1,9 +1,9 @@
 @charset "utf-8";
 /* CSS Document */
 
-            /* Default Facebook CSS */
-            .fbbody
-            {
+/* Default Facebook CSS */
+.fbbody
+{
 	font-family: "lucida grande" ,tahoma,verdana,arial,sans-serif;
 	font-size: 11px;
 	color: #333333;
@@ -12,7 +12,7 @@
 	margin-left: auto;
 	margin-right: auto;
 	background-color: #FFF;
-            }
+}
 .logo {
 	height: 50px;
 	width: 193px;
@@ -86,39 +86,39 @@
 
 
 
-            /* Default Anchor Style */
-            .fbbody a
-            {
-                color: #3b5998;
-                outline-style: none;
-                text-decoration: none;
-                font-size: 11px;
-                font-weight: bold;
-            }
-            .fbbody a:hover
-            {
-                text-decoration: underline;
-            }
-            /* Facebook Box Styles */
-            .fbgreybox
-            {
-                background-color: #f7f7f7;
-                border: 1px solid #cccccc;
-                color: #333333;
-                padding: 10px;
-                font-size: 13px;
-                font-weight: bold;
-            }
+/* Default Anchor Style */
+.fbbody a
+{
+	color: #3b5998;
+	outline-style: none;
+	text-decoration: none;
+	font-size: 11px;
+	font-weight: bold;
+}
+.fbbody a:hover
+{
+	text-decoration: underline;
+}
+/* Facebook Box Styles */
+.fbgreybox
+{
+	background-color: #f7f7f7;
+	border: 1px solid #cccccc;
+	color: #333333;
+	padding: 10px;
+	font-size: 13px;
+	font-weight: bold;
+}
 
-            .fbbluebox
-            {
-                background-color: #eceff6;
-                border: 1px solid #d4dae8;
-                color: #333333;
-                padding: 10px;
-                font-size: 13px;
-                font-weight: bold;
-            }
+.fbbluebox
+{
+	background-color: #eceff6;
+	border: 1px solid #d4dae8;
+	color: #333333;
+	padding: 10px;
+	font-size: 13px;
+	font-weight: bold;
+}
 #main .video_list .video_div {
 	width: 553px;
 	text-align: center;
@@ -127,36 +127,36 @@
 	padding-bottom: 20px;
 }
 
-            .fbinfobox
-            {
-                background-color: #fff9d7;
-                border: 1px solid #e2c822;
-                color: #333333;
-                padding: 10px;
-                font-size: 13px;
-                font-weight: bold;
-            }
-            .fberrorbox
-            {
-                background-color: #ffebe8;
-                border: 1px solid #dd3c10;
-                color: #333333;
-                padding: 10px;
-                font-size: 13px;
-                font-weight: bold;
-            }
-            /* Content Divider on White Background */
-            .fbcontentdivider
-            {
-                margin-top: 15px;
-                margin-bottom: 15px;
-                width: 520px;
-                height: 1px;
-                background-color: #d8dfea;
-            }
-            /* Facebook Tab Style */
-            .fbtab
-            {
+.fbinfobox
+{
+	background-color: #fff9d7;
+	border: 1px solid #e2c822;
+	color: #333333;
+	padding: 10px;
+	font-size: 13px;
+	font-weight: bold;
+}
+.fberrorbox
+{
+	background-color: #ffebe8;
+	border: 1px solid #dd3c10;
+	color: #333333;
+	padding: 10px;
+	font-size: 13px;
+	font-weight: bold;
+}
+/* Content Divider on White Background */
+.fbcontentdivider
+{
+	margin-top: 15px;
+	margin-bottom: 15px;
+	width: 520px;
+	height: 1px;
+	background-color: #d8dfea;
+}
+/* Facebook Tab Style */
+.fbtab
+{
 	background-color: #d8dfea;
 	color: #3b5998;
 	font-weight: bold;
@@ -167,7 +167,7 @@
 	padding-right: 8px;
 	padding-bottom: 8px;
 	padding-left: 8px;
-            }
+}
 #main .header {
 	width: 760px;
 	height: 100px;
@@ -187,12 +187,12 @@
 	padding-left: 8px;
 }
 
-            .fbtab:hover
-            {
-                background-color: #3b5998;
-                color: #ffffff;
-                cursor: hand;
-            }
+.fbtab:hover
+{
+	background-color: #3b5998;
+	color: #ffffff;
+	cursor: hand;
+}
 .signin-form_fb li label input  {
 	float:left;
 	margin-right:6px;
