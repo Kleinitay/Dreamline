@@ -31,9 +31,9 @@ Dreamline::Application.routes.draw do |map|
   match 'video/:id/update(/new)'    => "videos#update", :as =>:update_video
 
 # ___________________ FB Videos ______________________________________________________
- match 'fb/upload'  => 'fb_videos#upload', :as => :fb_video_upload
- match 'fb/list'    => 'fb_videos#list', :as => :fb_video_list
- match 'fb/about'   => 'fb_videos#about', :as => :fb_about
+  match 'fb/upload'  => 'fb_videos#upload', :as => :fb_video_upload
+  match 'fb/list'    => 'fb_videos#list', :as => :fb_video_list
+  match 'fb/about'   => 'fb_videos#about', :as => :fb_about
 
 #------------------------------------------------------------------------------------------------------------------------
 
