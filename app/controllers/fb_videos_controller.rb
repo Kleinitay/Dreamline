@@ -1,6 +1,6 @@
 class FbVideosController < ApplicationController
 
- before_filter :redirect_first_page_to_base, :authorize, :only => [:edit, :edit_tags]
+ before_filter :parse_facebook_cookies, :authorize, :only => [:edit, :edit_tags]
 	
 	def show
 		video_id = params[:id].to_i
@@ -19,12 +19,10 @@ class FbVideosController < ApplicationController
 	end
 	
 	def list
-	  @videos = []
-	  @order = params[:order]
 	  current_page = (params[:page] == "0" ? "1" : params[:page]).to_i
-	
     @page_title = "Videos List"
-    get_sidebar_data
+    @videos = fb_graph.get_connections(current_user.fb_id,'videos/uploaded')
+    #get_sidebar_data
 
   end
 
