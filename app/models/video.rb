@@ -140,8 +140,17 @@ class Video < ActiveRecord::Base
 
 # run process
     def detect_and_convert(access_token=nil)
+        #@graph_test = Koala::Facebook::API.new(access_token)
+        # result_test = @graph_test.get_object( "10150471094018645")
+         #source_test = result_test["source"]
+        #detect_face_and_timestamps  source_test
+        #return
         if fbid != nil
             #do the analysis on the facebook link
+            @graph = Koala::Facebook::API.new(access_token)
+            result = @graph.get_object(fbid)
+            source = result["source"]
+            detect_face_and_timestamps source
         elsif access_token != nil &&  access_token != ""
             unless convert_to_flv
                 return false
@@ -150,7 +159,7 @@ class Video < ActiveRecord::Base
             @graph = Koala::Facebook::API.new(access_token)
             result = @graph.put_video(get_flv_file_name)
             self.fbid = result["id"]
-            File.delete(source_file_name)
+          #  File.delete(get_flv_file_name)
         else
             if convert_to_flv
                 detect_face_and_timestamps get_flv_file_name
@@ -326,7 +335,7 @@ end
     #input_file = File.join(Video.full_directory(id),id.to_s)
     input_file = filename
     if !File.exist?(input_file)
-        input_file = source_file_name
+       input_file = source_file_name
     end
 
     "#{MOVIE_FACE_RECOGNITION_EXEC_PATH} Dreamline #{input_file} #{output_dir} #{HAAR_CASCADES_PATH} #{Rails.root.to_s}/public#{thumb_path} #{Rails.root.to_s}/public#{thumb_path_small}"
