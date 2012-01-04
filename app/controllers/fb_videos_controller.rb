@@ -49,19 +49,19 @@ class FbVideosController < ApplicationController
   end
 
   def create
-    unless !signed_in? || !params[:video]
-      more_params = {:user_id => current_user.id, :duration => 0} #temp duration
-      @video = Video.new(params[:video].merge(more_params))
-      if @video.save
-         @video.detect_and_convert
-        flash[:notice] = "Video has been uploaded"
-        redirect_to "/video/#{@video.id}/edit_tags/new"
-      else
-        render 'new'
-      end
-    else
-      redirect_to "/"
-    end
+    unless !params[:video]
+       more_params = {:user_id => current_user.id, :duration => 0} #temp duration
+       @video = Video.new(params[:video].merge(more_params))
+       if @video.save
+          @video.detect_and_convert fb_access_token
+         flash[:notice] = "Video has been uploaded"
+         redirect_to "/fb/#{@video.id}/edit_tags/new"
+       else
+         render 'new'
+       end
+     else
+       redirect_to "/"
+     end
   end
 
   def edit
