@@ -141,18 +141,18 @@ class Video < ActiveRecord::Base
 
 
 # run process
-    def detect_and_convert
+    def detect_and_convert(graph,access_token)
         if fbid != nil
             #do the analysis on the facebook link
-            result = fb_graph.get_object(fbid)
+            result = graph.get_object(fbid)
             source = result["source"]
             detect_face_and_timestamps source
-        elsif fb_access_token != nil &&  fb_access_token != ""
+        elsif access_token != nil &&  access_token != ""
             unless convert_to_flv
                 return false
             end
             detect_face_and_timestamps get_flv_file_name
-            result = fb_graph.put_video(get_flv_file_name)
+            result = graph.put_video(get_flv_file_name)
             self.fbid = result["id"]
           #  File.delete(get_flv_file_name)
         else
@@ -161,7 +161,6 @@ class Video < ActiveRecord::Base
             else
                 false
             end
-
         end
     end
 
@@ -183,7 +182,6 @@ class Video < ActiveRecord::Base
     def video_taggees_uniq
       VideoTaggee.find(:all, :select => "DISTINCT contact_info, fb_id", :conditions => {:video_id => self.id})
     end
-
 # _____________________________________________ FLV conversion functions _______________________
 
   def convert_to_flv
