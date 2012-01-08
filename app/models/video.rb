@@ -16,6 +16,8 @@
 #  source_file_name    :string(255)
 #  source_file_size    :integer(4)
 #  state               :string(255)
+#  fbid                :string(255)
+#  analyzed            :boolean(1)
 #
 
 require "rexml/document"

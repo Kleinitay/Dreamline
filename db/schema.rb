@@ -10,7 +10,15 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111005111256) do
+ActiveRecord::Schema.define(:version => 20111214090620) do
+
+  create_table "authentications", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "provider"
+    t.string   "uid"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "comments", :force => true do |t|
     t.text     "content",    :null => false
@@ -48,8 +56,10 @@ ActiveRecord::Schema.define(:version => 20111005111256) do
 
   create_table "video_taggees", :force => true do |t|
     t.string   "contact_info", :null => false
-    t.string   "video_id",   :null => false
+    t.integer  "fb_id"
+    t.string   "video_id",     :null => false
     t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "videos", :force => true do |t|
@@ -66,6 +76,8 @@ ActiveRecord::Schema.define(:version => 20111005111256) do
     t.string   "source_file_name"
     t.integer  "source_file_size"
     t.string   "state"
+    t.string   "fbid"
+    t.boolean  "analyzed"
   end
 
   add_index "videos", ["category"], :name => "by_category"

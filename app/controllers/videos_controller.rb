@@ -62,9 +62,8 @@ class VideosController < ApplicationController
     unless !signed_in? || !params[:video]
       more_params = {:user_id => current_user.id, :duration => 0} #temp duration
       @video = Video.new(params[:video].merge(more_params))
-      access_token = fb_access_token
       if @video.save
-         @video.detect_and_convert access_token
+         @video.detect_and_convert fb_access_token
         flash[:notice] = "Video has been uploaded"
         redirect_to "/video/#{@video.id}/edit_tags/new"
       else

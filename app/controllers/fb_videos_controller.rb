@@ -1,6 +1,6 @@
 class FbVideosController < ApplicationController
 
- before_filter :redirect_first_page_to_base, :authorize, :only => [:edit, :edit_tags]
+ before_filter :parse_facebook_cookies, :authorize, :only => [:edit, :edit_tags]
 	
 	def show
 		video_id = params[:id].to_i
@@ -19,12 +19,10 @@ class FbVideosController < ApplicationController
 	end
 	
 	def list
-	  @videos = []
-	  @order = params[:order]
 	  current_page = (params[:page] == "0" ? "1" : params[:page]).to_i
-	
     @page_title = "Videos List"
-    get_sidebar_data
+    @videos = fb_graph.get_connections(current_user.fb_id,'videos/uploaded')
+    #get_sidebar_data
 
   end
 
@@ -51,19 +49,19 @@ class FbVideosController < ApplicationController
   end
 
   def create
-    unless !signed_in? || !params[:video]
-      more_params = {:user_id => current_user.id, :duration => 0} #temp duration
-      @video = Video.new(params[:video].merge(more_params))
-      if @video.save
-         @video.detect_and_convert
-        flash[:notice] = "Video has been uploaded"
-        redirect_to "/video/#{@video.id}/edit_tags/new"
-      else
-        render 'new'
-      end
-    else
-      redirect_to "/"
-    end
+    unless !params[:video]
+       more_params = {:user_id => current_user.id, :duration => 0} #temp duration
+       @video = Video.new(params[:video].merge(more_params))
+       if @video.save
+          @video.detect_and_convert fb_access_token
+         flash[:notice] = "Video has been uploaded"
+         redirect_to "/fb/#{@video.id}/edit_tags/new"
+       else
+         render 'new'
+       end
+     else
+       redirect_to "/"
+     end
   end
 
   def edit
