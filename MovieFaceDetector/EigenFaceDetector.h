@@ -38,10 +38,10 @@
 #define THUMB_HEIGHT 110
 #define SMALL_THUMB_WIDTH 90
 #define SMALL_THUMB_HEIGHT 48
-#define SCALING_RATIO 1.4
+#define SCALING_RATIO 1.2
 #define ADDED_TIME 1000
-#define TEST_MOVIE_PATH "C:\\TestData\\Movies\\IMG_1411_mpeg1video.mpg"
-
+#define TEST_MOVIE_PATH "C:\\rails\\dreamline\\Dreamline\\public\\videos\\000\\000\\178\\178.flv"
+#define FRAMES_TO_SKIP 1
 /* Macros to get the max/min of 3 values */
 #define MAX3(r,g,b) ((r)>(g)?((r)>(b)?(r):(b)):((g)>(b)?(g):(b)))
 #define MIN3(r,g,b) ((r)<(g)?((r)<(b)?(r):(b)):((g)<(b)?(g):(b)))
@@ -179,6 +179,7 @@ void Dreamline(char *movieClipPath, char *outputPath, char *haarClassifierPath, 
 	if (cap == NULL)
 	{
 		printf("error in input file");
+		exit(-1);
 	}
 	printf("starting the run");
 	storage = cvCreateMemStorage(0);
@@ -553,7 +554,8 @@ void saveFacesToDiskAndGetTimeStamps(CvCapture* movieClip,
 		//sprintf(tmppath, "%s/%s%d.tif", outputPath, "frame", timeCount);
 		IplImage *img = NULL;
 		img = cvQueryFrame(movieClip);
-		img = cvQueryFrame(movieClip);
+		for (int i = 0 ; i < FRAMES_TO_SKIP ; ++i)
+			img = cvQueryFrame(movieClip);
 		if (img == NULL)
 		{
 			printf("End of clip\n");
