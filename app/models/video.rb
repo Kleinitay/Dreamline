@@ -159,8 +159,8 @@ class Video < ActiveRecord::Base
             end
             detect_face_and_timestamps get_flv_file_name
             @graph = Koala::Facebook::API.new(access_token)
-            result = @graph.put_video(get_flv_file_name)
-            self.fbid = result["id"]
+            #result = @graph.put_video(get_flv_file_name)
+            #self.fbid = result["id"]
           #  File.delete(get_flv_file_name)
         else
             if convert_to_flv
@@ -227,7 +227,7 @@ class Video < ActiveRecord::Base
 
     def get_video_rotation_cmd
         mediainfo_path = File.join( Rails.root, "Mediainfo", "Mediainfo")
-        response =`#{mediainfo_path} #{source.path} --output=json 2>&1`
+        response =`mediainfo  #{source.path} --output=json 2>&1`
         response = response.gsub(/ /,'')
         if response.index('Rotation') == nil
             return ""
