@@ -1,6 +1,6 @@
 class FbVideosController < ApplicationController
 
- before_filter :parse_facebook_cookies, :authorize, :only => [:edit, :edit_tags]
+ before_filter :authorize, :only => [:edit, :edit_tags]
 	
 	def show
 		video_id = params[:id].to_i
@@ -53,14 +53,14 @@ class FbVideosController < ApplicationController
        more_params = {:user_id => current_user.id, :duration => 0} #temp duration
        @video = Video.new(params[:video].merge(more_params))
        if @video.save
-          @video.detect_and_convert fb_access_token
+          @video.detect_and_convert
          flash[:notice] = "Video has been uploaded"
          redirect_to "/fb/#{@video.id}/edit_tags/new"
        else
          render 'new'
        end
      else
-       redirect_to "/"
+       redirect_to "/fb/list"
      end
   end
 
@@ -82,10 +82,10 @@ class FbVideosController < ApplicationController
       #@likes = graph.get_connections("me", "likes")
 
       #sidebar
-  	  get_sidebar_data # latest
-  	  @user_videos = Video.get_videos_by_user(1, @user.id, true, 3)
-  	  @trending_videos = Video.get_videos_by_sort(1,"popular", true ,3)
-  	  @active_users = User.get_users_by_activity
+  	  #get_sidebar_data # latest
+  	  #@user_videos = Video.get_videos_by_user(1, @user.id, true, 3)
+  	  #@trending_videos = Video.get_videos_by_sort(1,"popular", true ,3)
+  	  #@active_users = User.get_users_by_activity
   
     rescue Exception=>e
     render :text => "Session Has gone away. Please refresh and login again."
@@ -109,10 +109,14 @@ class FbVideosController < ApplicationController
           end
           post_vtag(@new, new_taggees, @video.title.titleize)
         end #if ids
-        redirect_to video_path (@video)
+        redirect_to fb_video_path (@video)
       end# if update_attributes
     else
       redirect_to "/"
     end
+  end
+  
+  def fb_video_path(video)
+    "http://www.facebook.com/#{video.fbid}"
   end
 end

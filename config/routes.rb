@@ -32,6 +32,7 @@ Dreamline::Application.routes.draw do |map|
 
 # ___________________ FB Videos ______________________________________________________
   match 'fb/new'     => 'fb_videos#new', :as => :fb_video_upload
+  match 'fb/create'  => 'fb_videos#create', :as => :fb_video_create
   match 'fb/list'    => 'fb_videos#list', :as => :fb_video_list
   match 'fb/about'   => 'fb_videos#about', :as => :fb_about
   match 'fb/:id/edit_tags(/new)' => 'fb_videos#edit_tags', :as => :fb_edit_video_tags, :requirements => { :id => /([0-9]*)?/ }
@@ -42,7 +43,6 @@ Dreamline::Application.routes.draw do |map|
 # ___________________ Users ______________________________________________________
 
   match 'users/:id/videos/*page'  => 'users#videos', :as => :user_videos
-
 
     match 'sign_up'     => 'users#new', :as => 'sign_up'
     match 'sign_in'     => 'sessions#new', :as => 'sign_in'

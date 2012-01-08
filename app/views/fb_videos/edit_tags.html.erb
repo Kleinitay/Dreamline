@@ -6,9 +6,10 @@
 	<title>VtagO - <%= @page_title %></title>
 </head>
 <body>
-	<div id="content_sec">
-		<div id="left_content">
-			<%= form_for :video, :url => "/video/#{@video.id}/update#{"/new" if @new}" do |f| %>
+	<div class="fbbody" id="main">
+		<div class="left_sidebar"></div>
+		<div class="video_list">
+			<%= form_for :video, :url => "/fb/#{@video.id}/update#{"/new" if @new}" do |f| %>
 				<div id="video_taggees">
 					<% @video.video_taggees.each do |video_taggee| %>
 						<div id="video_taggee<%= video_taggee.id.to_s %>">
@@ -31,7 +32,7 @@
 			<% end %>
 		</div>
 		<div id="right_content">
-			<%= render :partial => "sidebars/single_video_sidebar" %>
+			<%#= render :partial => "sidebars/single_video_sidebar" %>
 		</div>
 	</div>
 </body>
