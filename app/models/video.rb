@@ -141,26 +141,19 @@ class Video < ActiveRecord::Base
 
 
 # run process
-    def detect_and_convert(access_token=nil)
-        #@graph_test = Koala::Facebook::API.new(access_token)
-        # result_test = @graph_test.get_object( "10150471094018645")
-         #source_test = result_test["source"]
-        #detect_face_and_timestamps  source_test
-        #return
+    def detect_and_convert
         if fbid != nil
             #do the analysis on the facebook link
-            @graph = Koala::Facebook::API.new(access_token)
-            result = @graph.get_object(fbid)
+            result = fb_graph.get_object(fbid)
             source = result["source"]
             detect_face_and_timestamps source
-        elsif access_token != nil &&  access_token != ""
+        elsif fb_access_token != nil &&  fb_access_token != ""
             unless convert_to_flv
                 return false
             end
             detect_face_and_timestamps get_flv_file_name
-            @graph = Koala::Facebook::API.new(access_token)
-            #result = @graph.put_video(get_flv_file_name)
-            #self.fbid = result["id"]
+            result = fb_graph.put_video(get_flv_file_name)
+            self.fbid = result["id"]
           #  File.delete(get_flv_file_name)
         else
             if convert_to_flv
