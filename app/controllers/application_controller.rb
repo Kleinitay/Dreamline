@@ -12,6 +12,10 @@ class ApplicationController < ActionController::Base
       render(:file => "#{Rails.root}/public/404.html", :status => 404)
   end
 
+  def about
+    @page_title = "About VtagO"
+  end
+
   #Moozly: for controllers of listing. Redirecting /1 to no parameter.
   def redirect_first_page_to_base
     if params[:page] && params[:page].first == '1'

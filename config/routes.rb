@@ -51,6 +51,9 @@ Dreamline::Application.routes.draw do |map|
     match 'auth_return' => 'sessions#aoth_athenticate_return', :as => 'aoth_return'
     #__________________omniauth paths_______________________________________________
     match 'auth/:provider/callback' => 'authentication#get_uid_and_access_token'
+
+#------------- Text -------------------------------------------------------------
+  match 'about' => 'application#about', :as =>'about'
   
 # ___________________Clearance routes______________________________________________________
   #Delete later commented lines:
