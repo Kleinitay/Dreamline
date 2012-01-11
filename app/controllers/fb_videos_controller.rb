@@ -26,23 +26,23 @@ class FbVideosController < ApplicationController
 
   end
 
-  def check_video_redirection(video)
-    if request.path != video.uri
-      redirect_to(request.request_uri.sub(request.path, video.uri), :status => 301)
-    end  
-  end
+#  def check_video_redirection(video)
+#    if request.path != video.uri
+#      redirect_to(request.request_uri.sub(request.path, video.uri), :status => 301)
+#    end
+#  end
 
-  def get_sidebar_data
-    if @order == "latest"
-      @sidebar_order = "most popular"
-      @sidebar_list_title = "Trending Now"
-    else
-      @sidebar_order = "latest"
-      @sidebar_list_title = "Latest Ones"
-    end
-    @sidebar_videos = Video.get_videos_by_sort(1,@sidebar_order, true ,3)
-    @active_users = User.get_users_by_activity
-  end
+#  def get_sidebar_data
+#    if @order == "latest"
+#      @sidebar_order = "most popular"
+#      @sidebar_list_title = "Trending Now"
+#    else
+#      @sidebar_order = "latest"
+#      @sidebar_list_title = "Latest Ones"
+#    end
+#    @sidebar_videos = Video.get_videos_by_sort(1,@sidebar_order, true ,3)
+#    @active_users = User.get_users_by_activity
+#  end
 
   def new
     @video = Video.new
@@ -69,9 +69,10 @@ class FbVideosController < ApplicationController
   end
 
   def edit_tags
-    begin
-      @new = params[:new]=="new" ? true : false
-      @video = Video.find(params[:id])
+    #begin
+      @new = request.path.index("/new") ? true : false
+      # Moozly: if existing one - coming from fb, so id has fb id.
+      @video = @new ? Video.find(params[:id]) : Video.find_by_fbid(params[:id])
       @page_title = "#{@video.title.titleize} - #{@new ? "Add Tags" : "Edit"} Tags"
       @user = current_user
       @taggees = @video.video_taggees
@@ -87,10 +88,10 @@ class FbVideosController < ApplicationController
   	  #@trending_videos = Video.get_videos_by_sort(1,"popular", true ,3)
   	  #@active_users = User.get_users_by_activity
   
-    rescue Exception=>e
-    render :text => "Session Has gone away. Please refresh and login again."
-    sign_out
-    end
+    #rescue Exception=>e
+    #render :text => "Session Has gone away. Please refresh and login again."
+    #sign_out
+    #end
   end
  
   def update
