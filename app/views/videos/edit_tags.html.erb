@@ -43,7 +43,7 @@
 					<h2> Sorry, no faces found in this video </h2>
 					<br class="clear" />
 					<div>
-						<p><input type="button" href="<%=@video.uri%>" value="Back" name="back"></p>
+						<p><input type="button" onclick="location.href='<%= @video.uri %>'" value="Back" name="back"></p>
 					</div>		
 				<% end %>
 			</div>
