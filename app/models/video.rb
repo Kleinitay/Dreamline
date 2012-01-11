@@ -261,6 +261,12 @@ class Video < ActiveRecord::Base
       video
   end
 
+  def self.for_fb_view(id)
+      video = Video.find_by_fbid(id)
+      video[:category_title] = video.category_title
+      video
+  end
+
   # Moozly: the functions gets videos for showing in a list by sort order - latest or most popular  
   def self.get_videos_by_sort(page, order_by, sidebar, limit = MAIN_LIST_LIMIT)
       sort = order_by == "latest" ? "created_at" : "views_count"
@@ -287,6 +293,11 @@ class Video < ActiveRecord::Base
     end
     vs
   end
+
+ def self.find_all_by_vtagged_user(user_fbid)
+   vs_ids = VideoTaggee.find_all_video_ids_by_user_id(user_fbid)
+   @vs = vs_ids.any? ? self.where("id in (#{vs_ids.join(",")})") : []
+ end
 
 def self.populate_videos_with_common_data(vs, sidebar, name = false)
  vs.each do |v|

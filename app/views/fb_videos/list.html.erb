@@ -3,8 +3,8 @@
 	<div class="video_list">
 		<% @videos.each_with_index do |v,index|%>
 			<div class="video_div">
-				<div class="video_title"><a href="http://www.facebook.com/<%= v["id"] %>"><%= v["name"] %></a></div>
-				<div class="video_thumb"><a href="http://www.facebook.com/<%= v["id"] %>"><img src="<%= v["picture"] %>" width="90" height="48" alt="<%= v["name"] %>" /></a></div>
+				<div class="video_title"><a href="/fb/<%= v["id"] %>"><%= v["name"] %></a></div>
+				<div class="video_thumb"><a href="/fb/<%= v["id"] %>"><img src="<%= v["picture"] %>" width="90" height="48" alt="<%= v["name"] %>" /></a></div>
 				<div class="tag_button">
 					<a href="/fb/<%=v["id"]%>/edit_tags" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('tag_button_<%= index+1 %>','','/images/fb/tag_button_on.gif',1)"><img src="/images/fb/tag_button.gif" alt="Vtag" name="tag_button" width="156" height="34" border="0" id="tag_button_<%= index+1 %>" />
 					</a>

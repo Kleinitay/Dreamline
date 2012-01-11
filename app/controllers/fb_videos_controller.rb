@@ -4,26 +4,31 @@ class FbVideosController < ApplicationController
 	
 	def show
 		video_id = params[:id].to_i
-		@video = Video.for_view(video_id) if video_id != 0
+		@video = Video.for_fb_view(video_id) if video_id != 0
 		if !@video then render_404 and return end
-	  check_video_redirection(@video)
+	  #check_video_redirection(@video)
 	  @user = @video.user
 	  @own_videos = current_user == @user ? true : false
 	  @comments, @total_comments_count = Comment.get_video_comments(video_id)
 
 	  #sidebar
-	  get_sidebar_data # latest
-	  @user_videos = Video.get_videos_by_user(1, @user.id, true, 3)
-	  @trending_videos = Video.get_videos_by_sort(1,"popular", true ,3)
-	  @active_users = User.get_users_by_activity
+	  #get_sidebar_data # latest
+	  #@user_videos = Video.get_videos_by_user(1, @user.id, true, 3)
+	  #@trending_videos = Video.get_videos_by_sort(1,"popular", true ,3)
+	  #@active_users = User.get_users_by_activity
 	end
 	
 	def list
-	  current_page = (params[:page] == "0" ? "1" : params[:page]).to_i
     @page_title = "Videos List"
     @videos = fb_graph.get_connections(current_user.fb_id,'videos/uploaded')
     #get_sidebar_data
 
+  end
+  
+  def vtaggees
+    @page_title = "I got Vtagged"
+    user = current_user
+    @videos = Video.find_all_by_vtagged_user(645113644)#user.fb_id)
   end
 
 #  def check_video_redirection(video)
