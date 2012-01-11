@@ -153,7 +153,7 @@ class Video < ActiveRecord::Base
             end
             detect_face_and_timestamps get_flv_file_name
             result = graph.put_video(get_flv_file_name)
-            self.fbid = result["id"]
+            self.update_attribute(:fbid, result["id"])
           #  File.delete(get_flv_file_name)
         else
             if convert_to_flv
