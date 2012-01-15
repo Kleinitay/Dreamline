@@ -228,7 +228,7 @@ class Video < ActiveRecord::Base
 
     def get_video_info
          mediainfo_path = File.join( Rails.root, "Mediainfo", "Mediainfo")
-        response =`#{mediainfo_path} #{source.path} --output=xml 2>&1`
+        response =`mediainfo #{source.path} --output=xml 2>&1`
          if response == nil
              return
          end
