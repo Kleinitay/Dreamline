@@ -242,11 +242,11 @@ class Video < ActiveRecord::Base
        # response = response.gsub(/ /,'')
         if degrees.nil? || degrees == ""
                     return ""
-        elsif rotation == "18"
+        elsif degrees == "180"
             return "-vf transpose=3"
-        elsif rotation == "27"
+        elsif degrees == "270"
             return "-vf transpose=1"
-        elsif rotation == "90"
+        elsif degrees == "90"
             return "-vf transpose=0"
         else
             return ""
