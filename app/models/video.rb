@@ -21,6 +21,7 @@
 #
 
 require "rexml/document"
+require "net/ftp"
 class Video < ActiveRecord::Base
 
   belongs_to :user
@@ -142,21 +143,33 @@ class Video < ActiveRecord::Base
 
 # run process
     def detect_and_convert(graph,access_token)
+
+        #@graph_test = Koala::Facebook::API.new(access_token)
+         #result_test = @graph_test.get_object( "10150471094018645")
+         #source_test = result_test["source"]
+        #send_file
+        #detect_face_and_timestamps  source_test
+       # return
+        video_info = get_video_info
+        unless video_info["Duration"].nil?
+            dur =   parse_duration_string video_info["Duration"]
+             self.update_attribute(:duration, dur)
+        end
         if fbid != nil
             #do the analysis on the facebook link
             result = graph.get_object(fbid)
             source = result["source"]
             detect_face_and_timestamps source
         elsif access_token != nil &&  access_token != ""
-            unless convert_to_flv
+            unless convert_to_flv  video_info
                 return false
             end
             detect_face_and_timestamps get_flv_file_name
-            result = graph.put_video(get_flv_file_name)
+            result = graph.put_video(get_flv_file_name, {:title => self.title})
             self.update_attribute(:fbid, result["id"])
           #  File.delete(get_flv_file_name)
         else
-            if convert_to_flv
+            if convert_to_flv       video_info
                 detect_face_and_timestamps get_flv_file_name
             else
                 false
@@ -164,29 +177,26 @@ class Video < ActiveRecord::Base
         end
     end
 
-    def rotate_if_needed
-        rotation_param = get_video_rotation_cmd
-        new_source = " #{source.path}_rotated"
-        if rotation_param != ""
-            cmd = "ffmpeg #{source.path} #{rotation_param} #{new_source}"
-            success = system(cmd)
-            if success && $?.exitstatus == 0
-                set_rotated_filename
-                self.converted!
-            else
-                self.failed!
-            end
-        end
-    end
-
     def video_taggees_uniq
       VideoTaggee.find(:all, :select => "DISTINCT contact_info, fb_id", :conditions => {:video_id => self.id})
     end
+
+    def parse_duration_string   duration_str
+        minstr = duration_str.slice(/[0-9]+mn/)
+        unless minstr.nil?
+            mins = minstr.slice(/[0-9]+/)
+        end
+        secstr = duration_str.slice(/[0-9]+s/)
+        unless secstr.nil?
+            secs = secstr.slice(/[0-9]+/)
+        end
+        mins.to_i*60+secs.to_i
+    end
 # _____________________________________________ FLV conversion functions _______________________
 
-  def convert_to_flv
+  def convert_to_flv  video_info
       self.convert_to_flv!
-      success = system(convert_command)
+      success = system(convert_command video_info)
       if success && $?.exitstatus == 0
           self.converted!
       else
@@ -207,24 +217,30 @@ class Video < ActiveRecord::Base
       File.join(dirname, "#{id}.flv")
   end
 
-  def convert_command
+  def convert_command  video_info
       output_file = self.get_flv_file_name
       File.open(output_file, 'w')
       command = <<-end_command
-    ffmpeg -i #{ source.path } #{get_video_rotation_cmd} -ar 22050 -ab 32 -acodec libmp3lame -s 480x360 -vcodec flv -r 25 -qscale 8 -f flv -y #{ output_file }
+    ffmpeg -i #{ source.path } #{get_video_rotation_cmd video_info['Rotation']} -ar 22050 -ab 32 -acodec libmp3lame -s 480x360 -vcodec flv -r 25 -qscale 8 -f flv -y #{ output_file }
       end_command
       command.gsub!(/\s+/, " ")
   end
 
-    def get_video_rotation_cmd
-        mediainfo_path = File.join( Rails.root, "Mediainfo", "Mediainfo")
-        response =`mediainfo  #{source.path} --output=json 2>&1`
-        response = response.gsub(/ /,'')
-        if response.index('Rotation') == nil
-            return ""
-        end
-        rotation = response[response.index('Rotation') + 9..response.index('Rotation') + 10]
-        if rotation.nil? || rotation == ""
+    def get_video_info
+         mediainfo_path = File.join( Rails.root, "Mediainfo", "Mediainfo")
+        response =`#{mediainfo_path} #{source.path} --output=xml 2>&1`
+         if response == nil
+             return
+         end
+        xml_hash = Hash.from_xml response
+        xml_hash['Mediainfo']['File']['track'][1]
+    end
+
+    def get_video_rotation_cmd  degrees=nil
+        #mediainfo_path = File.join( Rails.root, "Mediainfo", "Mediainfo")
+        #response =`#{mediainfo_path} #{source.path} --output=json 2>&1`
+       # response = response.gsub(/ /,'')
+        if degrees.nil? || degrees == ""
                     return ""
         elsif rotation == "18"
             return "-vf transpose=3"
