@@ -31,7 +31,7 @@ class Video < ActiveRecord::Base
 
 
   has_many :comments
-  has_many :video_taggees
+
 
   # has_permalink :title, :as => :uri, :update => true
   # Check Why doesn't work??
@@ -407,7 +407,7 @@ end
             if attributes
                 taggee.attributes = attributes
             else
-                video_taggees.delete(taggee)
+                VideoTaggee.delete(taggee.id)
             end
         end
     end

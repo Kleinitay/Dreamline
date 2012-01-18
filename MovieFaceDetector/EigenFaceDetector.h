@@ -40,8 +40,8 @@
 #define SMALL_THUMB_HEIGHT 48
 #define SCALING_RATIO 1.2
 #define ADDED_TIME 1000
-#define TEST_MOVIE_PATH "C:\\rails\\dreamline\\Dreamline\\public\\videos\\000\\000\\178\\178.flv"
-#define FRAMES_TO_SKIP 1
+#define TEST_MOVIE_PATH "C:\\rails\\dreamline\\Dreamline\\public\\videos\\000\\000\\220\\220.flv"
+#define FRAMES_TO_SKIP 0
 /* Macros to get the max/min of 3 values */
 #define MAX3(r,g,b) ((r)>(g)?((r)>(b)?(r):(b)):((g)>(b)?(g):(b)))
 #define MIN3(r,g,b) ((r)<(g)?((r)<(b)?(r):(b)):((g)<(b)?(g):(b)))
@@ -189,10 +189,22 @@ void Dreamline(char *movieClipPath, char *outputPath, char *haarClassifierPath, 
 		IplImage *thumb = cvCreateImage(cvSize(THUMB_WIDTH, THUMB_HEIGHT), IPL_DEPTH_8U, 3);
 		
 		IplImage *frm = cvQueryFrame(cap);
-
+		
 		if (frm)
 		{
-			cvResize(frm, thumb);
+			double heigtWidthRatio = (double)frm->width / (double)frm->height;
+			if (heigtWidthRatio < 1)
+			{
+				IplImage *tmpThumb = cvCreateImage(cvSize(THUMB_WIDTH, frm->height * THUMB_WIDTH / frm->width), IPL_DEPTH_8U, 3);
+				cvResize(frm, tmpThumb);
+				cvSetImageROI(tmpThumb, cvRect(0, 0, THUMB_WIDTH, THUMB_HEIGHT));
+				cvCopyImage(tmpThumb, thumb);
+				cvReleaseImage(&tmpThumb);
+			}
+			else
+			{
+				cvResize(frm, thumb);
+			}
 			
 			cvSaveImage(thumbPath, thumb);
 			if (smallThumbPath && strlen(smallThumbPath) > 0)
