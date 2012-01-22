@@ -3,7 +3,7 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   	<%= stylesheet_link_tag :all %>
-		<%= javascript_include_tag "jquery.min","cufon-yui", "arial", "switch" %> <!-- move to needed js files specifically-->
+		<%= javascript_include_tag "jquery.min","cufon-yui", "arial", "switch", "sign_up" %> <!-- move to needed js files specifically-->
         <%= javascript_include_tag "flowplayer.min" %>
 		<%= yield :javascript_includes %>
   	<%= csrf_meta_tag %>
@@ -13,13 +13,13 @@
 		<!--Header Section -->
 		<div id="outer_header">
 			<div id="header_sec">
-				<a href="/"><img src="/images/logo.png" alt="" id="logo" /></a>
+				<a href="/"><%=logo%></a>
 					<div id="nav">
 						<ul id="navbar">
 							<% if signed_in? %>
 								<li><a href="/users/<%= current_user.id %>/videos" class=<%= @own_videos ? "active" : "nobg" %> >My Videos</a></li>
 							<% end %>
-							<li><a href="/video/latest" 			class=<%= @order == "latest" ? "active" : "nobg" %> >Latest Videos</a></li>
+							<li><a href="/video/latest" class=<%= @order == "latest" ? "active" : "nobg" %> >Latest Videos</a></li>
 							<li><a href="/video/most_popular" class=<%= @order == "most popular" ? "active" : "nobg" %> >Most Popular</a></li>
 							<li><a href="/about" class=<%= @page_title == "About VtagO" ? "active" : "nobg" %> >About VtagO</a></li>
 						</ul>

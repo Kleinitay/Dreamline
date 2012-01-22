@@ -83,6 +83,16 @@ h5 a {
 color:#00555a;
 text-decoration:none;
 }
+.light_gray{
+	background: #ffffff; /* Old browsers */
+background: -moz-linear-gradient(top, #ffffff 0%, #ededed 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#ededed)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top, #ffffff 0%,#ededed 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top, #ffffff 0%,#ededed 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top, #ffffff 0%,#ededed 100%); /* IE10+ */
+background: linear-gradient(top, #ffffff 0%,#ededed 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ededed',GradientType=0 ); /* IE6-9 */
+}
 /*
 =======================================
 		Header Section
@@ -1341,18 +1351,20 @@ color:#fff;
 width:100%;
 background:url(../images/bg-content-sign-in.png) no-repeat center 50px;
 padding-top:60px;
+
 }
 #signin_content {
 width:935px;
 margin:0 auto;
 background:#fff;
 padding-bottom:74px;
+
 }
 
 #left_col {
 float:left;
 width:297px;
-height:395px;
+height:355px;
 background:url(../images/bg-login.png) no-repeat left top;
 position:relative;
 padding:30px 22px 0 22px;
@@ -1360,7 +1372,7 @@ padding:30px 22px 0 22px;
 #right_col {
 width:585px;
 float:right;
-padding-top:20px;
+/*padding-top:20px;*/ /*edited by pnina */
 }
 #right_col img {
 border:1px solid #e4e4e4;
@@ -1378,7 +1390,9 @@ width:297px;
 float:left;
 background:url(../images/db-border.gif) repeat-x bottom;
 padding-bottom:6px;
-margin-bottom:20px;
+margin-bottom:10px;
+position:relative;
+top:-15px;
 }
 .signin_form_heading h1 {
 height:46px;
@@ -1518,8 +1532,31 @@ font-size:0;
 cursor:pointer;
 }
 
+#manual_signup_link{
+	display:block;
+	margin:10px 0px 0px 3px;;
+	font-size:14px;
+	margin-bottom:15px;
 
-
+text-align:center;
+}
+#login_separator{
+	margin:10px 0px 10px 0px;
+	color:#b2b2b2;
+}
+div.login-btn input.submit{
+	width:150px;
+	height:25px;
+	cursor:pointer;
+}
+div.login-btn input.submit:hover{
+background-color:red;
+}
+.round_corners_6{
+	-webkit-border-radius: 6px;
+-moz-border-radius: 6px;
+border-radius: 6px;
+}
 /*
 ==================================================
 		Video Detail
