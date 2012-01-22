@@ -1,14 +1,18 @@
 
-	<div class="left_sidebar"></div>
-	<div class="video_list">
+	<!--<div class="left_sidebar"></div>-->
+<div class="vtag_video">	
+	<ul id="video_list">
 		<% @videos.each_with_index do |v,index|%>
-			<div class="video_div">
-				<div class="video_title"><a href="/fb/<%= v["id"] %>"><%= v["name"] %></a></div>
+			<li>
 				<div class="video_thumb"><a href="/fb/<%= v["id"] %>"><img src="<%= v["picture"] %>" width="90" height="48" alt="<%= v["name"] %>" /></a></div>
+				<div class="video_title"><a href="/fb/<%= v["id"] %>"><%= v["name"] %></a></div>
 				<div class="tag_button">
-					<a href="/fb/<%=v["id"]%>/edit_tags" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('tag_button_<%= index+1 %>','','/images/fb/tag_button_on.gif',1)"><img src="/images/fb/tag_button.gif" alt="Vtag" name="tag_button" width="156" height="34" border="0" id="tag_button_<%= index+1 %>" />
-					</a>
+					<a class="vtag_butt radious_6" id="tag_button_<%= index+1 %>" href="/fb/<%=v["id"]%>/edit_tags">Vtag this video</a>
+					<!--<a href="/fb/<%#=v["id"]%>/edit_tags" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('tag_button_<%= index+1 %>','','/images/fb/tag_button_on.gif',1)"><img src="/images/fb/tag_button.gif" alt="Vtag" name="tag_button" width="156" height="34" border="0" id="tag_button_<%= index+1 %>" />
+					</a>-->
 				</div>
-			</div>
+			</li>
 		<% end %>
-	</div>
+	</ul>
+</div>	
+

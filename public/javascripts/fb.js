@@ -19,3 +19,12 @@ function MM_preloadImages() { //v3.0
 			var i,j=0,x,a=MM_swapImage.arguments; document.MM_sr=new Array; for(i=0;i<(a.length-2);i+=3)
 			if ((x=MM_findObj(a[i]))!=null){document.MM_sr[j++]=x; if(!x.oSrc) x.oSrc=x.src; x.src=a[i+2];}
 		}
+		
+// show selected tab
+$(document).ready(function(){			
+	// show selected tab
+ $('.vtag_video').parents().find('#vtag_video a').removeClass('fbtab').addClass('fbtab_selected')
+ $('.got_vtag').parents().find('#got_vtag a').removeClass('fbtab').addClass('fbtab_selected')
+ $('.upload_video').parents().find('#upload_video a').removeClass('fbtab').addClass('fbtab_selected')
+ $('.about_vtago').parents().find('#about_vtag a').removeClass('fbtab').addClass('fbtab_selected')
+});

@@ -55,4 +55,9 @@ module ApplicationHelper
     end
   end
   
+  #pnina this helpers are here for creating one place from where pictures will be pulled
+  def logo
+     image_tag("logo.png",:size => "193x50", :id=>'logo',:border=>"0" )   
+  end
+  
 end

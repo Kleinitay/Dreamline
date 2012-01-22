@@ -4,25 +4,23 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title>VtagO App</title>
 		<%= stylesheet_link_tag "fb.css" %>
-		<%= javascript_include_tag "fb" %> 
-		<style type="text/css">
-		body {
-			background-color: #CCC;
-		}
-		</style>
+		<%= javascript_include_tag "jquery.min" ,"fb"%> 
 	</head>
 
 	<body onload="MM_preloadImages('/images/fb/tag_button_on.gif')">
-		<div class="fbbody" id="main">
-			<div class="header">
-				<div class="logo" id="logo"><a href="http://www.facebook.com/vtago"><img src="/images/logo.png" alt="VtagO" border="0" /></a></div>
-				<div class="main_tabs">
-					<a class="fbtab_selected" href="/fb/list" tabindex="1">Vtag a video</a>
-					<a class="fbtab" href="/fb/vtaggees" tabindex="2">I got Vtagged</a>
-					<a class="fbtab" href="/fb/new" tabindex="3">Upload a video</a>
-					<a class="fbtab" href="/fb/about" tabindex="4">About VtagO</a>
-				</div>
+		<div id="outer_header">
+			<div id="fb_header">
+				<div id="logo" class="logo"><%=link_to logo,"http://www.facebook.com/vtago"%></div>
+				<ul id="fb_nav">
+					<li id="vtag_video"><a class="fbtab" href="/fb/list" tabindex="1">Vtag a video</a></li>
+					<li id="got_vtag"><a class="fbtab" href="/fb/vtaggees" tabindex="2">I got Vtagged</a></li>
+					<li id="upload_video"><a class="fbtab" href="/fb/new" tabindex="3">Upload a video</a></li>
+					<li id="about_vtag"><a class="fbtab" href="/fb/about" tabindex="4">About VtagO</a></li>
+				</ul>				
 			</div>
+		</div>
+		<div class="fbbody" id="main">		
 			<%= yield %>
+		</div>	
 	</body>
 </html>
