@@ -1,47 +1,49 @@
 <div class="upload_video">	
-<div class="fbbody" id="main">
-		<div class="left_sidebar"></div>
-		<div class="upload_form" >
-			<table>
+		<!--<div class="left_sidebar"></div>-->
+		<div class="wrapper">
+			<div>
 				<%= form_for(@video, :url => { :action => "create" }, :html => { :multipart => true }, "action"=>"fb_videos") do |f| %>
-        	<% if @video.errors.any? %>
-          	<div id="error_explanation">
-            	<ul>
-              	<% @video.errors.full_messages.each do |msg| %>
-                	<li><%= msg %></li>
-               	<% end %>
-           		</ul>
-       			</div>
-   				<% end %>
-					<tr>
-						<td><%= f.label :title %></td>
-						<td class="td_input"><%= f.text_field :title, "size"=>"40" %></td>
-					</tr>
-					<tr>
-						<td> <%= f.label :description %> </td>
-						<td><%= f.text_area :description, "onfocus"=>"this.value=''; setbg('#e5fff3')", "onblur"=>"setbg('white');", "cols"=>"30", "rows" => "10" %></td>
-					</tr>
-					<tr>
-						<td><%= f.label :category %></td>
-						<td><%= f.select :category, options_for_select(Video::CATEGORIES.map { |k, v| [v.titleize, k] }) %></td>
-					</tr>
-					<tr>
-						<td> <%= f.label :keywords %></td>
-            <td><%= f.text_field :keywords, "size"=>"30" %></td>
-					</tr>
-					<tr>
-						<td><%= f.label :video %></td>
-						<td><%= f.file_field :source %></td>
-					</tr>
-					<tr><td><br/><br/></td></tr>
-					<tr>
-						<td></td>
-						<td>
-							 <%= f.submit 'Upload' %> | <%= link_to 'Cancel', "/" %>
-						</td>
-					</tr>
-					<% end %>
-			</table>
+	        	<% if @video.errors.any? %>
+			          	<div id="error_explanation">
+			            	<ul>
+			              	<% @video.errors.full_messages.each do |msg| %>
+			                	<li><%= msg %></li>
+			               	<% end %>
+			           		</ul>
+			       		</div>
+	   			<% end %>
+   			</div>
+   			<div id="upload_wrapper">
+	   			<h2>Upload a video</h2>	
+	   			<ul id="fb_upload" class="radious_6 shadow">
+						<li>
+							<label><%= f.label :title %></label>
+							<div><%= f.text_field :title,:class=>'fb_input_style'%></div>
+						<li>
+						<li>
+							<label> <%= f.label :description %> </label>
+							<div><%= f.text_area :description, "onfocus"=>"this.value=''; setbg('#e5fff3')", "onblur"=>"setbg('white');",:class=>'upload_text_area' %></div>
+						</li>
+						<li>
+							<label><%= f.label :category %></label>
+							<div><%= f.select :category, options_for_select(Video::CATEGORIES.map { |k, v| [v.titleize, k] }) %></div>
+						</li>
+						<li>
+							<label> <%= f.label :keywords %></label>
+	           				 <div><%= f.text_field :keywords, :class=>'fb_input_style' %></div>
+						</li>
+						<li>
+							<label><%= f.label :video %></label>
+							<div><%= f.file_field :source %></div>
+						</li>
+						<br>
+						<hr width=400px>
+						<li class="send_form">						
+								 <%= f.submit 'Upload',:class=>'vtag_butt radious_6 left'%>  <%= link_to 'Cancel', "/" %>
+								 <div class="clr"></div>
+						</li>		 	
+						<% end %>
+				</ul>
+			</div>
 		</div>
-</div>
 </div>

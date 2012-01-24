@@ -2,8 +2,12 @@
 /* CSS Document */
 
 /* Default Facebook CSS */
-
-
+.clr{
+	clear:both;
+}
+.left{
+	float:left;
+}
 
 .red{
 	background-color: #CCC;
@@ -13,8 +17,33 @@
 -moz-border-radius: 6px;
 border-radius: 6px;
 }
+.shadow{
+    width: 374px;
+    min-width: 200px;
+    min-height: 130px;
+    margin: auto;
+    background: #ffffff;
+    border: 5px solid red;
+    position:relative;
+    box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.46);
+    -moz-box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.46);
+    -webkit-box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.46);
+}
+
 li{
 	list-style-type:none;
+}
+hr{
+
+background-color: #DBDBDB;
+height: 1px;
+}
+h1, h2 {
+font-size: 25px;
+font-family: Arial, Helvetica, sans-serif;
+color: #00555A;
+line-height: 16px;
+text-align:center;
 }
 body {
 	background-color: #CCC;
@@ -71,6 +100,65 @@ float:left;
 	padding-bottom: 2px;
 	padding-top: 35px;
 }
+
+.fb_header{
+	color:
+}
+
+div.fb_header{
+	margin:15px auto 10px auto;
+	width:480px;
+}
+
+/*  ------------------- facebook upload ------------------------ */
+div#upload_wrapper{
+	width:760px;	   
+}
+ul#fb_upload{
+	padding:30px 15px 30px 50px;
+	border:1px solid #CCCCCC;
+ margin:30px auto 0px auto;
+	width:480px;
+	
+}
+ul#fb_upload li{
+	padding:5px 0px 5px 0px;
+}
+ul#fb_upload li label{
+	display:block;
+	width:100px;
+	float:left;
+	color:#3B5998;
+	font-weight:bold;
+	font-size:12px;
+}
+
+
+ul#fb_upload li.send_form{
+	padding:20px 0px 0px 100px;
+}
+
+ul#fb_upload li.send_form input{ /* assign style to the submit button text */
+	color:#3B5998;
+	font-weight:bold;
+	margin-right:25px;
+	margin-left:30px;
+}
+
+ul#fb_upload li.send_form a{ /* assign style to the cancel button text */
+	position:relative;
+	top:15px;
+}
+
+.fb_input_style{
+width:330px;
+}
+
+	.upload_text_area{
+	width:330px;
+	height:150px;
+}
+
 /* ---------- video list ----------------*/
 ul#video_list {
 
@@ -145,11 +233,9 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a4c4c6', end
 }
 
 
-.upload_form {
-	height: 600px;
-	width: 547px;
-	text-align: left;
+.wrapper {	
 	float: left;
+	width:760px;
 }
 #main #new_video .upload_form ul li label {
 	float: left;
