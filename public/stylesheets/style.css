@@ -2526,3 +2526,10 @@ width:540px;
 .comment_replay_second .comment_posted_user , .comment_replay_second .panel_comment {
 width:515px;
 }
+
+#manual_signup_wrapper{
+disply:none;
+}
+#facebook_login_logo{
+	margin-left:40px;
+}
