@@ -13,7 +13,7 @@
 			       		</div>
 	   			<% end %>
    			</div>
-   			<div id="upload_wrapper">
+   		
 	   			<h2>Upload a video</h2>	
 	   			<ul id="fb_upload" class="radious_6 shadow">
 						<li>
@@ -36,14 +36,12 @@
 							<label><%= f.label :video %></label>
 							<div><%= f.file_field :source %></div>
 						</li>
-						<br>
-						<hr width=400px>
+						<li class="seperator">----------------------------------------------------------------------------------------------------------------</li>
 						<li class="send_form">						
 								 <%= f.submit 'Upload',:class=>'vtag_butt radious_6 left'%>  <%= link_to 'Cancel', "/" %>
 								 <div class="clr"></div>
 						</li>		 	
 						<% end %>
 				</ul>
-			</div>
 		</div>
 </div>
