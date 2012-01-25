@@ -1,3 +1,27 @@
+<script type="text/javascript">
+	$(document).ready(function(){ 
+	
+	$("#upload_fb_video").click(function(){
+		if (fb_upload_validation()){
+			//submit form
+		$("form:first").submit();
+		}
+		else{
+			// show error
+			$("#file_upload_error").show();
+		}
+	});	
+	
+	function fb_upload_validation(){
+		//check if upload file is empty
+		if ($("#upload_fb_file").val()!=''){
+			return true
+		}
+	}
+	
+});
+</script>
+
 <div class="upload_video">	
 		<!--<div class="left_sidebar"></div>-->
 		<div class="wrapper">
@@ -33,13 +57,15 @@
 	           				 <div><%= f.text_field :keywords, :class=>'fb_input_style' %><a class="info circle">?<span>Tags about the photo should be inserted with  a “,” separation between them</span></a>
 </div>
 						</li>
+						<li id="file_upload_error"><div>Source file name can't be empty</div></li>
 						<li>
 							<label><%= f.label :video %></label>
-							<div><%= f.file_field :source %></div>
+							<div><%= f.file_field :source, :id=>"upload_fb_file" %></div>
 						</li>
 						<li class="seperator">----------------------------------------------------------------------------------------------------------------</li>
 						<li class="send_form">						
-								 <%= f.submit 'Upload',:class=>'vtag_butt radious_6 left'%>  <%= link_to 'Cancel', "/",:class=>'cancel_link'%>
+								 <%#= f.submit 'Upload',:class=>'vtag_butt radious_6 left', :id=>'upload_fb_video'%>  <%#= link_to 'Cancel', "/",:class=>'cancel_link'%>
+								  <a class='vtag_butt radious_6 left' id='upload_fb_video'>Upload</a> <%= link_to 'Cancel', "/",:class=>'cancel_link'%>
 								 <div class="clr"></div>
 						</li>		 	
 						<% end %>
