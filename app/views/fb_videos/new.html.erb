@@ -30,7 +30,8 @@
 						</li>
 						<li>
 							<label> <%= f.label :keywords %></label>
-	           				 <div><%= f.text_field :keywords, :class=>'fb_input_style' %></div>
+	           				 <div><%= f.text_field :keywords, :class=>'fb_input_style' %><a class="info circle">?<span>Tags about the photo should be inserted with  a “,” separation between them</span></a>
+</div>
 						</li>
 						<li>
 							<label><%= f.label :video %></label>
@@ -38,7 +39,7 @@
 						</li>
 						<li class="seperator">----------------------------------------------------------------------------------------------------------------</li>
 						<li class="send_form">						
-								 <%= f.submit 'Upload',:class=>'vtag_butt radious_6 left'%>  <%= link_to 'Cancel', "/" %>
+								 <%= f.submit 'Upload',:class=>'vtag_butt radious_6 left'%>  <%= link_to 'Cancel', "/",:class=>'cancel_link'%>
 								 <div class="clr"></div>
 						</li>		 	
 						<% end %>

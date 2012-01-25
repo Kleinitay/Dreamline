@@ -2,15 +2,23 @@
 /* CSS Document */
 
 /* Default Facebook CSS */
+
 .clr{
 	clear:both;
 }
 .left{
 	float:left;
 }
-
 .red{
 	background-color: #CCC;
+}
+.circle {
+    display: block;
+    width: 16px;
+    height: 16px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border: 1px solid #C4C4C4;
 }
 .radious_6{
 	-webkit-border-radius: 6px;
@@ -18,15 +26,14 @@
 border-radius: 6px;
 }
 .shadow{
-
-     width: 374px;
+    width: 374px;
     min-width: 200px;
     min-height: 130px;
     margin: auto;
     background: #ffffff;
     border: 5px solid white;
     position:relative;
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.49);
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.49);
     -moz-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.49);
     -webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.49);
 }
@@ -126,6 +133,35 @@ div.fb_header{
 	width:480px;
 }
 
+/*   ----------------- tooltip --------------------------- */
+a.info{
+    position:relative; /*this is the key*/
+    left:-10px;
+    top:3px;
+    z-index:24; 
+    color:#000;
+    text-decoration:none;
+    cursor:pointer;
+    text-align:center;
+    float:right;
+    }
+
+a.info:hover{z-index:25; background-color:#D1DEDF}
+
+a.info span{
+	display: none;
+	font-weight:normal;
+	line-height:15px;
+	}
+
+a.info:hover span{ /*the span will display just on :hover state*/
+    display:block;
+    position:absolute;
+    top:2em; left:-2em; width:13em;
+    padding:5px;
+    border:1px solid #0cf;
+    background-color:#D1DEDF; color:#000;
+    text-align: center}
 
 
 /*  ------------------- facebook about ------------------------ */
@@ -175,6 +211,10 @@ ul#fb_upload li.send_form input{ /* assign style to the submit button text */
 ul#fb_upload li.send_form a{ /* assign style to the cancel button text */
 	position:relative;
 	top:15px;
+}
+
+ul#fb_upload li.send_form a.cancel_link:hover{
+	text-decoration:underline;
 }
 
 .fb_input_style{
@@ -300,9 +340,10 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a4c4c6', end
 	font-size: 11px;
 	font-weight: bold;
 }
+
 .fbbody a:hover
 {
-	text-decoration: underline;
+	/*text-decoration: underline;*/
 }
 /* Facebook Box Styles */
 .fbgreybox
