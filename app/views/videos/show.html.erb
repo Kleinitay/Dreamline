@@ -38,16 +38,28 @@
 			</div>
 			<div class="share-panel">
 				<em class="shout-out">&nbsp;</em>
-				<div class="social-connect">
+				<!--<div class="social-connect">
 					<div class="twitter"><a href="#"><img src="/images/bg-tweet.gif" alt="" /></a></div>
 					<div class="facebook"><a href="#"><img src="/images/bg-facebook.gif" alt="" /></a></div>
-				</div>
+				</div>-->
 				<div class="social-network-group">
-					<ul>
-						<!--li><a href="#"><img src="/images/icon-social-1.png" alt="" /></a></li-->
-						<li><a href="#"><img src="/images/icon-social-2.png" alt="" /></a></li>
+					<!-- AddThis Button BEGIN -->
+						<div class="addthis_toolbox addthis_default_style addthis_32x32_style">
+						<a class="addthis_button_preferred_1"></a>
+						<a class="addthis_button_preferred_2"></a>
+						<a class="addthis_button_preferred_3"></a>
+						<!--<a class="addthis_button_preferred_4"></a>-->
+						<!--<a class="addthis_button_compact"></a>-->
+						<a class="addthis_counter addthis_bubble_style"></a>
+						</div>
+<script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-4e60daa12b8cdf79"></script>
+<!-- AddThis Button END -->
+<!-- AddThis Button END -->
+					<!--<ul>-->
+						<!--li><a href="#"><img src="/images/icon-social-1.png" alt="" /></a></li>
+						<!--<li><a href="#"><img src="/images/icon-social-2.png" alt="" /></a></li>
 						<li><a href="#"><img src="/images/icon-social-3.png" alt="" /></a></li>
-						<li><a href="#"><img src="/images/icon-social-4.png" alt="" /></a></li>
+						<li><a href="#"><img src="/images/icon-social-4.png" alt="" /></a></li>--?>
 						<!--li><a href="#"><img src="/images/icon-social-5.png" alt="" /></a></li-->
 						<!--li><a href="#"><img src="/images/icon-social-6.png" alt="" /></a></li-->
 						<!--li><a href="#"><img src="/images/icon-social-7.png" alt="" /></a></li-->
@@ -56,7 +68,7 @@
 						<!--li><a href="#"><img src="/images/icon-social-10.png" alt="" /></a></li-->
 						<!--li><a href="#"><img src="/images/icon-social-11.png" alt="" /></a></li-->
 						<!--li><a href="#"><img src="/images/icon-social-12.png" alt="" /></a></li-->
-					</ul>
+					<!--</ul> -->
 				</div>
 			</div>
 			<div id="in_this_video">
@@ -92,9 +104,9 @@
 						<li>Category: <a href="<%= @video.category_uri %>"><%= @video.category_title %></a></li>
 					</ul>
 				</div>
-				<div class="right-info-box">
+				<!--<div class="right-info-box">
 					<p><strong>294,752!!!</strong> Recommendations </p>
-				</div>
+				</div>-->
 			</div>
 <%= render :partial => "comments/comments_list" %>
 <%= render :partial => "sidebars/single_video_sidebar" %>
