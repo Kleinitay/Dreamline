@@ -32,16 +32,16 @@ class Video < ActiveRecord::Base
 
   has_many :comments
 
-
+ mount_uploader :video_file, video_file_uploader
   # has_permalink :title, :as => :uri, :update => true
   # Check Why doesn't work??
 
   # Paperclip
   # http://www.thoughtbot.com/projects/paperclip
-  has_attached_file :source, :url => :path_for_origin
+  #has_attached_file :source, :url => :path_for_origin
 
   # Paperclip Validations
-  validates_attachment_presence :source
+  #validates_attachment_presence :source
   #validates_attachment_content_type :source, :content_type => 'video'
 
   after_update :save_taggees
