@@ -57,6 +57,18 @@ line-height:16px;
 padding-bottom:8px;
 }
 
+a.footer{
+	font-size:14px;
+font-family:Arial, Helvetica, sans-serif;
+color:#00555a;
+font-weight:bold;
+text-decoration:none;
+}
+a.footer:hover{
+	text-decoration:underline;
+}
+
+
 h3 {
 font-size:13px;
 font-family:Arial, Helvetica, sans-serif;
@@ -246,14 +258,40 @@ text-decoration:none;
 		Content Section
 =========================================================
 */
-#content_sec {
+#content_sec,#content_sec_pages {
 width:960px;
-margin:0 auto;
+
 padding-top:10px;
 padding-bottom:20px;
 position:relative;
 z-index:10;
 }
+#content_sec{
+	margin:0 auto;
+}
+#content_sec_pages { /* this is the wrapper for pages like about terms and etc.. */
+min-height:600px;	
+
+margin:0 auto;
+}
+
+/*
+========================================================
+		content Pages template
+========================================================
+*/
+#content_sec_pages h1 {
+	font-size:18px;
+	margin-top:20px;
+	
+	text-align:left;	
+}
+
+#content_sec_pages_wrapper{
+	margin-left:240px;
+	width:600px;
+} 
+
 /*
 =======================================================
 Left Content
@@ -908,7 +946,7 @@ padding-top:10px;
 padding-bottom:10px;
 padding-right:30px;
 }
-.about-us h2 {
+.about-us a {
 background:url(../images/bg-about-us.gif) no-repeat left top;
 padding-left:25px;
 padding-top:2px;
@@ -933,7 +971,7 @@ background:url(../images/sep-list-hover.gif) no-repeat left 4px;
 color:#999;
 text-decoration:underline;
 }
-.rules-policy h2 {
+.rules-policy a.footer {
 background:url(../images/bg-rule-policy.gif) no-repeat left top;
 padding-left:25px;
 padding-top:6px;
@@ -951,7 +989,7 @@ padding-bottom:10px;
 padding-right:30px;
 padding-left:35px;
 }
-.social-network h2 {
+.social-network a.footer{
 background:url(../images/bg-follow-us.gif) no-repeat left top;
 padding-left:32px;
 padding-top:2px;
@@ -2526,3 +2564,14 @@ width:540px;
 .comment_replay_second .comment_posted_user , .comment_replay_second .panel_comment {
 width:515px;
 }
+
+#manual_signup_wrapper{
+disply:none;
+}
+#facebook_login_logo{
+	margin-left:40px;
+}
+
+
+
+

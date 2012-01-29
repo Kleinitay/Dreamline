@@ -2,19 +2,74 @@
 /* CSS Document */
 
 /* Default Facebook CSS */
-
-
-
+.hide{
+	display:none;
+}
+.show{
+	display:block;
+}
+.clr{
+	clear:both;
+}
+.left{
+	float:left;
+}
 .red{
 	background-color: #CCC;
+}
+.circle {
+    display: block;
+    width: 16px;
+    height: 16px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border: 1px solid #C4C4C4;
 }
 .radious_6{
 	-webkit-border-radius: 6px;
 -moz-border-radius: 6px;
 border-radius: 6px;
 }
+.shadow{
+    width: 374px;
+    min-width: 200px;
+    min-height: 130px;
+    margin: auto;
+    background: #ffffff;
+    border: 5px solid white;
+    position:relative;
+        box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.34);
+    -moz-box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.34);
+    -webkit-box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.34);
+}
+
 li{
 	list-style-type:none;
+}
+hr{
+background-color: #c1d2d3;
+
+}
+h1, h2, h3,p{
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+h1, h2 {
+	font-size: 25px;
+	color: #00555A;
+	line-height: 16px;
+	text-align:center;
+}
+
+h3{
+	color:#00555A;
+	font-size:12px;
+	font-wight:bold;
+}
+
+p{
+	line-height:20px;
+	font-size:12px;
 }
 body {
 	background-color: #CCC;
@@ -23,20 +78,22 @@ body {
 	font-size: 11px;
 	color: #333333;
 		}
+		
+.fbbody,#fb_header,#outer-bottom-footer {
+		width: 760px;
+}		
 .fbbody
 {
 	font-family: "lucida grande" ,tahoma,verdana,arial,sans-serif;
 	font-size: 11px;
 	color: #333333;
 	height: 768px;
-	width: 760px;
 	margin-left: auto;
 	margin-right: auto;
 	background-color: #FFF;
 }
 
 #fb_header{
-	width: 760px;
 	height: 100%;
 	margin-left: auto;
 	margin-right: auto;
@@ -71,18 +128,138 @@ float:left;
 	padding-bottom: 2px;
 	padding-top: 35px;
 }
+
+.fb_header{
+	color:
+}
+
+div.fb_header{
+	margin:15px auto 10px auto;
+	width:480px;
+}
+
+/*   ----------------- tooltip --------------------------- */
+a.info{
+    position:relative; /*this is the key*/
+    left:-10px;
+    top:3px;
+    z-index:24; 
+    color:#000;
+    text-decoration:none;
+    cursor:pointer;
+    text-align:center;
+    float:right;
+    }
+
+a.info:hover{z-index:25; background-color:#D1DEDF}
+
+a.info span{
+	display: none;
+	font-weight:normal;
+	line-height:15px;
+	}
+
+a.info:hover span{ /*the span will display just on :hover state*/
+    display:block;
+    position:absolute;
+    top:2em; left:-2em; width:13em;
+    padding:5px;
+    border:1px solid #0cf;
+    background-color:#D1DEDF; color:#000;
+    text-align: center}
+
+
+/*  ------------------- facebook about ------------------------ */
+#fb_about{
+margin:40px auto 0px auto;
+width:500px;
+	
+}
+/*  ------------------- facebook upload ------------------------ */
+
+ul#fb_upload{
+	padding:30px 15px 30px 50px;
+	border:1px solid #c1d2d3;
+ 	margin:40px auto 0px auto;
+	width:480px;
+	
+}
+ul#fb_upload li{
+	padding:5px 0px 5px 0px;
+}
+ul#fb_upload li.seperator{
+	padding-top:20px;
+	color:#c1d2d3;
+}
+
+ul#fb_upload li label{
+	display:block;
+	width:100px;
+	float:left;
+	color:#3B5998;
+	font-weight:bold;
+	font-size:12px;
+}
+
+
+ul#fb_upload li.send_form{
+	padding:20px 0px 0px 70px;
+}
+
+/* assign style to the submit button text */
+/*ul#fb_upload li.send_form input{ 
+	color:#3B5998;
+	font-weight:bold;
+	margin-right:25px;
+	margin-left:30px;
+}
+*/
+
+ul#fb_upload li.send_form a.vtag_butt{ /* assign style to the submit button text */
+	position:relative;
+	top:1px;
+	color:#3B5998;
+	font-weight:bold;
+	margin-right:25px;
+	margin-left:30px;
+}
+
+ul#fb_upload li.send_form a{ /* assign style to the cancel button text */
+	position:relative;
+	top:15px;
+}
+
+ul#fb_upload li.send_form a.cancel_link:hover{
+	text-decoration:underline;
+}
+
+.fb_input_style{
+width:330px;
+}
+
+	.upload_text_area{
+	width:330px;
+	height:150px;
+}
+
+#file_upload_error{
+	display:none;	
+	color:red;
+}
+#file_upload_error div{
+	margin-left:100px;
+}
 /* ---------- video list ----------------*/
 ul#video_list {
-
 	width: 547px;	
 	float: left;
-	margin:40px 10px 10px 105px;
-	border:1px solid #CCCCCC;
+	margin:10px 10px 10px 105px;
+	border:1px solid #c1d2d3;
 	padding:0px;	
 }
 ul#video_list li{
 	height:60px;
-	border-bottom:1px solid #CCCCCC;
+	border-bottom:1px solid #c1d2d3;
 	margin:0px;		
 }
 ul#video_list li:last-child{
@@ -137,19 +314,17 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a4c4c6', end
 	padding:12px 0px 0px 0px;
 }
 .video_title {
-	/*float: left;*/
-	height: 33px;
+
 	padding-top: 15px;
-	width: 240px;
-	padding-right: 20px;
+	width: 235px;
+	padding-left:10px;
+
 }
 
 
-.upload_form {
-	height: 600px;
-	width: 547px;
-	text-align: left;
+.wrapper {	
 	float: left;
+	width:760px;	
 }
 #main #new_video .upload_form ul li label {
 	float: left;
@@ -188,9 +363,10 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a4c4c6', end
 	font-size: 11px;
 	font-weight: bold;
 }
+
 .fbbody a:hover
 {
-	text-decoration: underline;
+	/*text-decoration: underline;*/
 }
 /* Facebook Box Styles */
 .fbgreybox
@@ -212,13 +388,13 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a4c4c6', end
 	font-size: 13px;
 	font-weight: bold;
 }
-#main .video_list .video_div {
+/*#main .video_list .video_div {
 	width: 553px;
 	text-align: center;
 	clear: both;
 	padding-top: 20px;
 	padding-bottom: 20px;
-}
+}*/
 
 .fbinfobox
 {
@@ -388,7 +564,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a4c4c6', end
 	color:#6f6f6f;
 	width:120px;
 }
-
+/* --------------- footer and header sections --------- */
 #outer_header {
 width:100%;
 border-top:5px solid #00555a;
@@ -398,3 +574,56 @@ border-bottom:1px solid #d1d1d1;
 position:relative;
 z-index:1000;
 }
+
+#outer-bottom-footer {
+padding-bottom:12px;
+background:url(../images/bottom-footer.gif) repeat-x bottom;
+margin:auto;
+height:100px;
+background-color:#ffffff;
+}
+
+#outer-footer {
+float:left;	
+width: 760px;
+border-top: 1px solid #C1D2D3;
+background: url(../images/bg-gr-footer.gif) repeat-x top white;
+padding-top: 16px;
+}
+
+ul#fb_footer{
+ 	margin:0px auto 0px auto;
+	width:600px;	
+}
+ul#fb_footer li{
+	float:left;
+	padding:5px;
+	
+}
+ul#fb_footer li.sep{
+color:#AFAFAF
+}
+ul#fb_footer li.footer_text{
+	width:90px;
+	text-align:center;
+}
+ul#fb_footer li a:active,ul#fb_footer li a:link,ul#fb_footer li a:visited{
+	color:#00555A;
+	font-weight:bold;
+	font-size:12px;
+	text-decoration:none;
+}
+
+ul#fb_footer li a:hover{
+	text-decoration:underline;
+}
+
+#footer_rights{
+	margin:30px auto 0px auto;
+	width:600px;
+	text-align:center;
+}
+#footer_rights p{
+	font-size:10px;
+}
+
