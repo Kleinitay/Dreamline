@@ -122,9 +122,10 @@ z-index:1000;
 }
 
 #header_sec {
-width:960px;
+width:990px;
 margin:0 auto;
 padding-top:11px;
+
 }
 
 #header_sec img#logo {
@@ -214,12 +215,13 @@ border-bottom:1px solid #d9d8d8;
 }
 #header_sec .signin {
 float:right;
-width:280px;
+width:300px;
 padding-top:14px;
+
 }
 #header_sec .signin ul {
 float:right;
-width:300px;
+width:350px;
 }
 #header_sec .signin li {
 float:left;
