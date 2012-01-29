@@ -6,8 +6,8 @@
 	<ul id="video_list">
 		<% @videos.each_with_index do |v,index|%>
 			<li>
-				<div class="video_thumb"><a href="/fb/<%= v["id"] %>"><img src="<%= v["picture"] %>" width="90" height="48" alt="<%= v["name"] %>" /></a></div>
-				<div class="video_title"><a href="/fb/<%= v["id"] %>"><%= v["name"] %></a></div>
+				<div class="video_thumb"><a href="<%= Video.fb_uri(v["id"]) %>"><img src="<%= v["picture"] %>" width="90" height="48" alt="<%= v["name"] %>" /></a></div>
+				<div class="video_title"><a href="<%= Video.fb_uri(v["id"]) %>"><%= v["name"] %></a></div>
 				<div class="tag_button">
 					<% href_part = v["analayzed"] ? "edit_tags" : "analyze" %>
 					<% title = v["analayzed"] ? "Edit Tags" : "Vtag this video" %>
