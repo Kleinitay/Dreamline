@@ -7,7 +7,22 @@ padding:0;
 margin:0;
 outline:none;
 }
+#b_share, #s_share{
 
+}
+#b_share{
+	float:left;
+		width:250px;
+	padding-left:15px;;
+}
+ #s_share{
+ float:right;	
+ 	width:180px;
+ 	padding-top:10px;
+ }
+ #s_share a{
+ padding:0px;	
+ }
 /*
 ===============================================
 		General Styles
