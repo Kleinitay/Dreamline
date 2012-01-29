@@ -21,6 +21,10 @@ class FbVideosController < ApplicationController
 	def list
     @page_title = "Videos List"
     @videos = fb_graph.get_connections(current_user.fb_id,'videos/uploaded')
+    app_fb_ids = Video.all(:conditions => {:user_id => current_user.id}, :select => "fbid").map(&:fbid)
+    @videos.each do |v|
+      v["analayzed"] = app_fb_ids.include? v["id"] ? 1 : 0
+    end
     #get_sidebar_data
 
   end
@@ -65,7 +69,7 @@ class FbVideosController < ApplicationController
          render 'new'
        end
      else
-       redirect_to "/fb/list"
+       redirect_to "/fb/list"#????
      end
   end
 
@@ -73,11 +77,30 @@ class FbVideosController < ApplicationController
     @video = Video.find(params[:id])
   end
 
+  def analyze
+    v = fb_graph.get_object(params[:fb_id])
+    params = {:user_id => current_user.id,
+              :fbid => v["id"],
+              :duration => 0, 
+              :title => v["name"],
+              :category => 20,
+              :source_file_name => v["source"]
+             }
+    @video = Video.new(params)
+    debugger
+    if @video.save
+      @video.detect_and_convert(fb_graph,fb_access_token)
+      flash[:notice] = "Video has been uploaded"
+      redirect_to "/fb/#{@video.id}/edit_tags/new"
+    else
+      render :text => @video.errors
+    end
+  end
+
   def edit_tags
     #begin
       @new = request.path.index("/new") ? true : false
-      # Moozly: if existing one - coming from fb, so id has fb id.
-      @video = @new ? Video.find(params[:id]) : Video.find_by_fbid(params[:id])
+      @video = Video.find(params[:id])
       @page_title = "#{@video.title.titleize} - #{@new ? "Add Tags" : "Edit"} Tags"
       @user = current_user
       @taggees = @video.video_taggees
