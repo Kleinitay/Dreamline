@@ -9,25 +9,33 @@
 	<div class="fbbody" id="main">
 		<div class="left_sidebar"></div>
 		<div class="video_list">
-			<%= form_for :video, :url => "/fb/#{@video.id}/update#{"/new" if @new}" do |f| %>
-				<div id="video_taggees">
-					<% @video.video_taggees.each do |video_taggee| %>
-						<div id="video_taggee<%= video_taggee.id.to_s %>">
-						    <%= fields_for_taggee(video_taggee) do |tag| %>
-						        <div id="face_tag" class="ui-widget">
-						            <img src="<%= "#{video_taggee.img_path}" %>" width="60" height="70">
-												<label for="tags">Who is this? </label>
-						            <%= tag.text_field 	 :contact_info, :class => "contact_info" %>
-						            <%= tag.hidden_field :fb_id, :class =>"fb_id" %>
-												<%= link_to_function "remove", "var node1 = document.getElementById(\'video_taggee#{video_taggee.id.to_s}\');node1.parentNode.removeChild(node1)" %>
-						        </div>
-						    <% end %>
-						</div>
-					<% end %>
-				</div>
-				<br class="clear" />
+		<% if @video.video_taggees.any? %>
+				<%= form_for :video, :url => "/fb/#{@video.id}/update#{"/new" if @new}" do |f| %>
+					<div id="video_taggees">
+						<% @video.video_taggees.each do |video_taggee| %>
+							<div id="video_taggee<%= video_taggee.id.to_s %>">
+							    <%= fields_for_taggee(video_taggee) do |tag| %>
+							        <div id="face_tag" class="ui-widget">
+							            <img src="<%= "#{video_taggee.img_path}" %>" width="60" height="70">
+													<label for="tags">Who is this? </label>
+							            <%= tag.text_field 	 :contact_info, :class => "contact_info" %>
+							            <%= tag.hidden_field :fb_id, :class =>"fb_id" %>
+													<%= link_to_function "remove", "var node1 = document.getElementById(\'video_taggee#{video_taggee.id.to_s}\');node1.parentNode.removeChild(node1)" %>
+							        </div>
+							    <% end %>
+							</div>
+						<% end %>
+					</div>
+					<br class="clear" />
+					<div>
+						<p><input  type="submit" onclick = "update_fb_ids();" value="Update video" name="commit"></p>
+					</div>
+				<% end %>
+			<% else %>
+				<h2> Sorry, no faces found in this video </h2>
+				<br/>
 				<div>
-					<p><input  type="submit" onclick = "update_fb_ids();" value="Update video" name="commit"></p>
+					<p><input type="button" onclick="location.href='/fb/list'" value="Back" name="back"></p>
 				</div>
 			<% end %>
 		</div>
