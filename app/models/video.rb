@@ -21,7 +21,7 @@
 #
 
 require "rexml/document"
-require "net/ftp"
+require 'carrierwave/orm/activerecord'
 class Video < ActiveRecord::Base
 
   belongs_to :user
@@ -32,16 +32,16 @@ class Video < ActiveRecord::Base
 
   has_many :comments
 
-
+ mount_uploader :video_file, VideoFileUploader
   # has_permalink :title, :as => :uri, :update => true
   # Check Why doesn't work??
 
   # Paperclip
   # http://www.thoughtbot.com/projects/paperclip
-  has_attached_file :source, :url => :path_for_origin
+  #has_attached_file :source, :url => :path_for_origin
 
   # Paperclip Validations
-  validates_attachment_presence :source
+  #validates_attachment_presence :source
   #validates_attachment_content_type :source, :content_type => 'video'
 
   after_update :save_taggees
@@ -209,12 +209,9 @@ class Video < ActiveRecord::Base
   end
 
   def set_new_filename
-      update_attribute(:source_file_name, "#{id}.flv")
+      #update_attribute(:source_file_name, "#{id}.flv")
+     self.video_file = File.open(get_flv_file_name)
   end
-
-    def set_rotated_filename
-        update_attribute(:source_file_name, "#{id}_rotated")
-    end
 
   def get_flv_file_name
       dirname = Video.full_directory(id)
@@ -225,14 +222,14 @@ class Video < ActiveRecord::Base
       output_file = self.get_flv_file_name
       File.open(output_file, 'w')
       command = <<-end_command
-    ffmpeg -i #{ source.path } #{get_video_rotation_cmd video_info['Rotation']} -ar 22050 -ab 32 -acodec libmp3lame -s 480x360 -vcodec flv -r 25 -qscale 8 -f flv -y #{ output_file }
+    ffmpeg -i #{ video_file.current_path } #{get_video_rotation_cmd video_info['Rotation']} -ar 22050 -ab 32 -acodec libmp3lame -s 480x360 -vcodec flv -r 25 -qscale 8 -f flv -y #{ output_file }
       end_command
       command.gsub!(/\s+/, " ")
   end
 
     def get_video_info
          mediainfo_path = File.join( Rails.root, "Mediainfo", "Mediainfo")
-        response =`mediainfo #{source.path} --output=xml 2>&1`
+        response =`mediainfo #{video_file.current_path} --output=xml 2>&1`
          if response == nil
              return
          end
@@ -364,7 +361,7 @@ end
     #input_file = File.join(Video.full_directory(id),id.to_s)
     input_file = filename
     if !File.exist?(input_file)
-       input_file = source_file_name
+       input_file = video_file.current_path
     end
 
     "#{MOVIE_FACE_RECOGNITION_EXEC_PATH} Dreamline #{input_file} #{output_dir} #{HAAR_CASCADES_PATH} #{Rails.root.to_s}/public#{thumb_path} #{Rails.root.to_s}/public#{thumb_path_small}"

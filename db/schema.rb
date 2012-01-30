@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111214090620) do
+ActiveRecord::Schema.define(:version => 20120124145312) do
 
   create_table "authentications", :force => true do |t|
     t.integer  "user_id"
@@ -21,7 +21,7 @@ ActiveRecord::Schema.define(:version => 20111214090620) do
   end
 
   create_table "comments", :force => true do |t|
-    t.text     "content",    :null => false
+    t.text     "content"
     t.integer  "video_id",   :null => false
     t.integer  "user_id",    :null => false
     t.integer  "status"
@@ -59,25 +59,22 @@ ActiveRecord::Schema.define(:version => 20111214090620) do
     t.integer  "fb_id"
     t.string   "video_id",     :null => false
     t.datetime "created_at"
-    t.datetime "updated_at"
   end
 
   create_table "videos", :force => true do |t|
-    t.integer  "user_id",                            :null => false
+    t.integer  "user_id",                    :null => false
     t.string   "title"
-    t.integer  "views_count",         :default => 0
+    t.integer  "views_count", :default => 0
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "duration",                           :null => false
-    t.integer  "category",                           :null => false
+    t.integer  "duration",                   :null => false
+    t.integer  "category",                   :null => false
     t.string   "description"
     t.string   "keywords"
-    t.string   "source_content_type"
-    t.string   "source_file_name"
-    t.integer  "source_file_size"
     t.string   "state"
     t.string   "fbid"
     t.boolean  "analyzed"
+    t.string   "video_file"
   end
 
   add_index "videos", ["category"], :name => "by_category"

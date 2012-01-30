@@ -15,6 +15,7 @@ gem 'koala'
 gem 'flowplayer'
 gem 'jquery-rails', '>= 1.0.12'
 gem 'omniauth-facebook'
+gem 'carrierwave'
 
 # Use unicorn as the web server
 # gem 'unicorn'
