@@ -6,7 +6,7 @@ class FbVideosController < ApplicationController
 		video_id = params[:id].to_i
 		@video = Video.for_fb_view(video_id) if video_id != 0
 		if !@video then render_404 and return end
-	  #check_video_redirection(@video)
+	  check_video_redirection(@video)
 	  @user = @video.user
 	  @own_videos = current_user == @user ? true : false
 	  @comments, @total_comments_count = Comment.get_video_comments(video_id)
@@ -21,6 +21,11 @@ class FbVideosController < ApplicationController
 	def list
     @page_title = "Videos List"
     @videos = fb_graph.get_connections(current_user.fb_id,'videos/uploaded')
+    app_fb_ids = Video.all(:conditions => {:user_id => current_user.id}, :select => "fbid").map(&:fbid)
+    @videos.each do |v|
+      v["analayzed"] = app_fb_ids.include? v["id"] ? 1 : 0
+      v["href"] = Video.fb_uri(v["id"])
+    end
     #get_sidebar_data
 
   end
@@ -31,11 +36,11 @@ class FbVideosController < ApplicationController
     @videos = Video.find_all_by_vtagged_user(645113644)#user.fb_id)
   end
 
-#  def check_video_redirection(video)
-#    if request.path != video.uri
-#      redirect_to(request.request_uri.sub(request.path, video.uri), :status => 301)
-#    end
-#  end
+  def check_video_redirection(video)
+    if request.path != video.fb_uri
+      redirect_to(request.request_uri.sub(request.path, video.fb_uri), :status => 301)
+    end
+  end
 
 #  def get_sidebar_data
 #    if @order == "latest"
@@ -65,7 +70,7 @@ class FbVideosController < ApplicationController
          render 'new'
        end
      else
-       redirect_to "/fb/list"
+       redirect_to "/fb/list"#????
      end
   end
 
@@ -73,11 +78,30 @@ class FbVideosController < ApplicationController
     @video = Video.find(params[:id])
   end
 
+  def analyze
+    v = fb_graph.get_object(params[:fb_id])
+    params = {:user_id => current_user.id,
+              :fbid => v["id"],
+              :duration => 0, 
+              :title => v["name"],
+              :category => 20,
+              :source_file_name => v["source"]
+             }
+    @video = Video.new(params)
+    debugger
+    if @video.save
+      @video.detect_and_convert(fb_graph,fb_access_token)
+      flash[:notice] = "Video has been uploaded"
+      redirect_to "/fb/#{@video.id}/edit_tags/new"
+    else
+      render :text => @video.errors
+    end
+  end
+
   def edit_tags
     #begin
       @new = request.path.index("/new") ? true : false
-      # Moozly: if existing one - coming from fb, so id has fb id.
-      @video = @new ? Video.find(params[:id]) : Video.find_by_fbid(params[:id])
+      @video = Video.find(params[:id])
       @page_title = "#{@video.title.titleize} - #{@new ? "Add Tags" : "Edit"} Tags"
       @user = current_user
       @taggees = @video.video_taggees

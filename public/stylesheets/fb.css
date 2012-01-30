@@ -72,6 +72,7 @@ p{
 	font-size:12px;
 }
 body {
+	z-index:1;
 	background-color: #CCC;
 	margin:0px;
 	font-family: "lucida grande" ,tahoma,verdana,arial,sans-serif;
@@ -182,6 +183,7 @@ ul#fb_upload{
 	border:1px solid #c1d2d3;
  	margin:40px auto 0px auto;
 	width:480px;
+	z-index:2;
 	
 }
 ul#fb_upload li{
@@ -242,7 +244,7 @@ width:330px;
 	height:150px;
 }
 
-#file_upload_error{
+#fb_file_upload_error,#fb_title_error,#fb_keywords_error{
 	display:none;	
 	color:red;
 }
@@ -626,4 +628,42 @@ ul#fb_footer li a:hover{
 #footer_rights p{
 	font-size:10px;
 }
+
+/* ********************************** Loading div *************************** */
+#mask {
+  position:absolute;
+  z-index:9000;
+  background-color:#AFAFAF;
+  display:none;
+ }
+ #boxes .window {
+  position:absolute;
+  display:none;
+  z-index:9999;
+  padding:20px;
+  border:2px solid #c1d2d3;
+}
+ 
+#boxes #dialog {
+  width:550px; 
+  height:400px;
+  background-color:#ffffff;
+  text-align:center;
+}
+#loading_text{
+	text-align:center;
+}
+#fb_advertisement{
+ 
+margin:0px auto 20px auto;
+width:336px;
+height:280px;
+border:1px solid #AFAFAF /* this border should be removed when the actual advertisement will be added */	
+}
+#loading_anim{
+	margin-bottom:10px;
+}
+ 
+
+
 

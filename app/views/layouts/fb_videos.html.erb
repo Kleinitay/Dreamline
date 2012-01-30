@@ -8,6 +8,17 @@
 	</head>
 
 	<body onload="MM_preloadImages('/images/fb/tag_button_on.gif')">
+			<!-- Loading mask and div for the upload section -->
+			<div id="boxes"> 
+				    <div id="dialog" class="window radious_6">
+				    	<div id="fb_advertisement">placeholder for Facebook advertisement</div>
+				        <div id="loading_anim"><%=image_tag '../images/fb/ajax-loader.gif'%></div>
+				        <div id="loading_text">Loading...</div>
+				    </div>
+    			<div id="mask"></div>
+			</div>
+
+
 		<div id="outer_header">
 			<div id="fb_header">
 				<div id="logo" class="logo"><%=link_to logo,"http://www.facebook.com/vtago"%></div>
@@ -41,7 +52,6 @@
 				</div>
 				
 			</div>
-			<!--Footer Ends -->	
-			
-	</body>
+			<!--Footer Ends -->		
+	</body>	
 </html>

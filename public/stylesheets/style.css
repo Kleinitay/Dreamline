@@ -7,7 +7,22 @@ padding:0;
 margin:0;
 outline:none;
 }
+#b_share, #s_share{
 
+}
+#b_share{
+	float:left;
+		width:250px;
+	padding-left:15px;;
+}
+ #s_share{
+ float:right;	
+ 	width:180px;
+ 	padding-top:10px;
+ }
+ #s_share a{
+ padding:0px;	
+ }
 /*
 ===============================================
 		General Styles
@@ -122,9 +137,10 @@ z-index:1000;
 }
 
 #header_sec {
-width:960px;
+width:990px;
 margin:0 auto;
 padding-top:11px;
+
 }
 
 #header_sec img#logo {
@@ -133,7 +149,7 @@ float:left;
 #header_sec #nav {
 float:left;
 width:452px;
-padding-left:27px;
+padding-left:10px;
 padding-top:12px;
 }
 #header_sec #nav li {
@@ -215,15 +231,17 @@ border-bottom:1px solid #d9d8d8;
 #header_sec .signin {
 float:right;
 width:280px;
+height:100%;
 padding-top:14px;
+
 }
 #header_sec .signin ul {
 float:right;
-width:300px;
+width:350px;
 }
 #header_sec .signin li {
 float:left;
-padding:6px 10px 0 10px;
+padding:6px 10px 0 15px;
 }
 #header_sec .signin li.sign_in a{
 color:#6f696b;
@@ -251,7 +269,13 @@ color:#fff;
 text-align:center;
 text-decoration:none;
 } 
-
+#header_sec .signin li.sign_in_account{
+	position:relative;
+	top:-10px;
+}
+#header_sec .signin li.create_account img.profile_pic{
+	margin-right:5px;
+}
 
 /*
 =========================================================
@@ -930,6 +954,7 @@ width:100%;
 border-top:1px solid #c1d2d3;
 background:url(../images/bg-gr-footer.gif) repeat-x top #fff;
 padding-top:16px;
+padding-bottom:15px;
 }
 
 #footer_sec {
@@ -1091,11 +1116,14 @@ background:url(../images/bottom-footer.gif) repeat-x bottom;
 
 #bottom-footer {
 width:940px;
+height:20px;
 margin: 0 auto;
 padding:12px 0;
+
 }
 #bottom-footer p {
-float:left;
+display:box;
+text-align:center;
 color:#9d9d9d;
 }
 #bottom-footer p a {
