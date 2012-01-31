@@ -104,7 +104,7 @@ class FbVideosController < ApplicationController
       @user = current_user
       @taggees = @video.video_taggees
       friends = fb_graph.get_connections(current_user.fb_id,'friends')
-      @friends = {}
+      @friends = {"#{current_user.nick}" => "#{current_user.fb_id}"}
       friends.map {|friend| @friends[friend["name"]] = friend["id"]}
       @names_arr = @friends.keys
       #@likes = graph.get_connections("me", "likes")
