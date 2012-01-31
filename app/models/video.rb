@@ -276,8 +276,8 @@ class Video < ActiveRecord::Base
     video
   end
 
-  def self.for_fb_view(id)
-    video = Video.find_by_fbid(id)
+  def self.for_fb_view(fb_id)
+    video = Video.find_by_fbid(fb_id)
     video[:category_title] = video.category_title
     video
   end

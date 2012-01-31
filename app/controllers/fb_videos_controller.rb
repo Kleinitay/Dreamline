@@ -3,14 +3,13 @@ class FbVideosController < ApplicationController
  before_filter :authorize, :only => [:edit, :edit_tags]
 	
 	def show
-		video_id = params[:id].to_i
-		@video = Video.for_fb_view(video_id) if video_id != 0
+		video_fb_id = params[:fb_id].to_i
+		@video = Video.for_fb_view(video_fb_id) if video_fb_id != 0
 		if !@video then render_404 and return end
 	  check_video_redirection(@video)
 	  @user = @video.user
 	  @own_videos = current_user == @user ? true : false
-	  @comments, @total_comments_count = Comment.get_video_comments(video_id)
-
+	  @comments, @total_comments_count = Comment.get_video_comments(@video.id)
 	  #sidebar
 	  #get_sidebar_data # latest
 	  #@user_videos = Video.get_videos_by_user(1, @user.id, true, 3)
@@ -84,11 +83,9 @@ class FbVideosController < ApplicationController
               :fbid => v["id"],
               :duration => 0, 
               :title => v["name"],
-              :category => 20,
-              :source_file_name => v["source"]
+              :category => 20
              }
     @video = Video.new(params)
-    debugger
     if @video.save
       @video.detect_and_convert(fb_graph,fb_access_token)
       flash[:notice] = "Video has been uploaded"
@@ -139,14 +136,11 @@ class FbVideosController < ApplicationController
           end
           post_vtag(@new, new_taggees, @video.title.titleize)
         end #if ids
-        redirect_to fb_video_path (@video)
+        redirect_to @video.fb_uri
       end# if update_attributes
     else
       redirect_to "/"
     end
   end
-  
-  def fb_video_path(video)
-    "http://www.facebook.com/#{video.fbid}"
-  end
+
 end
