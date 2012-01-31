@@ -2,22 +2,20 @@
 #
 # Table name: videos
 #
-#  id                  :integer(4)      not null, primary key
-#  user_id             :integer(4)      not null
-#  title               :string(255)
-#  views_count         :integer(4)      default(0)
-#  created_at          :datetime
-#  updated_at          :datetime
-#  duration            :integer(4)      not null
-#  category            :integer(4)      not null
-#  description         :string(255)
-#  keywords            :string(255)
-#  source_content_type :string(255)
-#  source_file_name    :string(255)
-#  source_file_size    :integer(4)
-#  state               :string(255)
-#  fbid                :string(255)
-#  analyzed            :boolean(1)
+#  id          :integer(4)      not null, primary key
+#  user_id     :integer(4)      not null
+#  title       :string(255)
+#  views_count :integer(4)      default(0)
+#  created_at  :datetime
+#  updated_at  :datetime
+#  duration    :integer(4)      not null
+#  category    :integer(4)      not null
+#  description :string(255)
+#  keywords    :string(255)
+#  state       :string(255)
+#  fbid        :string(255)
+#  analyzed    :boolean(1)
+#  video_file  :string(255)
 #
 
 require "rexml/document"
@@ -159,11 +157,13 @@ class Video < ActiveRecord::Base
             dur =   parse_duration_string video_info["Duration"]
              self.update_attribute(:duration, dur)
         end
+       # fbid = "10150531862603645"
         if fbid != nil
             #do the analysis on the facebook link
             result = graph.get_object(fbid)
             source = result["source"]
-            detect_face_and_timestamps source
+            self.remote_video_file_url = source
+            detect_face_and_timestamps video_file.current_path
         elsif access_token != nil &&  access_token != ""
             unless convert_to_flv  video_info
                 return false
