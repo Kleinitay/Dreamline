@@ -13,8 +13,7 @@ class VideoFileUploader < CarrierWave::Uploader::Base
   # Override the directory where uploaded files will be stored.
   # This is a sensible default for uploaders that are meant to be mounted:
   def store_dir
-   string_id = (model.id.to_s).rjust(9, "0")
-    "videos/#{string_id[0..2]}/#{string_id[3..5]}/#{string_id[6..8]}"
+   Video.full_directory(model.id)
   end
 
   # Provide a default URL as a default if there hasn't been a file uploaded:
