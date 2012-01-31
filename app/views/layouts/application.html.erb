@@ -32,7 +32,7 @@
 					<div class="signin">
 						<ul>
 										<% if signed_in? %>
-											<li class="create_account sign_in_account"><%=image_tag("https://graph.facebook.com/1460357077/picture",:size=>"23x23",:class=>'profile_pic') %><a href="/users/<%= current_user.id %>/videos">Hi <%= current_user.nick %></a></li>
+											<li class="create_account sign_in_account"><%=image_tag("https://graph.facebook.com/#{current_user.fb_id}/picture",:size=>"23x23",:class=>'profile_pic') %><a href="/users/<%= current_user.id %>/videos">Hi <%= current_user.nick %></a></li>
 											<li class="sign_in" id="header">
 			  							<%= link_to "Sign out", sign_out_path, :method => :delete %>
 			  						<% else %>
