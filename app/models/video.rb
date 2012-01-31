@@ -261,32 +261,32 @@ class Video < ActiveRecord::Base
   end
   
   def self.directory_for_img(video_id)
-      string_id = (video_id.to_s).rjust(9, "0")
-      File.join("#{IMG_VIDEO_PATH}#{string_id[0..2]}","#{string_id[3..5]}","#{string_id[6..8]}" )
+    string_id = (video_id.to_s).rjust(9, "0")
+    File.join("#{IMG_VIDEO_PATH}#{string_id[0..2]}","#{string_id[3..5]}","#{string_id[6..8]}" )
   end
 
   def self.full_directory(video_id)
-      string_id = (video_id.to_s).rjust(9, "0")
-      "#{FULL_VIDEO_PATH}#{string_id[0..2]}/#{string_id[3..5]}/#{string_id[6..8]}"
+    string_id = (video_id.to_s).rjust(9, "0")
+    "#{FULL_VIDEO_PATH}#{string_id[0..2]}/#{string_id[3..5]}/#{string_id[6..8]}"
   end
 
   def self.for_view(id)
-      video = Video.find(id)
-      video[:category_title] = video.category_title
-      video
+    video = Video.find(id)
+    video[:category_title] = video.category_title
+    video
   end
 
   def self.for_fb_view(id)
-      video = Video.find_by_fbid(id)
-      video[:category_title] = video.category_title
-      video
+    video = Video.find_by_fbid(id)
+    video[:category_title] = video.category_title
+    video
   end
 
   # Moozly: the functions gets videos for showing in a list by sort order - latest or most popular  
   def self.get_videos_by_sort(page, order_by, sidebar, limit = MAIN_LIST_LIMIT)
-      sort = order_by == "latest" ? "created_at" : "views_count"
-      vs = Video.paginate(:page => page, :per_page => limit).order("#{sort } desc")
-      populate_videos_with_common_data(vs, sidebar, true) if vs
+    sort = order_by == "latest" ? "created_at" : "views_count"
+    vs = Video.paginate(:page => page, :per_page => limit).order("#{sort } desc")
+    populate_videos_with_common_data(vs, sidebar, true) if vs
   end
 
   # Moozly: the functions gets videos for showing in a list by the video category
@@ -334,10 +334,10 @@ end
     puts cmd
     success = system(cmd)
     if success && $?.exitstatus == 0
-        parse_xml_add_tagees_and_timesegments(get_timestamps_xml_file_name)
-        self.analysed!
+      parse_xml_add_tagees_and_timesegments(get_timestamps_xml_file_name)
+      self.analysed!
     else
-        self.failed!
+      self.failed!
     end
   end
 
@@ -412,15 +412,15 @@ end
     end
 
     def save_taggees
-        video_taggees.each do |t|
-            t.save(false)
-        end
+      video_taggees.each do |t|
+        t.save(false)
+      end
     end
     #___________________________________________taggees handling______________________
 
     def test_facebook_video
-          output_dir = faces_directory
-         "#{MOVIE_FACE_RECOGNITION_EXEC_PATH} Dreamline https://fbcdn-video-a.akamaihd.net/cfs-ak-ash4/348369/702/10150436322608645_35460.mp4?oh=8e1db8c843f46df7b6d08693a0777387&oe=4EEB3C00&__gda__=1324039168_f09d0e23443449ae0c8365e36dab4e53 #{output_dir} #{HAAR_CASCADES_PATH} #{Rails.root.to_s}/public#{thumb_path} #{Rails.root.to_s}/public#{thumb_path_small}"
+      output_dir = faces_directory
+      "#{MOVIE_FACE_RECOGNITION_EXEC_PATH} Dreamline https://fbcdn-video-a.akamaihd.net/cfs-ak-ash4/348369/702/10150436322608645_35460.mp4?oh=8e1db8c843f46df7b6d08693a0777387&oe=4EEB3C00&__gda__=1324039168_f09d0e23443449ae0c8365e36dab4e53 #{output_dir} #{HAAR_CASCADES_PATH} #{Rails.root.to_s}/public#{thumb_path} #{Rails.root.to_s}/public#{thumb_path_small}"
     end
 end
 
