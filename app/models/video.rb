@@ -103,7 +103,7 @@ class Video < ActiveRecord::Base
   end
   
   def fb_uri
-    "fb/id/#{id}-#{PermalinkFu.escape(title)}"
+    "/fb/#{fbid}-#{PermalinkFu.escape(title)}"
   end
   
   def category_uri()
@@ -255,9 +255,9 @@ class Video < ActiveRecord::Base
     "/video/#{id}-#{PermalinkFu.escape(v.title)}"
   end
   
-  def self.fb_uri(id)
+  def self.fb_uri(fb_id)
     v=Video.find_by_fbid(id,:select => 'title')
-    v ? ("/fb/#{id}#{ v.title.empty? ? "" : "-" + PermalinkFu.escape(v.title)}") : "http://facebook.com/#{id}"
+    v ? ("/fb/#{fb_id}#{ v.title.empty? ? "" : "-" + PermalinkFu.escape(v.title)}") : "http://facebook.com/#{fb_id}"
   end
   
   def self.directory_for_img(video_id)

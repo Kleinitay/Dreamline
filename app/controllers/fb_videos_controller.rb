@@ -65,7 +65,7 @@ class FbVideosController < ApplicationController
        if @video.save
          @video.detect_and_convert(fb_graph,fb_access_token)
          flash[:notice] = "Video has been uploaded"
-         redirect_to "/fb/#{@video.id}/edit_tags/new"
+         redirect_to "/fb/#{@video.fbid}/edit_tags/new"
        else
          render 'new'
        end
@@ -75,7 +75,7 @@ class FbVideosController < ApplicationController
   end
 
   def edit
-    @video = Video.find(params[:id])
+    @video = Video.find_by_fbid(params[:fb_id])
   end
 
   def analyze
@@ -99,7 +99,7 @@ class FbVideosController < ApplicationController
   def edit_tags
     #begin
       @new = request.path.index("/new") ? true : false
-      @video = Video.find_by_fbid(params[:id])
+      @video = Video.find_by_fbid(params[:fb_id])
       @page_title = "#{@video.title.titleize} - #{@new ? "Add Tags" : "Edit"} Tags"
       @user = current_user
       @taggees = @video.video_taggees
@@ -123,7 +123,7 @@ class FbVideosController < ApplicationController
  
   def update
     unless !signed_in? || !params[:video]
-      @video = Video.find(params[:id])
+      @video = Video.find(params[:fb_id])
       @new = params[:new]=="new" ? true : false
       existing_taggees = @video.video_taggees_uniq.map(&:fb_id)
       updated_taggees_ids = []
@@ -140,7 +140,7 @@ class FbVideosController < ApplicationController
         redirect_to @video.fb_uri
       end# if update_attributes
     else
-      redirect_to "/"
+      redirect_to "/fb/list"
     end
   end
 
