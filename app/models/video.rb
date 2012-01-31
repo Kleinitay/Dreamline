@@ -143,116 +143,109 @@ class Video < ActiveRecord::Base
   end
 
 
-# run process
-    def detect_and_convert(graph,access_token)
-
-        #@graph_test = Koala::Facebook::API.new(access_token)
-         #result_test = @graph_test.get_object( "10150471094018645")
-         #source_test = result_test["source"]
-        #send_file
-        #detect_face_and_timestamps  source_test
-       # return
-        video_info = get_video_info
-        unless video_info["Duration"].nil?
-          dur = parse_duration_string video_info["Duration"]
-          self.update_attribute(:duration, dur)
-        end
-       # fbid = "10150531862603645"
-        if fbid != nil
-            #do the analysis on the facebook link
-            result = graph.get_object(fbid)
-            source = result["source"]
-            self.remote_video_file_url = source
-            detect_face_and_timestamps video_file.current_path
-        elsif access_token != nil &&  access_token != ""
-          unless convert_to_flv  video_info
-            return false
-          end
-          detect_face_and_timestamps get_flv_file_name
-          result = graph.put_video(get_flv_file_name, {:title => self.title})
-          self.update_attribute(:fbid, result["id"])
-          #  File.delete(get_flv_file_name)
-        else
-          if convert_to_flv       video_info
-                detect_face_and_timestamps get_flv_file_name
-            else
-                false
-            end
-        end
+  # run algorithm process
+  def detect_and_convert(graph,access_token)
+    video_info = get_video_info
+    unless video_info["Duration"].nil?
+      dur = parse_duration_string video_info["Duration"]
+      self.update_attribute(:duration, dur)
     end
-
-    def video_taggees_uniq
-      VideoTaggee.find(:all, :select => "DISTINCT contact_info, fb_id", :conditions => {:video_id => self.id})
+    # fbid = "10150531862603645"
+    if fbid != nil
+      #do the analysis on the facebook link
+      result = graph.get_object(fbid)
+      source = result["source"]
+      self.remote_video_file_url = source
+      detect_face_and_timestamps video_file.current_path
+    elsif access_token != nil &&  access_token != ""
+      unless convert_to_flv  video_info
+        return false
+      end
+      detect_face_and_timestamps get_flv_file_name
+      result = graph.put_video(get_flv_file_name, {:title => self.title})
+      self.update_attribute(:fbid, result["id"])
+      #  File.delete(get_flv_file_name)
+    else
+      if convert_to_flv video_info
+        detect_face_and_timestamps get_flv_file_name
+      else
+        false
+      end
     end
+  end
 
-    def parse_duration_string duration_str
-        minstr = duration_str.slice(/[0-9]+mn/)
-        unless minstr.nil?
-            mins = minstr.slice(/[0-9]+/)
-        end
-        secstr = duration_str.slice(/[0-9]+s/)
-        unless secstr.nil?
-            secs = secstr.slice(/[0-9]+/)
-        end
-        mins.to_i*60+secs.to_i
+  def video_taggees_uniq
+    VideoTaggee.find(:all, :select => "DISTINCT contact_info, fb_id", :conditions => {:video_id => self.id})
+  end
+
+  def parse_duration_string duration_str
+    minstr = duration_str.slice(/[0-9]+mn/)
+    unless minstr.nil?
+      mins = minstr.slice(/[0-9]+/)
     end
+    secstr = duration_str.slice(/[0-9]+s/)
+    unless secstr.nil?
+      secs = secstr.slice(/[0-9]+/)
+    end
+    mins.to_i*60+secs.to_i
+  end
 # _____________________________________________ FLV conversion functions _______________________
 
   def convert_to_flv  video_info
-      self.convert_to_flv!
-      success = system(convert_command video_info)
-      if success && $?.exitstatus == 0
-          self.converted!
-      else
-          self.failed!
-      end
+    self.convert_to_flv!
+    success = system(convert_command video_info)
+    if success && $?.exitstatus == 0
+        self.converted!
+    else
+        self.failed!
+    end
   end
 
   def set_new_filename
-      #update_attribute(:source_file_name, "#{id}.flv")
-     self.video_file = File.open(get_flv_file_name)
+    #update_attribute(:source_file_name, "#{id}.flv")
+    self.video_file = File.open(get_flv_file_name)
   end
 
   def get_flv_file_name
-      dirname = Video.full_directory(id)
-      File.join(dirname, "#{id}.flv")
+    dirname = Video.full_directory(id)
+    File.join(dirname, "#{id}.flv")
   end
 
   def convert_command  video_info
-      output_file = self.get_flv_file_name
-      File.open(output_file, 'w')
-      command = <<-end_command
+    output_file = self.get_flv_file_name
+    File.open(output_file, 'w')
+    command = <<-end_command
     ffmpeg -i #{ video_file.current_path } #{get_video_rotation_cmd video_info['Rotation']} -ar 22050 -ab 32 -acodec libmp3lame -s 480x360 -vcodec flv -r 25 -qscale 8 -f flv -y #{ output_file }
-      end_command
-      command.gsub!(/\s+/, " ")
+    end_command
+    command.gsub!(/\s+/, " ")
   end
 
-    def get_video_info
-         mediainfo_path = File.join( Rails.root, "Mediainfo", "Mediainfo")
-        response =`mediainfo #{video_file.current_path} --output=xml 2>&1`
-         if response == nil
-             return
-         end
-        xml_hash = Hash.from_xml response
-        xml_hash['Mediainfo']['File']['track'][1]
+  def get_video_info
+    mediainfo_path = File.join( Rails.root, "Mediainfo", "Mediainfo")
+    response =`mediainfo #{video_file.current_path} --output=xml 2>&1`
+    if response == nil
+      return
     end
+    xml_hash = Hash.from_xml response
+    xml_hash['Mediainfo']['File']['track'][1]
+  end
 
-    def get_video_rotation_cmd  degrees=nil
-        #mediainfo_path = File.join( Rails.root, "Mediainfo", "Mediainfo")
-        #response =`#{mediainfo_path} #{source.path} --output=json 2>&1`
-       # response = response.gsub(/ /,'')
-        if degrees.nil? || degrees == ""
-                    return ""
-        elsif degrees[0,2] == "18"
-            return "-vf transpose=3"
-        elsif degrees[0,2] == "27"
-            return "-vf transpose=1"
-        elsif degrees[0,2] == "90"
-            return "-vf transpose=0"
-        else
-            return ""
-        end
+  def get_video_rotation_cmd  degrees=nil
+    #mediainfo_path = File.join( Rails.root, "Mediainfo", "Mediainfo")
+    #response =`#{mediainfo_path} #{source.path} --output=json 2>&1`
+    # response = response.gsub(/ /,'')
+    if degrees.nil? || degrees == ""
+                return ""
+    elsif degrees[0,2] == "18"
+        return "-vf transpose=3"
+    elsif degrees[0,2] == "27"
+        return "-vf transpose=1"
+    elsif degrees[0,2] == "90"
+        return "-vf transpose=0"
+    else
+        return ""
     end
+  end
 # _____________________________________________ FLV conversion functions _______________________
 
 
