@@ -22,8 +22,9 @@ class FbVideosController < ApplicationController
     @videos = fb_graph.get_connections(current_user.fb_id,'videos/uploaded')
     app_fb_ids = Video.all(:conditions => {:user_id => current_user.id}, :select => "fbid").map(&:fbid)
     @videos.each do |v|
-      v["analayzed"] = app_fb_ids.include? v["id"] ? 1 : 0
-      v["href"] = Video.fb_uri(v["id"])
+      v["analayzed"] = (app_fb_ids.include? v["id"]) ? true : false
+      v["button_title"] = v["analayzed"] ? "Edit Tags" : "Vtag this video"
+      v["href_part"] = "/fb/#{v['id']}/#{v['analayzed'] ? 'edit_tags' : 'analyze'}"
     end
     #get_sidebar_data
 
@@ -98,7 +99,7 @@ class FbVideosController < ApplicationController
   def edit_tags
     #begin
       @new = request.path.index("/new") ? true : false
-      @video = Video.find(params[:id])
+      @video = Video.find_by_fbid(params[:id])
       @page_title = "#{@video.title.titleize} - #{@new ? "Add Tags" : "Edit"} Tags"
       @user = current_user
       @taggees = @video.video_taggees

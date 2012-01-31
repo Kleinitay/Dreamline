@@ -9,11 +9,7 @@
 				<div class="video_thumb"><a href="<%= Video.fb_uri(v["id"]) %>"><img src="<%= v["picture"] %>" width="90" height="48" alt="<%= v["name"] %>" /></a></div>
 				<div class="video_title"><a href="<%= Video.fb_uri(v["id"]) %>"><%= v["name"] %></a></div>
 				<div class="tag_button">
-					<% href_part = v["analayzed"] ? "edit_tags" : "analyze" %>
-					<% title = v["analayzed"] ? "Edit Tags" : "Vtag this video" %>
-					<a class="vtag_butt radious_6" id="tag_button_<%= index+1 %>" href="/fb/<%=v["id"]%>/<%= href_part %>"><%= title %></a>
-					<!--<a href="/fb/<%#=v["id"]%>/edit_tags" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('tag_button_<%= index+1 %>','','/images/fb/tag_button_on.gif',1)"><img src="/images/fb/tag_button.gif" alt="Vtag" name="tag_button" width="156" height="34" border="0" id="tag_button_<%= index+1 %>" />
-					</a>-->
+					<a class="vtag_butt radious_6" id="tag_button_<%= index+1 %>" href="<%= v["href_part"] %>"><%= v["button_title"] %></a>
 				</div>
 			</li>
 		<% end %>
