@@ -32,7 +32,7 @@ class Video < ActiveRecord::Base
 
   has_many :comments
 
- mount_uploader :video_file, VideoFileUploader
+  mount_uploader :video_file, VideoFileUploader
   # has_permalink :title, :as => :uri, :update => true
   # Check Why doesn't work??
 
@@ -56,29 +56,29 @@ class Video < ActiveRecord::Base
   state :error
 
   event :convert_to_flv do
-      transitions :from => :pending, :to => :converting
-      transitions :from => :analysed, :to => :converting
+    transitions :from => :pending, :to => :converting
+    transitions :from => :analysed, :to => :converting
   end
 
   event :converted do
-      transitions :from => :converting, :to => :converted
+    transitions :from => :converting, :to => :converted
   end
 
   event :failed do
-      transitions :from => :converting, :to => :error
+    transitions :from => :converting, :to => :error
   end
 
   event :analyse do
-      transitions :from => :pending, :to => :analysing
+    transitions :from => :pending, :to => :analysing
   end
 
   event :analysed do
-      transitions :from => :analysing, :to => :analysed
+    transitions :from => :analysing, :to => :analysed
   end
 
   event :analyse do
-      transitions :from => :converted, :to => :analysing
-      transitions :from => :pending, :to => :analysing
+    transitions :from => :converted, :to => :analysing
+    transitions :from => :pending, :to => :analysing
   end
 
 
@@ -97,11 +97,11 @@ class Video < ActiveRecord::Base
 
 #------------------------------------------------------ Instance methods -------------------------------------------------------
   def add_new_video(user_id, title)
-      Video.create(:user_id => user_id, :title => title)
+    Video.create(:user_id => user_id, :title => title)
   end
 
   def uri
-      "/video/#{id}-#{PermalinkFu.escape(title)}"
+    "/video/#{id}-#{PermalinkFu.escape(title)}"
   end
   
   def fb_uri
@@ -109,39 +109,39 @@ class Video < ActiveRecord::Base
   end
   
   def category_uri()
-      "/video/#{category_tag}"
+    "/video/#{category_tag}"
   end
 
   def category_tag
-      CATEGORIES[category]
+    CATEGORIES[category]
   end
 
   def category_title
-      category_tag.titleize
+    category_tag.titleize
   end
 
   # Moozly: path for saving temp origion uploaded video
   def path_for_origin
-      string_id = (id.to_s).rjust(9, "0")
-      "#{IMG_VIDEO_PATH}#{string_id[0..2]}/#{string_id[3..5]}/#{string_id[6..8]}/#{id}"
+    string_id = (id.to_s).rjust(9, "0")
+    "#{IMG_VIDEO_PATH}#{string_id[0..2]}/#{string_id[3..5]}/#{string_id[6..8]}/#{id}"
   end
 
   def thumb_path
-      File.join(Video.directory_for_img(id), "thumbnail.jpg")
+    File.join(Video.directory_for_img(id), "thumbnail.jpg")
   end
 
   def thumb_path_small
-      File.join(Video.directory_for_img(id), "thumbnail_small.jpg")
+    File.join(Video.directory_for_img(id), "thumbnail_small.jpg")
   end
 
-    def thumb_src
-      thumb = thumb_path
-      FileTest.exists?("#{Rails.root.to_s}/public/#{thumb}") ? thumb : "#{DEFAULT_IMG_PATH}thumbnail.jpg"
+  def thumb_src
+    thumb = thumb_path
+    FileTest.exists?("#{Rails.root.to_s}/public/#{thumb}") ? thumb : "#{DEFAULT_IMG_PATH}thumbnail.jpg"
   end
 
   def thumb_small_src
-      thumb = thumb_path_small
-      FileTest.exists?("#{Rails.root.to_s}/public/#{thumb}") ? thumb : "#{DEFAULT_IMG_PATH}thumbnail_small.jpg"
+    thumb = thumb_path_small
+    FileTest.exists?("#{Rails.root.to_s}/public/#{thumb}") ? thumb : "#{DEFAULT_IMG_PATH}thumbnail_small.jpg"
   end
 
 
@@ -156,8 +156,8 @@ class Video < ActiveRecord::Base
        # return
         video_info = get_video_info
         unless video_info["Duration"].nil?
-            dur =   parse_duration_string video_info["Duration"]
-             self.update_attribute(:duration, dur)
+          dur = parse_duration_string video_info["Duration"]
+          self.update_attribute(:duration, dur)
         end
         if fbid != nil
             #do the analysis on the facebook link
@@ -165,15 +165,15 @@ class Video < ActiveRecord::Base
             source = result["source"]
             detect_face_and_timestamps source
         elsif access_token != nil &&  access_token != ""
-            unless convert_to_flv  video_info
-                return false
-            end
-            detect_face_and_timestamps get_flv_file_name
-            result = graph.put_video(get_flv_file_name, {:title => self.title})
-            self.update_attribute(:fbid, result["id"])
+          unless convert_to_flv  video_info
+            return false
+          end
+          detect_face_and_timestamps get_flv_file_name
+          result = graph.put_video(get_flv_file_name, {:title => self.title})
+          self.update_attribute(:fbid, result["id"])
           #  File.delete(get_flv_file_name)
         else
-            if convert_to_flv       video_info
+          if convert_to_flv       video_info
                 detect_face_and_timestamps get_flv_file_name
             else
                 false
@@ -185,7 +185,7 @@ class Video < ActiveRecord::Base
       VideoTaggee.find(:all, :select => "DISTINCT contact_info, fb_id", :conditions => {:video_id => self.id})
     end
 
-    def parse_duration_string   duration_str
+    def parse_duration_string duration_str
         minstr = duration_str.slice(/[0-9]+mn/)
         unless minstr.nil?
             mins = minstr.slice(/[0-9]+/)
