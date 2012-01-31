@@ -256,7 +256,7 @@ class Video < ActiveRecord::Base
   end
   
   def self.fb_uri(fb_id)
-    v=Video.find_by_fbid(id,:select => 'title')
+    v=Video.find_by_fbid(fb_id,:select => 'title')
     v ? ("/fb/#{fb_id}#{ v.title.empty? ? "" : "-" + PermalinkFu.escape(v.title)}") : "http://facebook.com/#{fb_id}"
   end
   
