@@ -1,18 +1,16 @@
-
-	<!--<div class="left_sidebar"></div>-->
 		
 <div class="vtag_video wrapper">
-<h2>Vtag a video</h2>
-	<ul id="video_list">
-		<% @videos.each_with_index do |v,index|%>
-			<li>
-				<div class="video_thumb"><a href="<%= Video.fb_uri(v["id"]) %>"><img src="<%= v["picture"] %>" width="90" height="48" alt="<%= v["name"] %>" /></a></div>
-				<div class="video_title"><a href="<%= Video.fb_uri(v["id"]) %>"><%= v["name"] %></a></div>
-				<div class="tag_button">
-					<a class="vtag_butt radious_6" id="tag_button_<%= index+1 %>" href="<%= v["href_part"] %>"><%= v["button_title"] %></a>
-				</div>
-			</li>
-		<% end %>
-	</ul>
+	<h2>Vtag a video</h2>
+		<ul id="video_list">
+			<% @videos.each_with_index do |v,index|%>
+				<li>
+					<div class="video_thumb"><a href="<%= Video.fb_uri(v["id"]) %>"><img src="<%= v["picture"] %>" width="90" height="48" alt="<%= v["name"] %>" /></a></div>
+					<div class="video_title"><a href="<%= Video.fb_uri(v["id"]) %>"><%= v["name"] %></a></div>
+					<div class="tag_button">
+						<a class="vtag_butt radious_6" id="tag_button_<%= index+1 %>" href="<%= v["href_part"] %>"><%= v["button_title"] %></a>
+					</div>
+				</li>
+			<% end %>
+		</ul>
 </div>	
 
