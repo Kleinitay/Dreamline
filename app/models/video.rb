@@ -20,6 +20,8 @@
 
 require "rexml/document"
 require 'carrierwave/orm/activerecord'
+require 'openssl'
+OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
 class Video < ActiveRecord::Base
 
   belongs_to :user
@@ -99,10 +101,16 @@ class Video < ActiveRecord::Base
   end
 
   def uri
+    if title.nil?
+     self.title = ""
+    end
     "/video/#{id}-#{PermalinkFu.escape(title)}"
   end
   
   def fb_uri
+    if title.nil?
+      self.title = ""
+    end
     "/fb/#{fbid}-#{PermalinkFu.escape(title)}"
   end
   
@@ -144,33 +152,33 @@ class Video < ActiveRecord::Base
 
 
   # run algorithm process
-  def detect_and_convert(graph,access_token)
+  def detect_and_convert(graph, access_token)
+    # fbid = "10150531862603645"
+    #if video is aquired from Facebook fetch it using carrierwave
+    if fbid != nil
+      result = graph.get_object(fbid)
+      source = result["source"]
+      self.remote_video_file_url = source
+      title = result["title"]
+    end
+    #get the video properties using mediainfo
     video_info = get_video_info
     unless video_info["Duration"].nil?
       dur = parse_duration_string video_info["Duration"]
       self.update_attribute(:duration, dur)
     end
-    # fbid = "10150531862603645"
-    if fbid != nil
-      #do the analysis on the facebook link
-      result = graph.get_object(fbid)
-      source = result["source"]
-      self.remote_video_file_url = source
-      detect_face_and_timestamps video_file.current_path
-    elsif access_token != nil &&  access_token != ""
-      unless convert_to_flv  video_info
+    #Should we skip this step? TBD
+    #if fbid.nil?
+      unless convert_to_flv video_info
         return false
       end
-      detect_face_and_timestamps get_flv_file_name
-      result = graph.put_video(get_flv_file_name, {:title => self.title})
+    #end
+    #perform the face detection
+    detect_face_and_timestamps video_file.current_path
+    #if video not in facebook and user is logged in to facebook upload video to facebook
+    if access_token != nil && access_token != "" && fbid.nil?
+      result = graph.put_video(get_flv_file_name, { :title => self.title })
       self.update_attribute(:fbid, result["id"])
-      #  File.delete(get_flv_file_name)
-    else
-      if convert_to_flv video_info
-        detect_face_and_timestamps get_flv_file_name
-      else
-        false
-      end
     end
   end
 
@@ -257,7 +265,7 @@ class Video < ActiveRecord::Base
   
   def self.fb_uri(fb_id)
     v=Video.find_by_fbid(fb_id,:select => 'title')
-    v ? ("/fb/#{fb_id}#{ v.title.empty? ? "" : "-" + PermalinkFu.escape(v.title)}") : "http://facebook.com/#{fb_id}"
+    v ? ("/fb/#{fb_id}#{ v.title.nil? || v.title.empty? ? "" : "-" + PermalinkFu.escape(v.title)}") : "http://facebook.com/#{fb_id}"
   end
   
   def self.directory_for_img(video_id)
