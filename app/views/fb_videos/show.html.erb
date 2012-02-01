@@ -1,57 +1,97 @@
-<div id="title-video">
-	<h1><%= @video.title %></h1>
-	<div class="uploader-info"> <!--option for a plus image to add to fav-->
-		<a href="/users/<%= @user.id %>/videos">by :  <%= @user.nick %></a>
-	</div>
+<!--  tempppppppppp-------->
+
+<head>
+	<title> VtagO - "<%= @video.title %>"</title>
+
+</head>
+
+<body class="bg-body-v">
+<!--Content Section -->
+	<div id="content_sec">
+		<div id="left_content">
+			<div id="banner_slider">
+				<div id="title-video">
+					<h1><%= @video.title %></h1>
+					<div class="uploader-info"> <!--option for a plus image to add to fav-->
+						<a href="/users/<%= @user.id %>/videos">by :  <%= @user.nick %></a>
+					</div>
+				</div>
+				<div class="video-slider">
+					<a href="<%=@video.path_for_origin%>.flv" style="display:block;width:629px;height:353px;" id="player"></a>
+					<script language="JavaScript">
+						flowplayer("player", "/flowplayer.swf", {
+                        clip: {
+                        scaling: "fit"
+                       }
+            });
+					</script>
+				</div>
+			</div>
+			<div class="panel-video">
+				<div class="embed-code">
+					<textarea rows="" cols=""><%= "http://www.vtago#{@video.uri}" %></textarea>
+					<!--label><input 	type="checkbox" />Short URL</label-->
+				</div>
+				<div class="panel-right"><h3><strong>81,387,378</strong> views</h3></div>
+			</div>
+			<div class="share-panel">
+				<em class="shout-out">&nbsp;</em>
+				<div class="social-connect">
+					<div class="twitter"><a href="#"><img src="/images/bg-tweet.gif" alt="" /></a></div>
+					<div class="facebook"><a href="#"><img src="/images/bg-facebook.gif" alt="" /></a></div>
+				</div>
+				<div class="social-network-group">
+					<ul>
+						<!--li><a href="#"><img src="/images/icon-social-1.png" alt="" /></a></li-->
+						<li><a href="#"><img src="/images/icon-social-2.png" alt="" /></a></li>
+						<li><a href="#"><img src="/images/icon-social-3.png" alt="" /></a></li>
+						<li><a href="#"><img src="/images/icon-social-4.png" alt="" /></a></li>
+						<!--li><a href="#"><img src="/images/icon-social-5.png" alt="" /></a></li-->
+						<!--li><a href="#"><img src="/images/icon-social-6.png" alt="" /></a></li-->
+						<!--li><a href="#"><img src="/images/icon-social-7.png" alt="" /></a></li-->
+						<!--li><a href="#"><img src="/images/icon-social-8.png" alt="" /></a></li-->
+						<!--li><a href="#"><img src="/images/icon-social-9.png" alt="" /></a></li-->
+						<!--li><a href="#"><img src="/images/icon-social-10.png" alt="" /></a></li-->
+						<!--li><a href="#"><img src="/images/icon-social-11.png" alt="" /></a></li-->
+						<!--li><a href="#"><img src="/images/icon-social-12.png" alt="" /></a></li-->
+					</ul>
+				</div>
+			</div>
+			<div id="in_this_video">
+				<h2>In this video:</h2>
+				<div id="tagged">
+					<% @video.video_taggees_uniq.each do |taggee| %>
+						<% if taggee.contact_info != "" %>
+							<% href = "href=#{FacebookHelper::FACEBOOK_URL}/#{taggee.fb_id}" if taggee.fb_id %>
+							<a <%= href %>><%= taggee.contact_info %></a>
+						<% end %>
+					<% end %>
+				</div>
+				</br>
+			</div>
+			<div class="panel-video">
+				<div class="panel-left">
+					<ul>
+						<!--li><a href="#" class="panl-1">Recommand</a></li-->
+						<li><a class="panl-2" onclick="<%= signed_in? ? 'show_comment_form();' : 'alert("You must be logged in for adding a comment");' %>">Comment</a></li>
+						<% if @own_videos %>
+							<li><a href="/video/<%= @video.id %>/edit" class="panl-4">Edit Video</a></li>
+							<li><a href="/video/<%= @video.id %>/edit_tags" class="panl-4">Edit Tags</a></li>
+						<% end %>
+						<!--li><a href="#" class="panl-5">Flag</a></li-->
+					</ul>
+				</div>
+			</div>
+				<%#= render :partial => "comments/comment_form" %>
+			<div class="video-info">
+				<div class="left-info-box">
+					<ul>
+						<li class="nobg">Uploaded by <a href="#"><%=@user.nick %></a> on <%= @video.created_at.strftime("%b %d, %Y, %I:%m %p") %></li>
+						<li>Category: <a href="<%= @video.category_uri %>"><%= @video.category_title %></a></li>
+					</ul>
+				</div>
+			</div>
 </div>
-<div class="video-slider">
-	<a href="<%=@video.path_for_origin%>.flv" style="display:block;width:629px;height:353px;" id="player"></a>
-	<script language="JavaScript">
-	flowplayer("player", "/flowplayer.swf", {
-		clip: {
-			scaling: "fit"
-		}
-	});
-	</script>
-</div>
-<div>
-	<div>
-		<textarea rows="" cols=""><%= "http://www.vtago#{@video.uri}" %></textarea>
-		<!--label><input 	type="checkbox" />Short URL</label-->
-	</div>
-	<div class="panel-right"><h3><strong>81,387,378</strong> views</h3></div>
-</div>
-<div>
-	<h2>In this video:</h2>
-	<div id="tagged">
-		<% @video.video_taggees_uniq.each do |taggee| %>
-		<% if taggee.contact_info != "" %>
-		<% href = "href=#{FacebookHelper::FACEBOOK_URL}/#{taggee.fb_id}" if taggee.fb_id %>
-		<a <%= href %>><%= taggee.contact_info %></a>
-		<% end %>
-		<% end %>
-	</div>
-</br>
-</div>
-<div>
-	<div>
-		<ul>
-			<!--li><a href="#" class="panl-1">Recommand</a></li-->
-			<li><a class="panl-2" onclick="<%= signed_in? ? 'show_comment_form();' : 'alert("You must be logged in for adding a comment");' %>">Comment</a></li>
-			<% if @own_videos %>
-			<li><a href="/video/<%= @video.id %>/edit" class="panl-4">Edit Video</a></li>
-			<li><a href="/video/<%= @video.id %>/edit_tags" class="panl-4">Edit Tags</a></li>
-			<% end %>
-			<!--li><a href="#" class="panl-5">Flag</a></li-->
-		</ul>
-	</div>
-</div>
-<%#= render :partial => "comments/comment_form" %>
-<div>
-	<div>
-		<ul>
-			<li class="nobg">Uploaded by <a href="#"><%=@user.nick %></a> on <%= @video.created_at.strftime("%b %d, %Y, %I:%m %p") %></li>
-			<li>Category: <a href="<%= @video.category_uri %>"><%= @video.category_title %></a></li>
-		</ul>
-	</div>
-</div>
+<!--Content Section End -->
+ </div>
+</body>

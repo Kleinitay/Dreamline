@@ -2,26 +2,26 @@
 #
 # Table name: videos
 #
-#  id          :integer(4)      not null, primary key
-#  user_id     :integer(4)      not null
-#  title       :string(255)
-#  views_count :integer(4)      default(0)
-#  created_at  :datetime
-#  updated_at  :datetime
-#  duration    :integer(4)      not null
-#  category    :integer(4)      not null
-#  description :string(255)
-#  keywords    :string(255)
-#  state       :string(255)
-#  fbid        :string(255)
-#  analyzed    :boolean(1)
-#  video_file  :string(255)
+#  id                  :integer(4)      not null, primary key
+#  user_id             :integer(4)      not null
+#  title               :string(255)
+#  views_count         :integer(4)      default(0)
+#  created_at          :datetime
+#  updated_at          :datetime
+#  duration            :integer(4)      not null
+#  category            :integer(4)      not null
+#  description         :string(255)
+#  keywords            :string(255)
+#  source_content_type :string(255)
+#  source_file_name    :string(255)
+#  source_file_size    :integer(4)
+#  state               :string(255)
+#  fbid                :string(255)
+#  analyzed            :boolean(1)
 #
 
 require "rexml/document"
-require 'carrierwave/orm/activerecord'
-require 'openssl'
-OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
+require "net/ftp"
 class Video < ActiveRecord::Base
 
   belongs_to :user
@@ -32,16 +32,16 @@ class Video < ActiveRecord::Base
 
   has_many :comments
 
-  mount_uploader :video_file, VideoFileUploader
+
   # has_permalink :title, :as => :uri, :update => true
   # Check Why doesn't work??
 
   # Paperclip
   # http://www.thoughtbot.com/projects/paperclip
-  #has_attached_file :source, :url => :path_for_origin
+  has_attached_file :source, :url => :path_for_origin
 
   # Paperclip Validations
-  #validates_attachment_presence :source
+  validates_attachment_presence :source
   #validates_attachment_content_type :source, :content_type => 'video'
 
   after_update :save_taggees
@@ -56,29 +56,29 @@ class Video < ActiveRecord::Base
   state :error
 
   event :convert_to_flv do
-    transitions :from => :pending, :to => :converting
-    transitions :from => :analysed, :to => :converting
+      transitions :from => :pending, :to => :converting
+      transitions :from => :analysed, :to => :converting
   end
 
   event :converted do
-    transitions :from => :converting, :to => :converted
+      transitions :from => :converting, :to => :converted
   end
 
   event :failed do
-    transitions :from => :converting, :to => :error
+      transitions :from => :converting, :to => :error
   end
 
   event :analyse do
-    transitions :from => :pending, :to => :analysing
+      transitions :from => :pending, :to => :analysing
   end
 
   event :analysed do
-    transitions :from => :analysing, :to => :analysed
+      transitions :from => :analysing, :to => :analysed
   end
 
   event :analyse do
-    transitions :from => :converted, :to => :analysing
-    transitions :from => :pending, :to => :analysing
+      transitions :from => :converted, :to => :analysing
+      transitions :from => :pending, :to => :analysing
   end
 
 
@@ -97,163 +97,165 @@ class Video < ActiveRecord::Base
 
 #------------------------------------------------------ Instance methods -------------------------------------------------------
   def add_new_video(user_id, title)
-    Video.create(:user_id => user_id, :title => title)
+      Video.create(:user_id => user_id, :title => title)
   end
 
   def uri
-    if title.nil?
-     self.title = ""
-    end
-    "/video/#{id}-#{PermalinkFu.escape(title)}"
+      "/video/#{id}-#{PermalinkFu.escape(title)}"
   end
   
   def fb_uri
-    if title.nil?
-      self.title = ""
-    end
-    "/fb/#{fbid}-#{PermalinkFu.escape(title)}"
+    "fb/id/#{id}-#{PermalinkFu.escape(title)}"
   end
   
   def category_uri()
-    "/video/#{category_tag}"
+      "/video/#{category_tag}"
   end
 
   def category_tag
-    CATEGORIES[category]
+      CATEGORIES[category]
   end
 
   def category_title
-    category_tag.titleize
+      category_tag.titleize
   end
 
   # Moozly: path for saving temp origion uploaded video
   def path_for_origin
-    string_id = (id.to_s).rjust(9, "0")
-    "#{IMG_VIDEO_PATH}#{string_id[0..2]}/#{string_id[3..5]}/#{string_id[6..8]}/#{id}"
+      string_id = (id.to_s).rjust(9, "0")
+      "#{IMG_VIDEO_PATH}#{string_id[0..2]}/#{string_id[3..5]}/#{string_id[6..8]}/#{id}"
   end
 
   def thumb_path
-    File.join(Video.directory_for_img(id), "thumbnail.jpg")
+      File.join(Video.directory_for_img(id), "thumbnail.jpg")
   end
 
   def thumb_path_small
-    File.join(Video.directory_for_img(id), "thumbnail_small.jpg")
+      File.join(Video.directory_for_img(id), "thumbnail_small.jpg")
   end
 
-  def thumb_src
-    thumb = thumb_path
-    FileTest.exists?("#{Rails.root.to_s}/public/#{thumb}") ? thumb : "#{DEFAULT_IMG_PATH}thumbnail.jpg"
+    def thumb_src
+      thumb = thumb_path
+      FileTest.exists?("#{Rails.root.to_s}/public/#{thumb}") ? thumb : "#{DEFAULT_IMG_PATH}thumbnail.jpg"
   end
 
   def thumb_small_src
-    thumb = thumb_path_small
-    FileTest.exists?("#{Rails.root.to_s}/public/#{thumb}") ? thumb : "#{DEFAULT_IMG_PATH}thumbnail_small.jpg"
+      thumb = thumb_path_small
+      FileTest.exists?("#{Rails.root.to_s}/public/#{thumb}") ? thumb : "#{DEFAULT_IMG_PATH}thumbnail_small.jpg"
   end
 
 
-  # run algorithm process
-  def detect_and_convert(graph, access_token)
-    # fbid = "10150531862603645"
-    #if video is aquired from Facebook fetch it using carrierwave
-    if fbid != nil
-      result = graph.get_object(fbid)
-      source = result["source"]
-      self.remote_video_file_url = source
-      title = result["title"]
-    end
-    #get the video properties using mediainfo
-    video_info = get_video_info
-    unless video_info["Duration"].nil?
-      dur = parse_duration_string video_info["Duration"]
-      self.update_attribute(:duration, dur)
-    end
-    #Should we skip this step? TBD
-    #if fbid.nil?
-      unless convert_to_flv video_info
-        return false
-      end
-    #end
-    #perform the face detection
-    detect_face_and_timestamps video_file.current_path
-    #if video not in facebook and user is logged in to facebook upload video to facebook
-    if access_token != nil && access_token != "" && fbid.nil?
-      result = graph.put_video(get_flv_file_name, { :title => self.title })
-      self.update_attribute(:fbid, result["id"])
-    end
-  end
+# run process
+    def detect_and_convert(graph,access_token)
 
-  def video_taggees_uniq
-    VideoTaggee.find(:all, :select => "DISTINCT contact_info, fb_id", :conditions => {:video_id => self.id})
-  end
+        #@graph_test = Koala::Facebook::API.new(access_token)
+         #result_test = @graph_test.get_object( "10150471094018645")
+         #source_test = result_test["source"]
+        #send_file
+        #detect_face_and_timestamps  source_test
+       # return
+        video_info = get_video_info
+        unless video_info["Duration"].nil?
+            dur =   parse_duration_string video_info["Duration"]
+             self.update_attribute(:duration, dur)
+        end
+        if fbid != nil
+            #do the analysis on the facebook link
+            result = graph.get_object(fbid)
+            source = result["source"]
+            detect_face_and_timestamps source
+        elsif access_token != nil &&  access_token != ""
+            unless convert_to_flv  video_info
+                return false
+            end
+            detect_face_and_timestamps get_flv_file_name
+            result = graph.put_video(get_flv_file_name, {:title => self.title})
+            self.update_attribute(:fbid, result["id"])
+          #  File.delete(get_flv_file_name)
+        else
+            if convert_to_flv       video_info
+                detect_face_and_timestamps get_flv_file_name
+            else
+                false
+            end
+        end
+    end
 
-  def parse_duration_string duration_str
-    minstr = duration_str.slice(/[0-9]+mn/)
-    unless minstr.nil?
-      mins = minstr.slice(/[0-9]+/)
+    def video_taggees_uniq
+      VideoTaggee.find(:all, :select => "DISTINCT contact_info, fb_id", :conditions => {:video_id => self.id})
     end
-    secstr = duration_str.slice(/[0-9]+s/)
-    unless secstr.nil?
-      secs = secstr.slice(/[0-9]+/)
+
+    def parse_duration_string   duration_str
+        minstr = duration_str.slice(/[0-9]+mn/)
+        unless minstr.nil?
+            mins = minstr.slice(/[0-9]+/)
+        end
+        secstr = duration_str.slice(/[0-9]+s/)
+        unless secstr.nil?
+            secs = secstr.slice(/[0-9]+/)
+        end
+        mins.to_i*60+secs.to_i
     end
-    mins.to_i*60+secs.to_i
-  end
 # _____________________________________________ FLV conversion functions _______________________
 
   def convert_to_flv  video_info
-    self.convert_to_flv!
-    success = system(convert_command video_info)
-    if success && $?.exitstatus == 0
-        self.converted!
-    else
-        self.failed!
-    end
+      self.convert_to_flv!
+      success = system(convert_command video_info)
+      if success && $?.exitstatus == 0
+          self.converted!
+      else
+          self.failed!
+      end
   end
 
   def set_new_filename
-    #update_attribute(:source_file_name, "#{id}.flv")
-    self.video_file = File.open(get_flv_file_name)
+      update_attribute(:source_file_name, "#{id}.flv")
   end
 
+    def set_rotated_filename
+        update_attribute(:source_file_name, "#{id}_rotated")
+    end
+
   def get_flv_file_name
-    dirname = Video.full_directory(id)
-    File.join(dirname, "#{id}.flv")
+      dirname = Video.full_directory(id)
+      File.join(dirname, "#{id}.flv")
   end
 
   def convert_command  video_info
-    output_file = self.get_flv_file_name
-    File.open(output_file, 'w')
-    command = <<-end_command
-    ffmpeg -i #{ video_file.current_path } #{get_video_rotation_cmd video_info['Rotation']} -ar 22050 -ab 32 -acodec libmp3lame -s 480x360 -vcodec flv -r 25 -qscale 8 -f flv -y #{ output_file }
-    end_command
-    command.gsub!(/\s+/, " ")
+      output_file = self.get_flv_file_name
+      File.open(output_file, 'w')
+      command = <<-end_command
+    ffmpeg -i #{ source.path } #{get_video_rotation_cmd video_info['Rotation']} -ar 22050 -ab 32 -acodec libmp3lame -s 480x360 -vcodec flv -r 25 -qscale 8 -f flv -y #{ output_file }
+      end_command
+      command.gsub!(/\s+/, " ")
   end
 
-  def get_video_info
-    mediainfo_path = File.join( Rails.root, "Mediainfo", "Mediainfo")
-    response =`mediainfo #{video_file.current_path} --output=xml 2>&1`
-    if response == nil
-      return
+    def get_video_info
+         mediainfo_path = File.join( Rails.root, "Mediainfo", "Mediainfo")
+        response =`mediainfo #{source.path} --output=xml 2>&1`
+         if response == nil
+             return
+         end
+        xml_hash = Hash.from_xml response
+        xml_hash['Mediainfo']['File']['track'][1]
     end
-    xml_hash = Hash.from_xml response
-    xml_hash['Mediainfo']['File']['track'][1]
-  end
 
-  def get_video_rotation_cmd  degrees=nil
-    #mediainfo_path = File.join( Rails.root, "Mediainfo", "Mediainfo")
-    #response =`#{mediainfo_path} #{source.path} --output=json 2>&1`
-    # response = response.gsub(/ /,'')
-    if degrees.nil? || degrees == ""
-                return ""
-    elsif degrees[0,2] == "18"
-        return "-vf transpose=3"
-    elsif degrees[0,2] == "27"
-        return "-vf transpose=1"
-    elsif degrees[0,2] == "90"
-        return "-vf transpose=0"
-    else
-        return ""
+    def get_video_rotation_cmd  degrees=nil
+        #mediainfo_path = File.join( Rails.root, "Mediainfo", "Mediainfo")
+        #response =`#{mediainfo_path} #{source.path} --output=json 2>&1`
+       # response = response.gsub(/ /,'')
+        if degrees.nil? || degrees == ""
+                    return ""
+        elsif degrees[0,2] == "18"
+            return "-vf transpose=3"
+        elsif degrees[0,2] == "27"
+            return "-vf transpose=1"
+        elsif degrees[0,2] == "90"
+            return "-vf transpose=0"
+        else
+            return ""
+        end
     end
-  end
 # _____________________________________________ FLV conversion functions _______________________
 
 
@@ -263,38 +265,38 @@ class Video < ActiveRecord::Base
     "/video/#{id}-#{PermalinkFu.escape(v.title)}"
   end
   
-  def self.fb_uri(fb_id)
-    v=Video.find_by_fbid(fb_id,:select => 'title')
-    v ? ("/fb/#{fb_id}#{ v.title.nil? || v.title.empty? ? "" : "-" + PermalinkFu.escape(v.title)}") : "http://facebook.com/#{fb_id}"
+  def self.fb_uri(id)
+    v=Video.find_by_fbid(id,:select => 'title')
+    v ? ("/fb/#{id}#{ v.title.empty? ? "" : "-" + PermalinkFu.escape(v.title)}") : "http://facebook.com/#{id}"
   end
   
   def self.directory_for_img(video_id)
-    string_id = (video_id.to_s).rjust(9, "0")
-    File.join("#{IMG_VIDEO_PATH}#{string_id[0..2]}","#{string_id[3..5]}","#{string_id[6..8]}" )
+      string_id = (video_id.to_s).rjust(9, "0")
+      File.join("#{IMG_VIDEO_PATH}#{string_id[0..2]}","#{string_id[3..5]}","#{string_id[6..8]}" )
   end
 
   def self.full_directory(video_id)
-    string_id = (video_id.to_s).rjust(9, "0")
-    "#{FULL_VIDEO_PATH}#{string_id[0..2]}/#{string_id[3..5]}/#{string_id[6..8]}"
+      string_id = (video_id.to_s).rjust(9, "0")
+      "#{FULL_VIDEO_PATH}#{string_id[0..2]}/#{string_id[3..5]}/#{string_id[6..8]}"
   end
 
   def self.for_view(id)
-    video = Video.find(id)
-    video[:category_title] = video.category_title
-    video
+      video = Video.find(id)
+      video[:category_title] = video.category_title
+      video
   end
 
-  def self.for_fb_view(fb_id)
-    video = Video.find_by_fbid(fb_id)
-    video[:category_title] = video.category_title
-    video
+  def self.for_fb_view(id)
+      video = Video.find_by_fbid(id)
+      video[:category_title] = video.category_title
+      video
   end
 
   # Moozly: the functions gets videos for showing in a list by sort order - latest or most popular  
   def self.get_videos_by_sort(page, order_by, sidebar, limit = MAIN_LIST_LIMIT)
-    sort = order_by == "latest" ? "created_at" : "views_count"
-    vs = Video.paginate(:page => page, :per_page => limit).order("#{sort } desc")
-    populate_videos_with_common_data(vs, sidebar, true) if vs
+      sort = order_by == "latest" ? "created_at" : "views_count"
+      vs = Video.paginate(:page => page, :per_page => limit).order("#{sort } desc")
+      populate_videos_with_common_data(vs, sidebar, true) if vs
   end
 
   # Moozly: the functions gets videos for showing in a list by the video category
@@ -342,10 +344,10 @@ end
     puts cmd
     success = system(cmd)
     if success && $?.exitstatus == 0
-      parse_xml_add_tagees_and_timesegments(get_timestamps_xml_file_name)
-      self.analysed!
+        parse_xml_add_tagees_and_timesegments(get_timestamps_xml_file_name)
+        self.analysed!
     else
-      self.failed!
+        self.failed!
     end
   end
 
@@ -362,7 +364,7 @@ end
     #input_file = File.join(Video.full_directory(id),id.to_s)
     input_file = filename
     if !File.exist?(input_file)
-       input_file = video_file.current_path
+       input_file = source_file_name
     end
 
     "#{MOVIE_FACE_RECOGNITION_EXEC_PATH} Dreamline #{input_file} #{output_dir} #{HAAR_CASCADES_PATH} #{Rails.root.to_s}/public#{thumb_path} #{Rails.root.to_s}/public#{thumb_path_small}"
@@ -420,15 +422,15 @@ end
     end
 
     def save_taggees
-      video_taggees.each do |t|
-        t.save(false)
-      end
+        video_taggees.each do |t|
+            t.save(false)
+        end
     end
     #___________________________________________taggees handling______________________
 
     def test_facebook_video
-      output_dir = faces_directory
-      "#{MOVIE_FACE_RECOGNITION_EXEC_PATH} Dreamline https://fbcdn-video-a.akamaihd.net/cfs-ak-ash4/348369/702/10150436322608645_35460.mp4?oh=8e1db8c843f46df7b6d08693a0777387&oe=4EEB3C00&__gda__=1324039168_f09d0e23443449ae0c8365e36dab4e53 #{output_dir} #{HAAR_CASCADES_PATH} #{Rails.root.to_s}/public#{thumb_path} #{Rails.root.to_s}/public#{thumb_path_small}"
+          output_dir = faces_directory
+         "#{MOVIE_FACE_RECOGNITION_EXEC_PATH} Dreamline https://fbcdn-video-a.akamaihd.net/cfs-ak-ash4/348369/702/10150436322608645_35460.mp4?oh=8e1db8c843f46df7b6d08693a0777387&oe=4EEB3C00&__gda__=1324039168_f09d0e23443449ae0c8365e36dab4e53 #{output_dir} #{HAAR_CASCADES_PATH} #{Rails.root.to_s}/public#{thumb_path} #{Rails.root.to_s}/public#{thumb_path_small}"
     end
 end
 
