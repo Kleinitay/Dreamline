@@ -90,7 +90,7 @@ class FbVideosController < ApplicationController
     if @video.save
       @video.detect_and_convert(fb_graph,fb_access_token)
       flash[:notice] = "Video has been uploaded"
-      redirect_to "/fb/#{@video.id}/edit_tags/new"
+      redirect_to "/fb/#{@video.fbid}/edit_tags/new"
     else
       render :text => @video.errors
     end
@@ -99,12 +99,12 @@ class FbVideosController < ApplicationController
   def edit_tags
     #begin
       @new = request.path.index("/new") ? true : false
-      @video = Video.find_by_fbid(params[:fbid])
+      @video = Video.find_by_fbid(params[:fb_id])
       @page_title = "#{@video.title.titleize} - #{@new ? "Add Tags" : "Edit"} Tags"
       @user = current_user
       @taggees = @video.video_taggees
       friends = fb_graph.get_connections(current_user.fb_id,'friends')
-      @friends = {"#{current_user.nick}" => "#{current_user.fb_id}"}
+      @friends = {"#{current_user.nick}" => "#{current_user.fb_id }"}
       friends.map {|friend| @friends[friend["name"]] = friend["id"]}
       @names_arr = @friends.keys
       #@likes = graph.get_connections("me", "likes")
