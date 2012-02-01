@@ -123,7 +123,7 @@ class FbVideosController < ApplicationController
  
   def update
     unless !signed_in? || !params[:video]
-      @video = Video.find(params[:fb_id])
+      @video = Video.find_by_fbid(params[:fb_id])
       @new = request.path.index("/new") ? true : false
       existing_taggees = @video.video_taggees_uniq.map(&:fb_id)
       updated_taggees_ids = []
