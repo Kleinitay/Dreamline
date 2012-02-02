@@ -101,11 +101,11 @@ class Video < ActiveRecord::Base
   end
 
   def uri
-    "/video/#{id}#{title.empty? ? "" : "-" + PermalinkFu.escape(title)}"
+    "/video/#{id}#{title.nil? || title.empty? ? "" : "-" + PermalinkFu.escape(title)}"
   end
   
   def fb_uri
-    "/fb/#{fbid}#{title.empty? ? "" : "-" + PermalinkFu.escape(title)}"
+    "/fb/#{fbid}#{title.nil? || title.empty? ? "" : "-" + PermalinkFu.escape(title)}"
   end
   
   def category_uri()
