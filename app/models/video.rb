@@ -104,9 +104,8 @@ class Video < ActiveRecord::Base
     "/video/#{id}#{title.empty? ? "" : "-" + PermalinkFu.escape(title)}"
   end
   
-  def fb_uri(given_title=nil)
-    title_to_use = given_title || title
-    "/fb/#{fbid}#{title.empty? ? "" : "-" + PermalinkFu.escape(title_to_use)}"
+  def fb_uri
+    "/fb/#{fbid}#{title.empty? ? "" : "-" + PermalinkFu.escape(title)}"
   end
   
   def category_uri()
@@ -265,6 +264,10 @@ class Video < ActiveRecord::Base
     v ? ("/fb/#{fb_id}#{ v.title.empty? ? "" : "-" + PermalinkFu.escape(v.title)}") : "http://facebook.com/#{fb_id}"
   end
   
+  def self.fb_uri_for_list(fb_id, title, analyzed)
+    analyzed ? ("/fb/#{fb_id}#{title.empty? ? "" : "-" + PermalinkFu.escape(title)}") : "http://facebook.com/#{fb_id}"
+  end
+
   def self.directory_for_img(video_id)
     string_id = (video_id.to_s).rjust(9, "0")
     File.join("#{IMG_VIDEO_PATH}#{string_id[0..2]}","#{string_id[3..5]}","#{string_id[6..8]}" )

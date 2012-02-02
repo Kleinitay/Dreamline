@@ -20,11 +20,12 @@ class FbVideosController < ApplicationController
 	def list
     @page_title = "Videos List"
     @videos = fb_graph.get_connections(current_user.fb_id,'videos/uploaded')
-    app_fb_ids = Video.all(:conditions => {:user_id => current_user.id}, :select => "fbid").map(&:fbid)
+    app_fb_ids = Video.all(:conditions => {:user_id => current_user.id}, :select => "fbid,title").map(&:fbid)
     @videos.each do |v|
-      v["analayzed"] = (app_fb_ids.include? v["id"]) ? true : false
-      v["button_title"] = v["analayzed"] ? "Edit Tags" : "Vtag this video"
-      v["href_part"] = "/fb/#{v['id']}/#{v['analayzed'] ? 'edit_tags' : 'analyze'}"
+      v["analyzed"] = (app_fb_ids.include? v["id"]) ? true : false
+      v["button_title"] = v["analyzed"] ? "Edit Tags" : "Vtag this video"
+      v["href_part"] = "/fb/#{v['id']}/#{v['analyzed'] ? 'edit_tags' : 'analyze'}"
+      v["uri"] = Video.fb_uri_for_list(v["id"], v["name"] || "", v["analyzed"])
     end
     #get_sidebar_data
 
