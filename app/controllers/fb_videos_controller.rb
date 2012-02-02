@@ -33,7 +33,7 @@ class FbVideosController < ApplicationController
   def vtaggees
     @page_title = "I got Vtagged"
     user = current_user
-    @videos = Video.find_all_by_vtagged_user(645113644)#user.fb_id)
+    @videos = Video.find_all_by_vtagged_user(user.fb_id)
   end
 
   def check_video_redirection(video)
