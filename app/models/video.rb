@@ -176,8 +176,10 @@ class Video < ActiveRecord::Base
     #perform the face detection
     detect_face_and_timestamps video_file.current_path
     #if video not in facebook and user is logged in to facebook upload video to facebook
-    if access_token != nil && access_token != "" && fbid.nil?
-      result = graph.put_video(get_flv_file_name, { :title => self.title })
+    
+    if !graph.nil? && access_token != nil && access_token != "" && fbid.nil?
+      newTitle = self.title ? self.title : ""
+      result = graph.put_video(get_flv_file_name, { :title => newTitle })
       self.update_attribute(:fbid, result["id"])
     end
   end

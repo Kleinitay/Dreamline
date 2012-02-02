@@ -100,6 +100,9 @@ class FbVideosController < ApplicationController
     #begin
       @new = request.path.index("/new") ? true : false
       @video = Video.find_by_fbid(params[:fb_id])
+      if @video.title.nil?
+        @video.title = ""
+      end
       @page_title = "#{@video.title.titleize} - #{@new ? "Add Tags" : "Edit"} Tags"
       @user = current_user
       @taggees = @video.video_taggees
