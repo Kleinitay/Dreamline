@@ -324,7 +324,10 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a4c4c6', end
 
 .wrapper {	
 	float: left;
-	width:760px;	
+	width:760px;
+	min-height:500px;
+	background-color:#ffffff;	
+	padding-bottom:60px;
 }
 #main #new_video .upload_form ul li label {
 	float: left;
