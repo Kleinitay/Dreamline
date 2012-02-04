@@ -51,7 +51,13 @@
 		var contacts = document.getElementsByClassName("contact_info");
 		$(contacts).autocomplete({
 				source: availableTags
-		});
+		}).data("autocomplete")._renderItem = function (ul, item) { // this section was added by pnina this is the place where the image is added to the autocomplite
+        return $("<li />")
+            .data("item.autocomplete", item)
+            .append("<a><img src='../../images/fb/thumbnail_small_2.jpg'>" + item.value + "</a>")
+            .appendTo(ul);
+    };    
+		
 	});
 
 	var friends_hash = <%= raw @friends.to_json %>;
