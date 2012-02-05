@@ -1,13 +1,6 @@
-<link type="text/css" href="/javascripts/css/ui-lightness/jquery-ui-1.8.16.custom.css" rel="stylesheet" />
-<script type="text/javascript" src="/javascripts/js/jquery-1.6.2.min.js"></script>
-<script type="text/javascript" src="/javascripts/js/jquery-ui-1.8.16.custom.min.js"></script>
 
-<head>
-	<title>VtagO - <%= @page_title %></title>
-</head>
-<body>
-	<div class="fbbody" id="main">
-		<div class="left_sidebar"></div>
+<div class="vtag_video wrapper">
+	<h2>Edit Tags</h2>
 		<div class="video_list">
 		<% if @video.video_taggees.any? %>
 				<%= form_for :video, :url => "/fb/#{@video.fbid}/update#{"/new" if @new}" do |f| %>
@@ -26,9 +19,9 @@
 							</div>
 						<% end %>
 					</div>
-					<br class="clear" />
-					<div>
-						<p><input  type="submit" onclick = "update_fb_ids();" value="Update video" name="commit"></p>
+	
+					<div id="edit_submit">
+						<p><input  class="vtag_but radious_6" type="submit" onclick = "update_fb_ids();" value="Update video" name="commit"></p>
 					</div>
 				<% end %>
 			<% else %>
@@ -42,8 +35,8 @@
 		<div id="right_content">
 			<%#= render :partial => "sidebars/single_video_sidebar" %>
 		</div>
-	</div>
-</body>
+</div>
+
 
 <script type="text/javascript">
 	$(function() {
@@ -57,10 +50,10 @@
 				}).data("autocomplete")._renderItem = function (ul, item) { // this section was added by pnina this is the place where the image is added to the autocomplite
 		        return $("<li />")
 		            .data("item.autocomplete", item)
-		            .append("<a><img src='../../images/fb/thumbnail_small_2.jpg'>" + item.value + "</a>")
+		            .append("<a><img src='https://graph.facebook.com/1460357077/picture/' width='23' height='23'>" + item.value + "</a>")
 		            .appendTo(ul);
 		    };    
-	});	
+		});	
 	});
 
 	var friends_hash = <%= raw @friends.to_json %>;
