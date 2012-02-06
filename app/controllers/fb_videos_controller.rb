@@ -110,6 +110,7 @@ class FbVideosController < ApplicationController
       friends = fb_graph.get_connections(current_user.fb_id,'friends')
       @friends = {"#{current_user.nick}" => "#{current_user.fb_id }"}
       friends.map {|friend| @friends[friend["name"]] = friend["id"]}
+      @friends[current_user.nick] = current_user.fb_id
       @names_arr = @friends.keys
       #@likes = graph.get_connections("me", "likes")
 
