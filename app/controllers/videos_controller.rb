@@ -102,16 +102,26 @@ class VideosController < ApplicationController
     sign_out
     end
   end
- 
+
+ def destroy
+   video = Video.find(params[:id])
+   video.delete_video_files fb_graph, true
+   video.destroy
+   flash[:notice] = "Video has been deleted"
+   redirect_to_root
+ end
+
   def update
     unless !signed_in? || !params[:video]
       @video = Video.find(params[:id])
       @new = params[:new]=="new" ? true : false
       existing_taggees = @video.video_taggees_uniq.map(&:fb_id)
       updated_taggees_ids = []
-      updated_taggees_ids = params[:video][:existing_taggee_attributes].values.map!{|h| h["fb_id"].to_i}.uniq.reject{ |id| id==0 } 
+      if params[:video][:existing_taggee_attributes]
+        updated_taggees_ids = params[:video][:existing_taggee_attributes].values.map!{|h| h["fb_id"].to_i}.uniq.reject{ |id| id==0 }
+      end
       if @video.update_attributes(params[:video])
-        if updated_taggees_ids.any?
+        if !updated_taggees_ids.nil? && updated_taggees_ids.any?
           if @new
             new_taggees = updated_taggees_ids
           else     
