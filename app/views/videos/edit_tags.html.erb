@@ -17,7 +17,7 @@
 
 				<% if @video.video_taggees.any? %>
 					<div class="wrapper_list_view">
-						<%= form_for :video, :url => "/video/#{@video.id}/update#{"/new" if @new}" do |f| %>
+						<%= form_for :video, :url => "/video/#{@video.id}/update_tags#{"/new" if @new}" do |f| %>
 							<div id="video_taggees">
 								<% @video.video_taggees.each do |video_taggee| %>
 									<div id="video_taggee<%= video_taggee.id.to_s %>">

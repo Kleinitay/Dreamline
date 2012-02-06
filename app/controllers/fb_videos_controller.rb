@@ -125,7 +125,7 @@ class FbVideosController < ApplicationController
     #end
   end
  
-  def update
+  def update_tags
     unless !signed_in? || !params[:video]
       @video = Video.find_by_fbid(params[:fb_id])
       @new = request.path.index("/new") ? true : false

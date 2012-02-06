@@ -111,7 +111,7 @@ class VideosController < ApplicationController
    redirect_to_root
  end
 
-  def update
+  def update_tags
     unless !signed_in? || !params[:video]
       @video = Video.find(params[:id])
       @new = params[:new]=="new" ? true : false
