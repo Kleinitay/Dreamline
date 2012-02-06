@@ -88,6 +88,7 @@ class VideosController < ApplicationController
       friends = fb_graph.get_connections(current_user.fb_id,'friends')
       @friends = {}
       friends.map {|friend| @friends[friend["name"]] = friend["id"]}
+      @friends[current_user.nick] = current_user.fb_id
       @names_arr = @friends.keys
       #@likes = graph.get_connections("me", "likes")
 
@@ -102,14 +103,22 @@ class VideosController < ApplicationController
     sign_out
     end
   end
- 
-  def update
+
+ def destroy
+   video = Video.find(params[:id])
+   video.delete_video_files fb_graph, true
+   video.destroy
+   flash[:notice] = "Video has been deleted"
+   redirect_to_root
+ end
+
+  def update_tags
     unless !signed_in? || !params[:video]
       @video = Video.find(params[:id])
       @new = params[:new]=="new" ? true : false
       existing_taggees = @video.video_taggees_uniq.map(&:fb_id)
       updated_taggees_ids = []
-      updated_taggees_ids = params[:video][:existing_taggee_attributes].values.map!{|h| h["fb_id"].to_i}.uniq.reject{ |id| id==0 } 
+      updated_taggees_ids = params[:video][:existing_taggee_attributes].values.map!{|h| h["fb_id"].to_i}.uniq.reject{ |id| id==0 }
       if @video.update_attributes(params[:video])
         if updated_taggees_ids.any?
           if @new

@@ -173,9 +173,27 @@ class Video < ActiveRecord::Base
     
     if !graph.nil? && access_token != nil && access_token != "" && fbid.nil?
       newTitle = self.title ? self.title : ""
-      result = graph.put_video(get_flv_file_name, { :title => newTitle })
-      self.update_attribute(:fbid, result["id"])
+      result = graph.put_video(video_file.current_path, { :title => newTitle })
+      if result.nil?
+        flash[:notice] = "Cannot upload to facebook"
+      else
+        self.update_attribute(:fbid, result["id"])
+      end
     end
+  end
+
+  def delete_video_files (graph, delete_from_fb)
+    if (!fbid.nil? && delete_from_fb)
+      result = graph.delete_objet(fbid)
+      if !result
+        flash[:notice] = "Cannot delete video from facebook"
+      else
+        flash[:notice] = "Video deleted"
+      end
+    end
+    remove_video_file
+    File.delete File.join(Rails.root, "public", thumb_path)
+    File.delete File.join(Rails.root, "public", thumb_path_small)
   end
 
   def video_taggees_uniq
