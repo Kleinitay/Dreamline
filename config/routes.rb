@@ -30,6 +30,7 @@ Dreamline::Application.routes.draw do |map|
   match 'video/:id/edit_tags(/new)'       => 'videos#edit_tags',   :as => :edit_video_tags, :requirements => { :id => /([0-9]*)?/ }
   match 'video/:id/update_tags(/new)'     => "videos#update_tags", :as =>:update_video_tags
   match 'video/:id/delete'                => "videos#destroy",     :as =>:delete_video
+  match 'video/:id/update'                => "videos#update",      :as => :update_video
 
 # ___________________ FB Videos ______________________________________________________
   match 'fb/new'                          => 'fb_videos#new',             :as => :fb_video_upload
