@@ -104,34 +104,45 @@ class VideosController < ApplicationController
     end
   end
 
- def destroy
-   video = Video.find(params[:id])
-   video.delete_video_files fb_graph, true
-   video.destroy
-   flash[:notice] = "Video has been deleted"
-   redirect_to_root
- end
-
-  def update_tags
+  def update_video
     unless !signed_in? || !params[:video]
       @video = Video.find(params[:id])
-      @new = params[:new]=="new" ? true : false
-      existing_taggees = @video.video_taggees_uniq.map(&:fb_id)
-      updated_taggees_ids = []
-      updated_taggees_ids = params[:video][:existing_taggee_attributes].values.map!{|h| h["fb_id"].to_i}.uniq.reject{ |id| id==0 }
       if @video.update_attributes(params[:video])
-        if updated_taggees_ids.any?
-          if @new
-            new_taggees = updated_taggees_ids
-          else     
-            new_taggees = (updated_taggees_ids - existing_taggees)
-          end
-          post_vtag(@new, new_taggees, @video.title.titleize)
-        end #if ids
-        redirect_to video_path (@video)
+        redirect_to video_path @video
       end# if update_attributes
     else
       redirect_to "/"
     end
   end
+
+  def update_tags
+     unless !signed_in? || !params[:video]
+       @video = Video.find(params[:id])
+       @new = params[:new]=="new" ? true : false
+       existing_taggees = @video.video_taggees_uniq.map(&:fb_id)
+       updated_taggees_ids = []
+       updated_taggees_ids = params[:video][:existing_taggee_attributes].values.map!{|h| h["fb_id"].to_i}.uniq.reject{ |id| id==0 }
+       if @video.update_attributes(params[:video])
+         if updated_taggees_ids.any?
+           if @new
+             new_taggees = updated_taggees_ids
+           else
+             new_taggees = (updated_taggees_ids - existing_taggees)
+           end
+           post_vtag(@new, new_taggees, @video.title.titleize)
+         end #if ids
+         redirect_to video_path (@video)
+       end# if update_attributes
+     else
+       redirect_to "/"
+     end
+   end
+
+   def destroy
+     video = Video.find(params[:id])
+     video.delete_video_files fb_graph, true
+     video.destroy
+     flash[:notice] = "Video has been deleted"
+     redirect_to_root
+   end
 end
