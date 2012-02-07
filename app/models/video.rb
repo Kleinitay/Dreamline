@@ -146,15 +146,16 @@ class Video < ActiveRecord::Base
 
 
   # run algorithm process
-  def detect_and_convert(graph, access_token)
-    # fbid = "10150531862603645"
-    #if video is aquired from Facebook fetch it using carrierwave
-    if fbid != nil
+  def detect_and_convert(graph)
+    # coming from fb analyze, video is aquired from Facebook - fetch it using carrierwave
+    if fbid
       result = graph.get_object(fbid)
       source = result["source"]
       self.remote_video_file_url = source
-      title = result["title"]
+      self.title = result["title"].nil? ? "" : result["title"]
+      self.description = result["description"]
     end
+
     #get the video properties using mediainfo
     video_info = get_video_info
     unless video_info["Duration"].nil?
@@ -163,17 +164,16 @@ class Video < ActiveRecord::Base
     end
     #Should we skip this step? TBD
     #if fbid.nil?
-      unless convert_to_flv video_info
-        return false
-      end
+    unless convert_to_flv video_info
+      return false
+    end
     #end
     #perform the face detection
     detect_face_and_timestamps video_file.current_path
-    #if video not in facebook and user is logged in to facebook upload video to facebook
-    
-    if !graph.nil? && access_token != nil && access_token != "" && fbid.nil?
-      newTitle = self.title ? self.title : ""
-      result = graph.put_video(video_file.current_path, { :title => newTitle })
+
+    # coming from site upload and logged in to facebook - upload video to facebook
+    if graph && !fbid
+      result = graph.put_video(video_file.current_path, { :title => self.title, :description => self.description })
       if result.nil?
         flash[:notice] = "Cannot upload to facebook"
       else

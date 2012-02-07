@@ -64,7 +64,7 @@ class FbVideosController < ApplicationController
        more_params = {:user_id => current_user.id, :duration => 0} #temp duration
        @video = Video.new(params[:video].merge(more_params))
        if @video.save
-         @video.detect_and_convert(fb_graph,fb_access_token)
+         @video.detect_and_convert(fb_graph)
          flash[:notice] = "Video has been uploaded"
          redirect_to "/fb/#{@video.fbid}/edit_tags/new"
        else
@@ -85,11 +85,12 @@ class FbVideosController < ApplicationController
               :fbid => v["id"],
               :duration => 0, 
               :title => v["name"],
+              :description => v["description"],
               :category => 20
              }
     @video = Video.new(params)
     if @video.save
-      @video.detect_and_convert(fb_graph,fb_access_token)
+      @video.detect_and_convert(fb_graph)
       flash[:notice] = "Video has been uploaded"
       redirect_to "/fb/#{@video.fbid}/edit_tags/new"
     else
