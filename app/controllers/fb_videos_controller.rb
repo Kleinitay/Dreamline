@@ -85,6 +85,7 @@ class FbVideosController < ApplicationController
               :fbid => v["id"],
               :duration => 0, 
               :title => v["name"],
+              :description => v["description"],
               :category => 20
              }
     @video = Video.new(params)
