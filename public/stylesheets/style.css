@@ -1656,8 +1656,10 @@ padding-right:8px;
 padding-bottom:0;
 line-height:18px;
 padding-top:2px;
+padding-left:5px;
 float:left;
 width:420px;
+text-align:left;
 }
 .uploader-info {
 float:right;
