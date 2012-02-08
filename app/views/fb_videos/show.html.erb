@@ -22,6 +22,10 @@
 	<div class="panel-right"><h3><strong>81,387,378</strong> views</h3></div>
 </div>
 <div>
+		<% if @video.description != "" %>
+			<h2>Description:</h2>
+			<div> <%= @video.description %></div>
+		<% end %>
 	<h2>In this video:</h2>
 	<div id="tagged">
 	<% @video.video_taggees_uniq.each do |taggee| %>

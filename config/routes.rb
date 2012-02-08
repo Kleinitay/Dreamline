@@ -13,7 +13,7 @@ Dreamline::Application.routes.draw do |map|
   # Moozly: to remove - why doesn't work with *page without a page
   match 'video/most_popular'        => 'videos#list', :as => :most_popular_videos, :order=> "most popular", :page => "0"
   match 'video/latest'              => 'videos#list', :as => :latest_videos, :order=> "latest", :page => "0"
-  match 'users/:id/videos'          => 'users#videos', :as => :user_videos, :page => "0"
+  match 'users/:id/videos'          => 'users#videos',:as => :user_videos, :page => "0"
   #------------------------------------------------------------------------------------------------------------------------
 
 
@@ -28,9 +28,9 @@ Dreamline::Application.routes.draw do |map|
   match 'video/:id'                       => 'videos#show',        :as => :video, :requirements => { :id => /([0-9]*)?/ }
   match 'video/:id/edit'                  => 'videos#edit',        :as => :edit_video, :requirements => { :id => /([0-9]*)?/ }
   match 'video/:id/edit_tags(/new)'       => 'videos#edit_tags',   :as => :edit_video_tags, :requirements => { :id => /([0-9]*)?/ }
-  match 'video/:id/update_tags(/new)'     => "videos#update_tags", :as =>:update_video_tags
-  match 'video/:id/update_video(/new)'    => "videos#update_video",:as =>:update_video
-  match 'video/:id/delete'                => "videos#destroy",     :as =>:delete_video
+  match 'video/:id/update_tags(/new)'     => "videos#update_tags", :as => :update_video_tags
+  match 'video/:id/update_video(/new)'    => "videos#update_video",:as => :update_video
+  match 'video/:id/delete'                => "videos#destroy",     :as => :delete_video
 
 # ___________________ FB Videos ______________________________________________________
   match 'fb/new'                          => 'fb_videos#new',             :as => :fb_video_upload

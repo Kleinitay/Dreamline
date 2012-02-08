@@ -18,7 +18,7 @@
 				<div id="title-video">
 					<h1><%= @video.title %></h1>
 					<div class="uploader-info"> <!--option for a plus image to add to fav-->
-						<%=image_tag("https://graph.facebook.com/#{current_user.fb_id}/picture",:size=>"23x23",:class=>'profile_pic') %><a href="/users/<%= @user.id %>/videos">by :  <%= @user.nick %></a>
+						<a href="/users/<%= @user.id %>/videos">by :  <%= @user.nick %></a>
                     </div>
                 </div>
                 <div class="video-slider">
@@ -41,20 +41,10 @@
 			</div>
 			<div class="panel-video">
 				<div class="embed-code">
-					<!--<textarea rows="" cols=""><%= "http://www.vtago#{@video.uri}" %></textarea>-->
+					<textarea rows="" cols=""><%= "http://www.vtago#{@video.uri}" %></textarea>
 					<!--label><input 	type="checkbox" />Short URL</label-->
 				</div>
-				<div class="panel-right"><h3><span>views</span><strong>81,387,378</strong> </h3></div>
-				<div class="share-panel-top">
-				<!-- AddThis Button BEGIN -->
-					<div class="addthis_toolbox addthis_default_style ">
-					<a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
-					<a class="addthis_button_tweet"></a>
-					<a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
-					</div>
-					<script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-4f245ea734874980"></script>
-					<!-- AddThis Button END -->
-				</div>
+				<div class="panel-right"><h3><strong>81,387,378!!!!</strong> views</h3></div>
 			</div>
 			<div class="share-panel">
 				<em class="shout-out">&nbsp;</em>
@@ -62,17 +52,26 @@
 					<div class="twitter"><a href="#"><img src="/images/bg-tweet.gif" alt="" /></a></div>
 					<div class="facebook"><a href="#"><img src="/images/bg-facebook.gif" alt="" /></a></div>
 				</div>-->
-				<!-- AddThis Button BEGIN -->
+				<div class="social-network-group">
+							<!-- AddThis Button BEGIN -->
 							<div class="addthis_toolbox addthis_default_style addthis_32x32_style" id="b_share">
 									<a class="addthis_button_preferred_1"></a>
 									<a class="addthis_button_preferred_2"></a>
-									<!--<a class="addthis_button_preferred_4"></a>-->
-									<a class="addthis_button_compact"></a>
 									<a class="addthis_button_preferred_3"></a>
+									<!--<a class="addthis_button_preferred_4"></a>-->
+									<!--<a class="addthis_button_compact"></a>-->
 									<!--<a class="addthis_counter addthis_bubble_style"></a>-->
 							</div>
 							<!-- AddThis Button END -->
 							<script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-4e60daa12b8cdf79"></script>
+							<!-- AddThis Button BEGIN -->
+							<div class="addthis_toolbox addthis_default_style" id="s_share">
+								<a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+									<a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+							</div>
+							<script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-4f245ea734874980"></script>
+							<!-- AddThis Button END -->
+				</div>
 			</div>
 			<div id="in_this_video">
 				<% if @video.description != "" %>
