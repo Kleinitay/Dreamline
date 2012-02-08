@@ -25,14 +25,13 @@ OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
 class Video < ActiveRecord::Base
 
   belongs_to :user
-
   has_many :comments, :dependent => :destroy
   has_many :video_taggees, :dependent => :destroy
-
-
   has_many :comments
 
   mount_uploader :video_file, VideoFileUploader
+
+
   # has_permalink :title, :as => :uri, :update => true
   # Check Why doesn't work??
 
