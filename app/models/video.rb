@@ -438,7 +438,7 @@ class Video < ActiveRecord::Base
 
       face.elements.each("timesegment ") do |segment|
         newSeg = TimeSegment.new
-        newSeg.begin = segment.attributes["begin"].to_i
+        newSeg.begin = segment.attributes["start"].to_i
         newSeg.end = segment.attributes["end"].to_i
         newSeg.taggee_id = taggee.id
         newSeg.save
@@ -482,7 +482,7 @@ class Video < ActiveRecord::Base
         segs = TimeSegment.find_all_by_taggee_id(tag.id)
         times = []
         segs.each do |seg|
-          times << [seg.begin, seg.end]
+          times << [seg.begin / 1000, seg.end / 1000]
         end
         cuts << { :name => tag.contact_info, :segments => times }
       end
