@@ -25,14 +25,13 @@ OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
 class Video < ActiveRecord::Base
 
   belongs_to :user
-
   has_many :comments, :dependent => :destroy
   has_many :video_taggees, :dependent => :destroy
-
-
   has_many :comments
 
   mount_uploader :video_file, VideoFileUploader
+
+
   # has_permalink :title, :as => :uri, :update => true
   # Check Why doesn't work??
 
@@ -210,6 +209,15 @@ class Video < ActiveRecord::Base
       secs = secstr.slice(/[0-9]+/)
     end
     mins.to_i*60+secs.to_i
+  end
+
+  def destroy(fb_delete)
+    if fb_delete then fb_destroy end
+    self.destroy
+  end
+
+  def fb_destroy
+
   end
 # _____________________________________________ FLV conversion functions _______________________
 
