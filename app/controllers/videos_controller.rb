@@ -140,10 +140,9 @@ class VideosController < ApplicationController
 
    def destroy
      video = Video.find(params[:id])
-     video.delete_video_files fb_graph, true
      fb_delete = true #temp!
-     video.destroy fb_delete
-     flash[:notice] = "Video has been deleted"
-     redirect_to_root
+     fb_delete ? graph = fb_graph : nil
+     flash[:notice] = video.delete(fb_delete, graph)
+     redirect_to "/users/#{current_user.id}/videos"
    end
 end

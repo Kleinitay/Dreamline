@@ -181,20 +181,6 @@ class Video < ActiveRecord::Base
     end
   end
 
-  def delete_video_files (graph, delete_from_fb)
-    if (!fbid.nil? && delete_from_fb)
-      result = graph.delete_objet(fbid)
-      if !result
-        flash[:notice] = "Cannot delete video from facebook"
-      else
-        flash[:notice] = "Video deleted"
-      end
-    end
-    remove_video_file
-    File.delete File.join(Rails.root, "public", thumb_path)
-    File.delete File.join(Rails.root, "public", thumb_path_small)
-  end
-
   def video_taggees_uniq
     VideoTaggee.find(:all, :select => "DISTINCT contact_info, fb_id", :conditions => {:video_id => self.id})
   end
@@ -211,13 +197,30 @@ class Video < ActiveRecord::Base
     mins.to_i*60+secs.to_i
   end
 
-  def destroy(fb_delete)
-    if fb_delete then fb_destroy end
-    self.destroy
+  def delete_video_files (graph)
+    remove_video_file
+    File.delete File.join(Rails.root, "public", thumb_path)
+    File.delete File.join(Rails.root, "public", thumb_path_small)
   end
 
-  def fb_destroy
+  def delete(fb_delete, graph=nil)
+    delete_video_files fb_graph
+    if fb_delete
+      fb = fb_destroy(graph)
+    end
+    self.destroy
+    if fb_delete
+      if fb
+        "Video has been deleted from site and Facebook successfully."
+      else "Video has been deleted from site successfully but there was a problem deleting it from Facebook."
+      end
+    else
+      "Video has been deleted from site successfully."
+    end
+  end
 
+  def fb_destroy(graph)
+    graph.delete_object(self.fbid)
   end
 # _____________________________________________ FLV conversion functions _______________________
 
