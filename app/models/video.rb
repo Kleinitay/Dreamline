@@ -151,7 +151,7 @@ class Video < ActiveRecord::Base
       result = graph.get_object(fbid)
       source = result["source"]
       self.remote_video_file_url = source
-      self.title = result["title"].nil? ? "" : result["title"]
+      self.title = result["name"].nil? ? "" : result["name"]
       self.description = result["description"]
     end
 
