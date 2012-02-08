@@ -211,6 +211,15 @@ class Video < ActiveRecord::Base
     end
     mins.to_i*60+secs.to_i
   end
+
+  def destroy(fb_delete)
+    if then fb_delete fb_destroy end
+    self.destroy
+  end
+
+  def fb_destroy
+
+  end
 # _____________________________________________ FLV conversion functions _______________________
 
   def convert_to_flv  video_info
