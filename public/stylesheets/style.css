@@ -41,7 +41,13 @@ background:url(../images/bg-body-videodetail.jpg) no-repeat center 79px;
 body.bg-body-l {
 background:url(../images/bg-body-listing.jpg) no-repeat center 79px;
 }
-
+a.top_sign_link{
+text-decoration:none;
+color:#4e4a4b;	
+}
+a.top_sign_link:hover{
+text-decoration:underline;
+}
 a img {
 border:none;
 }
@@ -244,6 +250,8 @@ float:left;
 padding:6px 10px 0 15px;
 }
 #header_sec .signin li.sign_in a{
+position:relative;
+top:2px;
 color:#6f696b;
 text-decoration:none;
 }
@@ -276,6 +284,11 @@ text-decoration:none;
 #header_sec .signin li.create_account img.profile_pic{
 	margin-right:5px;
 }
+
+a#create_account_link{
+	position:relative;
+	top:2px;
+} 
 
 /*
 =========================================================
