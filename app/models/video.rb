@@ -212,7 +212,7 @@ class Video < ActiveRecord::Base
   end
 
   def destroy(fb_delete)
-    if then fb_delete fb_destroy end
+    if fb_delete then fb_destroy end
     self.destroy
   end
 
