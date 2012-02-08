@@ -44,7 +44,7 @@
 					<textarea rows="" cols=""><%= "http://www.vtago#{@video.uri}" %></textarea>
 					<!--label><input 	type="checkbox" />Short URL</label-->
 				</div>
-				<div class="panel-right"><h3><strong>81,387,378</strong> views</h3></div>
+				<div class="panel-right"><h3><strong>81,387,378!!!!</strong> views</h3></div>
 			</div>
 			<div class="share-panel">
 				<em class="shout-out">&nbsp;</em>
@@ -71,24 +71,13 @@
 							</div>
 							<script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-4f245ea734874980"></script>
 							<!-- AddThis Button END -->
-
-					<!--<ul>-->
-						<!--li><a href="#"><img src="/images/icon-social-1.png" alt="" /></a></li>-->
-						<!--<li><a href="#"><img src="/images/icon-social-2.png" alt="" /></a></li>-->
-						<!--<li><a href="#"><img src="/images/icon-social-3.png" alt="" /></a></li>-->
-						<!--<li><a href="#"><img src="/images/icon-social-4.png" alt="" /></a></li>-->
-						<!--li><a href="#"><img src="/images/icon-social-5.png" alt="" /></a></li-->
-						<!--li><a href="#"><img src="/images/icon-social-6.png" alt="" /></a></li-->
-						<!--li><a href="#"><img src="/images/icon-social-7.png" alt="" /></a></li-->
-						<!--li><a href="#"><img src="/images/icon-social-8.png" alt="" /></a></li-->
-						<!--li><a href="#"><img src="/images/icon-social-9.png" alt="" /></a></li-->
-						<!--li><a href="#"><img src="/images/icon-social-10.png" alt="" /></a></li-->
-						<!--li><a href="#"><img src="/images/icon-social-11.png" alt="" /></a></li-->
-						<!--li><a href="#"><img src="/images/icon-social-12.png" alt="" /></a></li-->
-					<!--</ul> -->
 				</div>
 			</div>
 			<div id="in_this_video">
+				<% if @video.description != "" %>
+					<h2>Description:</h2>
+					<div> <%= @video.description %></div>
+				<% end %>
 				<h2>In this video:</h2>
 				<div id="tagged">
 					<% @video.video_taggees_uniq.each do |taggee| %>
