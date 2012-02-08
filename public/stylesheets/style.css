@@ -1728,25 +1728,36 @@ padding-left:30px;
 }
 
 .panel-right {
-float:right;
+
 padding-top:6px;
 width:222px;
 padding-right:8px;
 }
 .panel-right h3 {
-float:right;
-background:url(../images/bg-icon-stat.gif) no-repeat right top;
-padding-right:33px;
-padding-bottom:0;
-line-height:23px;
+float:left;	
+position:relative;
+top:-8px;
+background:url(../images/bg-icon-stat.gif) no-repeat left 0px;
+padding-left:35px;
 font-size:15px;
 color:#202020;
+margin-left:20px;
+width:200px;
 }
+
 .panel-right h3 strong {
+	position:relative;
+	top:2px;
+margin-left:10px;
 font-size:16px;
 color:#00555a;
 }
-
+.share-panel-top{
+	position:relative;
+	top:-5px;
+	width:303px;
+	float:right;
+}
 .share-panel {
 float:left;
 width:632px;
