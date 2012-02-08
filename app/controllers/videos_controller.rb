@@ -5,6 +5,7 @@ class VideosController < ApplicationController
 	def show
 		video_id = params[:id].to_i
 		@video = Video.for_view(video_id) if video_id != 0
+    @video.gen_player_file current_user
 		if !@video then render_404 and return end
 	  check_video_redirection(@video)
 	  @user = @video.user
