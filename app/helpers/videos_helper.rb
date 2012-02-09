@@ -10,6 +10,16 @@ module VideosHelper
             page.insert_html :bottom, :VideoTaggees, :partial => 'video_taggees/video_taggee', :object => VideoTaggee.new
         end
     end
+    
+    def gallery_class_helper  
+       if @gallery_var<2
+          @gallery_var=@gallery_var+1
+          @dynamic_class="edit_box_center"
+       else
+           @gallery_var=0
+           @dynamic_class="edit_box_last"
+       end
+    end
 
 
 end

@@ -4,6 +4,17 @@
 
 <head>
 	<title>VtagO - <%= @page_title %></title>
+	<script>
+	$(document).ready(function(){
+
+		//$('.gallery_delete').hide();
+		$('.edit_box').hover(function(){			
+			//$(this).find('.gallery_delete').show();
+			
+		});
+
+});
+</script>
 </head>
 
 <body>
@@ -14,27 +25,46 @@
 				<div class="heading-list">
 					<h1><%= @page_title %></h1>
 				</div>
-
+				
 				<% if @video.video_taggees.any? %>
 					<div class="wrapper_list_view">
 						<%= form_for :video, :url => "/video/#{@video.id}/update_tags#{"/new" if @new}" do |f| %>
 							<div id="video_taggees">
+								<table  id="edit_tags_wrappper"><tr><td>
 								<% @video.video_taggees.each do |video_taggee| %>
-									<div id="video_taggee<%= video_taggee.id.to_s %>">
+								<%gallery_class_helper%>
+									<div class="edit_box radious_6 <%= @dynamic_class%>" id="video_taggee<%= video_taggee.id.to_s %>">
 										<%= fields_for_taggee(video_taggee) do |tag| %>
 											<div id="face_tag" class="ui-widget">
-												<img src="<%= "#{video_taggee.img_path}" %>" width="60" height="70">
+												<%= link_to_function  image_tag("gallery_delete.png", :class=>'gallery_delete'), "var node1 = document.getElementById(\'video_taggee#{video_taggee.id.to_s}\');node1.parentNode.removeChild(node1)" %>
+												<br>
+												<div class="image_border radious_6"><img class="gallary_image" src="<%= "#{video_taggee.img_path}" %>" width="70" height="80"></div>
+												
 												<label for="tags">Who is this? </label>
+												<br>
 												<%= tag.text_field 	 :contact_info, :class => "contact_info" %>
+												<br>
 												<%= tag.hidden_field :fb_id, :class =>"fb_id" %>
-												<%= link_to_function "remove", "var node1 = document.getElementById(\'video_taggee#{video_taggee.id.to_s}\');node1.parentNode.removeChild(node1)" %>
+												
 											</div>
+										
 										<% end %>
 									</div>
+									
 								<% end %>
+								<div class="edit_box radious_6">
+									<div class="avatar_border"><%=image_tag "avatar.png", :size=>'70x80'%></div>
+									<br>
+									<label for="tags">Add another Vtag</label>
+												<br>
+									<input type="text" class="contact_info">
+									<br>
+								</div> 
+								
+								</td></tr></table>
 								<br class="clear" />
 								<div>
-									<p><input type="submit" onclick = "update_fb_ids();" value="Update video" name="commit"></p>
+									<p><input class="vtag_butt" type="submit" onclick = "update_fb_ids();" value="Update video" name="commit"></p>
 								</div>
 							</div>
 						<% end %>
