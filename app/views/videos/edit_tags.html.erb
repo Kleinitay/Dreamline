@@ -53,12 +53,13 @@
 									
 								<% end %>
 								<div class="edit_box radious_6">
-									<div class="avatar_border"><%=image_tag "avatar.png", :size=>'70x80'%></div>
-									<br>
+									<%= link_to  image_tag("gallery_delete.png", :class=>'gallery_delete') %>
+									<div class="avatar_border radious_6"><%=image_tag "avatar.png", :size=>'70x80'%></div>
 									<label for="tags">Add another Vtag</label>
-												<br>
+									 <br>
 									<input type="text" class="contact_info">
-									<br>
+								
+
 								</div> 
 								
 								</td></tr></table>

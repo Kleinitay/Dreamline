@@ -2728,6 +2728,9 @@ img.gallary_image{
 div#face_tag label{
 	margin-left:52px;
 }
+div.edit_box label{
+	margin-left:45px;
+}
 .gallery_delete{
 	border:1px solid #C1D2D3;
 	padding:2px;
@@ -2743,10 +2746,12 @@ div.image_border{
 	margin-left:52px;
 }
 div.avatar_border{
+	position:relative;
+	top:-15px;
+	border:3px solid #C1D2D3;
 	width:70px;
 	height:80px;
 	margin-left:52px;
-	padding-bottom:10px;
 }
 .edit_box_back{
 	background-color:red;
