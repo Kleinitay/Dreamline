@@ -92,6 +92,8 @@ class Video < ActiveRecord::Base
   FACES_DIR = "faces"
   MOVIE_FACE_RECOGNITION_EXEC_PATH = "#{Rails.root.to_s}/MovieFaceDetector/MovieFaceRecognition"
   HAAR_CASCADES_PATH = "#{Rails.root.to_s}/MovieFaceDetector/haarcascades/haarcascade_frontalface_alt_tree.xml"
+  DEFAULT_WIDTH = 629
+  DEFAULT_HEIGHT = 353
 
 
 #------------------------------------------------------ Instance methods -------------------------------------------------------
@@ -102,11 +104,11 @@ class Video < ActiveRecord::Base
   def uri
     "/video/#{id}#{title.nil? || title.empty? ? "" : "-" + PermalinkFu.escape(title)}"
   end
-  
+
   def fb_uri
     "/fb/#{fbid}#{title.nil? || title.empty? ? "" : "-" + PermalinkFu.escape(title)}"
   end
-  
+
   def category_uri()
     "/video/#{category_tag}"
   end
@@ -182,7 +184,7 @@ class Video < ActiveRecord::Base
   end
 
   def video_taggees_uniq
-    VideoTaggee.find(:all, :select => "DISTINCT contact_info, fb_id", :conditions => {:video_id => self.id})
+    VideoTaggee.find(:all, :select => "DISTINCT contact_info, fb_id", :conditions => { :video_id => self.id })
   end
 
   def parse_duration_string duration_str
@@ -222,15 +224,28 @@ class Video < ActiveRecord::Base
   def fb_destroy(graph)
     graph.delete_object(self.fbid)
   end
-# _____________________________________________ FLV conversion functions _______________________
 
-  def convert_to_flv  video_info
+
+  # _____________________________________________ FLV conversion functions _______________________
+
+  def convert_to_flv video_info
     self.convert_to_flv!
-    success = system(convert_command video_info)
+    width = DEFAULT_WIDTH
+    height = DEFAULT_HEIGHT
+    unless    video_info["Width"].nil?  ||     video_info["Height"].nil?
+        origWidth = video_info["Width"].to_i
+        origHeight = video_info["Height"].to_i
+        if origHeight / origWidth >= 353/629
+          width = origWidth * height / origHeight
+        else
+          height = origHeight * width / origWidth
+        end
+    end
+    success = system(convert_command video_info, width, height)
     if success && $?.exitstatus == 0
-        self.converted!
+      self.converted!
     else
-        self.failed!
+      self.failed!
     end
   end
 
@@ -244,17 +259,17 @@ class Video < ActiveRecord::Base
     File.join(dirname, "#{id}.flv")
   end
 
-  def convert_command  video_info
+  def convert_command video_info, width, height
     output_file = self.get_flv_file_name
     File.open(output_file, 'w')
     command = <<-end_command
-    ffmpeg -i #{ video_file.current_path } #{get_video_rotation_cmd video_info['Rotation']} -ar 22050 -ab 32 -acodec libmp3lame -s 480x360 -vcodec flv -r 25 -qscale 8 -f flv -y #{ output_file }
+    ffmpeg -i #{ video_file.current_path } #{get_video_rotation_cmd video_info['Rotation']} -ar 22050 -ab 32 -acodec libmp3lame -s #{width}x#{height} -vcodec flv -r 25 -qscale 8 -f flv -y #{ output_file }
     end_command
     command.gsub!(/\s+/, " ")
   end
 
   def get_video_info
-    mediainfo_path = File.join( Rails.root, "Mediainfo", "Mediainfo")
+    mediainfo_path = File.join(Rails.root, "Mediainfo", "Mediainfo")
     response =`mediainfo #{video_file.current_path} --output=xml 2>&1`
     if response == nil
       return
@@ -263,43 +278,44 @@ class Video < ActiveRecord::Base
     xml_hash['Mediainfo']['File']['track'][1]
   end
 
-  def get_video_rotation_cmd  degrees=nil
+  def get_video_rotation_cmd degrees=nil
     #mediainfo_path = File.join( Rails.root, "Mediainfo", "Mediainfo")
     #response =`#{mediainfo_path} #{source.path} --output=json 2>&1`
     # response = response.gsub(/ /,'')
     if degrees.nil? || degrees == ""
-                return ""
-    elsif degrees[0,2] == "18"
-        return "-vf transpose=3"
-    elsif degrees[0,2] == "27"
-        return "-vf transpose=1"
-    elsif degrees[0,2] == "90"
-        return "-vf transpose=0"
+      return ""
+    elsif degrees[0, 2] == "18"
+      return "-vf transpose=3"
+    elsif degrees[0, 2] == "27"
+      return "-vf transpose=1"
+    elsif degrees[0, 2] == "90"
+      return "-vf transpose=0"
     else
-        return ""
+      return ""
     end
   end
-# _____________________________________________ FLV conversion functions _______________________
+
+  # _____________________________________________ FLV conversion functions _______________________
 
 
-#------------------------------------------------------ Class methods -------------------------------------------------------
+  #------------------------------------------------------ Class methods -------------------------------------------------------
   def self.uri(id)
-    v=Video.find_by_id(id,:select => 'title')
+    v=Video.find_by_id(id, :select => 'title')
     "/video/#{id}-#{PermalinkFu.escape(v.title)}"
   end
-  
+
   def self.fb_uri(fb_id)
-    v=Video.find_by_fbid(fb_id,:select => 'title')
+    v=Video.find_by_fbid(fb_id, :select => 'title')
     v ? ("/fb/#{fb_id}#{ v.title.empty? ? "" : "-" + PermalinkFu.escape(v.title)}") : "http://facebook.com/#{fb_id}"
   end
-  
+
   def self.fb_uri_for_list(fb_id, title, analyzed)
     analyzed ? ("/fb/#{fb_id}#{title.empty? ? "" : "-" + PermalinkFu.escape(title)}") : "http://facebook.com/#{fb_id}"
   end
 
   def self.directory_for_img(video_id)
     string_id = (video_id.to_s).rjust(9, "0")
-    File.join("#{IMG_VIDEO_PATH}#{string_id[0..2]}","#{string_id[3..5]}","#{string_id[6..8]}" )
+    File.join("#{IMG_VIDEO_PATH}#{string_id[0..2]}", "#{string_id[3..5]}", "#{string_id[6..8]}")
   end
 
   def self.full_directory(video_id)
@@ -328,8 +344,8 @@ class Video < ActiveRecord::Base
 
   # Moozly: the functions gets videos for showing in a list by the video category
   def self.get_videos_by_category(category_id)
-   vs = Video.find(:all, :conditions => {:category => category_id}, :order => "created_at desc", :limit => 10)
-   populate_videos_with_common_data(vs, false) if vs
+    vs = Video.find(:all, :conditions => { :category => category_id }, :order => "created_at desc", :limit => 10)
+    populate_videos_with_common_data(vs, false) if vs
   end
 
   def self.get_videos_by_user(page, user_id, sidebar, limit = MAIN_LIST_LIMIT)
@@ -346,21 +362,21 @@ class Video < ActiveRecord::Base
     vs
   end
 
- def self.find_all_by_vtagged_user(user_fbid)
-   vs_ids = VideoTaggee.find_all_video_ids_by_user_id(user_fbid)
-   @vs = vs_ids.any? ? self.where("id in (#{vs_ids.join(",")})") : []
- end
+  def self.find_all_by_vtagged_user(user_fbid)
+    vs_ids = VideoTaggee.find_all_video_ids_by_user_id(user_fbid)
+    @vs = vs_ids.any? ? self.where("id in (#{vs_ids.join(",")})") : []
+  end
 
-def self.populate_videos_with_common_data(vs, sidebar, name = false)
- vs.each do |v|
-   user = v.user
-   v[:user_id] = user.id
-   v[:user_nick] = user.nick
-   v[:thumb] = sidebar ? v.thumb_small_src : v.thumb_src
-   v[:src] = "#{directory_for_img(v.id)}/#{v.id}.avi"
-   v[:category_title] = v.category_title if name
- end
-end
+  def self.populate_videos_with_common_data(vs, sidebar, name = false)
+    vs.each do |v|
+      user = v.user
+      v[:user_id] = user.id
+      v[:user_nick] = user.nick
+      v[:thumb] = sidebar ? v.thumb_small_src : v.thumb_src
+      v[:src] = "#{directory_for_img(v.id)}/#{v.id}.avi"
+      v[:category_title] = v.category_title if name
+    end
+  end
 
 # _____________________________________________ Face detection _______________________
 
@@ -391,7 +407,7 @@ end
     #input_file = File.join(Video.full_directory(id),id.to_s)
     input_file = filename
     if !File.exist?(input_file)
-       input_file = video_file.current_path
+      input_file = video_file.current_path
     end
 
     "#{MOVIE_FACE_RECOGNITION_EXEC_PATH} Dreamline #{input_file} #{output_dir} #{HAAR_CASCADES_PATH} #{Rails.root.to_s}/public#{thumb_path} #{Rails.root.to_s}/public#{thumb_path_small}"
@@ -414,7 +430,7 @@ end
     doc = REXML::Document.new file
     doc.elements.each('//face') do |face|
       taggee = self.video_taggees.build
-      taggee.contact_info =  ""
+      taggee.contact_info = ""
       taggee.save
       dir = File.dirname(face.attributes["path"])
       newFilename = File.join(dir, "#{taggee.id.to_s}.tif")
@@ -422,42 +438,78 @@ end
 
       face.elements.each("timesegment ") do |segment|
         newSeg = TimeSegment.new
-        newSeg.begin = segment.attributes["begin"].to_i
+        newSeg.begin = segment.attributes["start"].to_i
         newSeg.end = segment.attributes["end"].to_i
         newSeg.taggee_id = taggee.id
         newSeg.save
       end
     end
   end
+
 # _____________________________________________ Face detection _______________________
-    #___________________________________________taggees handling______________________
-    def new_taggee_attributes=(taggee_attributes)
-        taggee_attributes.each do |taggee|
-            video_taggees.build(taggee)
-        end
+#___________________________________________taggees handling______________________
+  def new_taggee_attributes=(taggee_attributes)
+    taggee_attributes.each do |taggee|
+      video_taggees.build(taggee)
     end
+  end
 
-    def existing_taggee_attributes=(taggee_attributes)
-        video_taggees.reject(&:new_record?).each do |taggee|
-            attributes = taggee_attributes[taggee.id.to_s]
-            if attributes
-                taggee.attributes = attributes
-            else
-                VideoTaggee.delete(taggee.id)
-            end
-        end
-    end
-
-    def save_taggees
-      video_taggees.each do |t|
-        t.save(false)
+  def existing_taggee_attributes=(taggee_attributes)
+    video_taggees.reject(&:new_record?).each do |taggee|
+      attributes = taggee_attributes[taggee.id.to_s]
+      if attributes
+        taggee.attributes = attributes
+      else
+        VideoTaggee.delete(taggee.id)
       end
     end
-    #___________________________________________taggees handling______________________
+  end
 
-    def test_facebook_video
-      output_dir = faces_directory
-      "#{MOVIE_FACE_RECOGNITION_EXEC_PATH} Dreamline https://fbcdn-video-a.akamaihd.net/cfs-ak-ash4/348369/702/10150436322608645_35460.mp4?oh=8e1db8c843f46df7b6d08693a0777387&oe=4EEB3C00&__gda__=1324039168_f09d0e23443449ae0c8365e36dab4e53 #{output_dir} #{HAAR_CASCADES_PATH} #{Rails.root.to_s}/public#{thumb_path} #{Rails.root.to_s}/public#{thumb_path_small}"
+  def save_taggees
+    video_taggees.each do |t|
+      t.save(false)
     end
+  end
+
+  #___________________________________________taggees handling______________________
+
+  def to_player_json(default_face)
+    resHash = { :name => self.title, :defaultCut => default_face }
+    tags = VideoTaggee.find_all_by_video_id(id)
+    cuts = []
+    tags.each do |tag|
+      unless tag.contact_info.empty?
+        segs = TimeSegment.find_all_by_taggee_id(tag.id)
+        times = []
+        segs.each do |seg|
+          times << [seg.begin / 1000, seg.end / 1000]
+        end
+        cuts << { :name => tag.contact_info, :segments => times }
+      end
+    end
+    resHash[:cuts] = cuts
+    resHash
+  end
+
+  def write_temp_player_file (default_face, file_path)
+    toWrite = to_player_json default_face
+    j = ActiveSupport::JSON
+       File.open(file_path, 'w') {|f| f.write(j.encode(toWrite))}
+  end
+
+  def player_file_path
+     Video.directory_for_img(id) + "/" + "player_cuts.json"
+  end
+
+  def player_file__full_path
+     Video.full_directory(id) + "/" + "player_cuts.json"
+  end
+
+  def gen_player_file current_user
+    write_temp_player_file(current_user.nick, player_file__full_path)
+    player_file_path
+  end
+
+
 end
 
