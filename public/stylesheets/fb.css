@@ -875,3 +875,23 @@ text-align:left;
 }
 
 
+/* ================================== Edit tags page ======================================== */
+div#not_found_tags,div#not_found_tags_back{
+		margin:auto;
+}
+div#not_found_tags_back{
+	margin-top:20px;
+	width:130px;
+}
+div#not_found_tags{
+	width:350px;
+	height:100px;
+	border:1px solid #d1d1d1;
+
+	margin-top:50px;
+}
+div#not_found_tags h2{
+	margin-top:40px;
+	font-size:14px;
+	vertical-align:middle
+}

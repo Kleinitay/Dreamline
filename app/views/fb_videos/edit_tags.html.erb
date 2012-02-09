@@ -29,11 +29,13 @@
 					</div>
 				<% end %>
 			<% else %>
-				<h2> Sorry, no faces found in this video </h2>
-				<br/>
-				<div>
-					<p><input type="button" onclick="location.href='/fb/list'" value="Back" name="back"></p>
+				<div id="not_found_tags">
+					<h2> Sorry, no faces found in this video </h2>
 				</div>
+				<div id="not_found_tags_back">
+						<input class="vtag_butt radious_6" type="button" onclick="location.href='/fb/list'" value="Back" name="Back">
+				</div>	
+				
 			<% end %>
 		</div>
 		<div id="right_content">
