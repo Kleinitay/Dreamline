@@ -1805,7 +1805,7 @@ color:#00555a;
 .share-panel-top{
 	position:relative;
 	top:-5px;
-	width:235px;
+	width:250px;
 	float:right;
 }
 .share-panel {
@@ -2684,7 +2684,7 @@ copy
 
 /* ----------------------- AddThis style -------------------------------- */
 .addthis_button_facebook_like{
-	width:60px;
+	width:75px;
 }
 .addthis_button_tweet{
 	width:85px;
@@ -2759,4 +2759,9 @@ div.avatar_border{
 div.edit_box:hover{
 	cursor:pointer;
 	background-color:#f3f0f0;
+}
+
+#in_this_video h2{
+
+text-align:left;
 }
