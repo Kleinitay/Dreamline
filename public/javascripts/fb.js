@@ -11,6 +11,7 @@ $(document).ready(function(){
  /
  
  //fb form upload validations
+
  
  $('#fb_keywords').blur(function(){	
  	replace_spaces_with_commas();
@@ -120,5 +121,14 @@ $(document).ready(function(){
 		}
 				
 	}
-	
+	 //clear error messages
+	 $("#fb_upload_file").change(function(){
+	 			$("#fb_file_upload_error").hide();
+	 });
+	 $("#fb_title").click(function(){
+	 	$("#fb_title_error").hide();
+	 });
+	 $('#fb_keywords').click(function(){
+	 	$("#fb_keywords_error").hide();
+	 })
 });
