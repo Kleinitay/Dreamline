@@ -2765,3 +2765,41 @@ div.edit_box:hover{
 
 text-align:left;
 }
+#fb_upload_file{
+	width:210px;
+}
+
+/* ********************************** Loading div *************************** */
+#mask {
+  position:absolute;
+  z-index:9000;
+  background-color:#AFAFAF;
+  display:none;
+ }
+ #boxes .window {
+  position:absolute;
+  display:none;
+  z-index:9999;
+  padding:20px;
+  border:2px solid #c1d2d3;
+}
+ 
+#boxes #dialog {
+  width:360px; 
+  height:400px;
+  background-color:#ffffff;
+  text-align:center;
+}
+#loading_text{
+	text-align:center;
+}
+#fb_advertisement{
+ 
+margin:0px auto 20px auto;
+width:336px;
+height:280px;
+border:1px solid #AFAFAF /* this border should be removed when the actual advertisement will be added */	
+}
+#loading_anim{
+	margin-bottom:10px;
+}
