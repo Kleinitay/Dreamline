@@ -43,7 +43,6 @@
 		</div>
 </div>
 
-
 <script type="text/javascript">
 	
 	$(function() {
@@ -53,11 +52,20 @@
 		//this function display the JQuery ui autocomplite+image
 		$(".contact_info").each(function() {
 			$(this).autocomplete({
-				source: availableTags
+				//source: availableTags
+			source: [
+			<% @friends.each do |f|%>
+            {
+                value:'<%=f[0]%>',
+                id: '<%=f[1]%>'               
+            },
+            <% end %>
+        ],
+        minLength: 1	
 			}).data("autocomplete")._renderItem = function (ul, item) { // this section was added by pnina this is the place where the image is added to the autocomplite
 				return $("<li />")
 				.data("item.autocomplete", item)
-				.append("<a><img src='https://graph.facebook.com/1460357077/picture/' width='23' height='23'>" + item.value + "</a>")
+				.append("<a><img class=friends_pic src=https://graph.facebook.com/" +item.id+ "/picture/ width=23 height=23>" + item.value + "</a>")
 				.appendTo(ul);
 			}; //data
 		});	
