@@ -328,7 +328,10 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a4c4c6', end
 	width: 230px;
 }
 
-
+div#title-video h1{
+	position:relative;
+	top:-15px;
+}
 .wrapper {	
 	float: left;
 	width:760px;
