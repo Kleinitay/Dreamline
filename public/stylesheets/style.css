@@ -1523,7 +1523,7 @@ left:-30px;
 top:-15px;
 background:url(../images/bg-login-shadow.png) no-repeat left top;
 }
-.signin_form_heading {
+.signin_form_heading,.upload_form_heading,.edit_form_heading {
 width:297px;
 float:left;
 background:url(../images/db-border.gif) repeat-x bottom;
@@ -1532,9 +1532,8 @@ margin-bottom:10px;
 position:relative;
 top:-15px;
 }
-.signin_form_heading h1,.upload_form_heading h1 {
+.signin_form_heading h1,.upload_form_heading h1,.edit_form_heading h1 {
 height:46px;
-
 text-indent:-9999px;
 margin-bottom:8px;
 }
@@ -1543,6 +1542,9 @@ background:url(../images/upload-heading.png) no-repeat left top;
 }
 .signin_form_heading h1{
 background:url(../images/login-heading.png) no-repeat left top;	
+}
+.edit_form_heading h1{
+	background:url(../images/edit-heading.png) no-repeat left top;	
 }
 .signin_form_heading p {
 line-height:18px;
