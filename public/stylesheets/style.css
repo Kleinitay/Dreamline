@@ -1532,11 +1532,17 @@ margin-bottom:10px;
 position:relative;
 top:-15px;
 }
-.signin_form_heading h1 {
+.signin_form_heading h1,.upload_form_heading h1 {
 height:46px;
-background:url(../images/login-heading.png) no-repeat left top;
+
 text-indent:-9999px;
 margin-bottom:8px;
+}
+.upload_form_heading h1{
+background:url(../images/upload-heading.png) no-repeat left top;	
+}
+.signin_form_heading h1{
+background:url(../images/login-heading.png) no-repeat left top;	
 }
 .signin_form_heading p {
 line-height:18px;
