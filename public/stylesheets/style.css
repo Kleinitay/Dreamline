@@ -2767,7 +2767,7 @@ div.avatar_border{
 	top:-15px;
 	border:3px solid #C1D2D3;
 	width:70px;
-	height:80px;
+	height:70px;
 	margin-left:52px;
 }
 .edit_box_back{
@@ -2776,6 +2776,10 @@ div.avatar_border{
 div.edit_box:hover{
 	cursor:pointer;
 	background-color:#f3f0f0;
+}
+div#new_tag{
+	text-align:center;
+	padding-top:10px;
 }
 
 #in_this_video h2{
