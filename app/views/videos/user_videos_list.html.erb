@@ -6,21 +6,9 @@
 
 	<div id="content_sec">
 		<div id="left_content">
-			<div id="banner_slider">
-				<div id="nav-slider">
-					<ul>
-						<li class="nobg"><a href="/video/latest">Latest Videos </a></li>
-						<li class="nobg"><a href="/video/most_popular"> Most Popular</a></li>
-						<li class="active"><a href=#> <%= @page_title %> Videos</a></li>
-					</ul>
-				</div>
-				<%= render :partial => "videos/player_frame" %>	
-			</div>
 			<%= render :partial => "videos/videos_list" %>
 			<%= render :partial => "sidebars/single_video_sidebar" %>
-
 	<br class="clear" />
-
 </div>
 <!--Content Section End -->
 
