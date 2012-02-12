@@ -43,7 +43,7 @@
 												<div class="left"><%= link_to_function image_tag("gallery_delete.png", :class=>'gallery_delete'), "var node1 = document.getElementById(\'video_taggee#{video_taggee.id.to_s}\');node1.parentNode.removeChild(node1)" %></div>
 												<div class="image_border radious_6"><img class="gallary_image" src="<%= "#{video_taggee.img_path}" %>" width="70" height="80"></div>
 												<label for="tags">Who is this? </label>
-												<br>
+												<br><!-- Moozly: don't mess with these 2 inputs positioning, I'm handling them in jquery as .next() -->
 												<%= tag.text_field :contact_info, :class => "contact_info" %>
 												<%= tag.hidden_field :fb_id, :class =>"fb_id" %>
 												<br>
