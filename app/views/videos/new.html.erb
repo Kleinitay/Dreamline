@@ -2,7 +2,7 @@
     <div id="signin_content">
         <div id="left_col">
             <div class="bg-shadow">&nbsp;<!--this is for side shadow --></div>
-            <div class="signin_form_heading">
+            <div class="upload_form_heading">
                 <h1>Upload Video</h1>
 
                 <p>Here you can upload your own cool videos!</p>
@@ -34,9 +34,10 @@
                         <% end %>
                     </table>
                     <ul>
+                    	<li id="fb_title_error"></li>
                         <li>
                             <%= f.label :title %>
-                            <span><%= f.text_field :title %></span>
+                            <span><%= f.text_field :title ,:id=>"fb_title"%></span>
                         </li>
                         <li>
                             <%= f.label :description %>
@@ -46,15 +47,18 @@
                             <%= f.label :category %>
                             <%= f.select :category, options_for_select(Video::CATEGORIES.map { |k, v| [v.titleize, k] }) %>
                         </li>
+                        <li id="fb_keywords_error"></li>
                         <li>
                             <%= f.label :keywords %>
-                            <span><%= f.text_field :keywords %></span>
+                            <span><%= f.text_field :keywords ,:id=>"fb_keywords"%></span>
                         </li>
+                        <li id="fb_file_upload_error"></li>
                         <li>
                             <%= f.label :video %>
-                            <%= f.file_field :video_file %>
+                            <%= f.file_field :video_file ,:id=>"fb_upload_file" %>
                         </li>
-                        <li> <%= f.submit 'Upload' %> | <%= link_to 'Cancel', "/" %></li>
+                        <!--<li class="submit_div"> <%#= f.submit 'Upload' %> | <%= link_to 'Cancel', "/" %></li>-->
+                          <input type=button class="site_button radious_6 left" id='upload_fb_video' value=Upload> <%= link_to 'Cancel', "/",:class=>'upload_cancel_link'%>
                     </ul>
                 </div>
             <% end %>

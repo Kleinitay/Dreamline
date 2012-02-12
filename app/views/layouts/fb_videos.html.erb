@@ -5,6 +5,8 @@
 		<title>VtagO App</title>
 		<%= stylesheet_link_tag "fb.css" %>
 		<%= javascript_include_tag "jquery.min" ,"fb"%> 
+		<link rel="stylesheet" href="/dreamline_player/mediaelement/build/mediaelementplayer.css" />
+	<link rel="stylesheet" href="/dreamline_player/mejs.cuts.css" />
 	</head>
 
 	<body onload="MM_preloadImages('/images/fb/tag_button_on.gif')">
@@ -23,7 +25,7 @@
 			<div id="fb_header">
 				<div id="logo" class="logo"><%=link_to logo,"http://www.facebook.com/vtago"%></div>
 				<ul id="fb_nav">
-					<li id="vtag_video"><a class="fbtab" href="/fb/list" tabindex="1">Vtag a video</a></li>
+					<li id="vtag_video"><a class="fbtab" href="/fb/list" tabindex="1">My Videos</a></li>
 					<li id="got_vtag"><a class="fbtab" href="/fb/vtaggees" tabindex="2">I got Vtagged</a></li>
 					<li id="upload_video"><a class="fbtab" href="/fb/new" tabindex="3">Upload a video</a></li>
 					<li id="about_vtag"><a class="fbtab" href="/fb/about" tabindex="4">About VtagO</a></li>

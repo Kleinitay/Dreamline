@@ -1,14 +1,6 @@
-		
-// show selected tab
+
 $(document).ready(function(){			
-	// show selected tab
- $('.vtag_video').parents().find('#vtag_video a').removeClass('fbtab').addClass('fbtab_selected')
- $('.got_vtag').parents().find('#got_vtag a').removeClass('fbtab').addClass('fbtab_selected')
- $('.upload_video').parents().find('#upload_video a').removeClass('fbtab').addClass('fbtab_selected')
- $('.about_vtago').parents().find('#about_vtag a').removeClass('fbtab').addClass('fbtab_selected')
- 
- 
- /
+	
  
  //fb form upload validations
 

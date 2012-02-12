@@ -297,7 +297,6 @@ class Video < ActiveRecord::Base
 
   # _____________________________________________ FLV conversion functions _______________________
 
-
   #------------------------------------------------------ Class methods -------------------------------------------------------
   def self.uri(id)
     v=Video.find_by_id(id, :select => 'title')
