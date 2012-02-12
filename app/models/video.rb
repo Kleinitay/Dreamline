@@ -232,6 +232,7 @@ class Video < ActiveRecord::Base
     self.convert_to_flv!
     width = DEFAULT_WIDTH
     height = DEFAULT_HEIGHT
+
     unless video_info["Width"].nil? || video_info["Height"].nil?
       origWidth = video_info["Width"].to_i
       origHeight = video_info["Height"].to_i
@@ -320,6 +321,10 @@ class Video < ActiveRecord::Base
   def self.full_directory(video_id)
     string_id = (video_id.to_s).rjust(9, "0")
     "#{FULL_VIDEO_PATH}#{string_id[0..2]}/#{string_id[3..5]}/#{string_id[6..8]}"
+  end
+
+  def self.full_directory_for_url(video_id)
+    Video.full_directory(video_id).gsub("/","%2F")
   end
 
   def self.for_view(id)

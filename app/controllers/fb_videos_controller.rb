@@ -109,7 +109,7 @@ class FbVideosController < ApplicationController
       @user = current_user
       @taggees = @video.video_taggees
       friends = fb_graph.get_connections(current_user.fb_id,'friends')
-      @friends=friends # this was added by pnina in order to use it in the autocomplite function
+      #@friends=friends # this was added by pnina in order to use it in the autocomplite function
       @friends = {"#{current_user.nick}" => "#{current_user.fb_id }"}
       friends.map {|friend| @friends[friend["name"]] = friend["id"]}
       @friends[current_user.nick] = current_user.fb_id
@@ -142,7 +142,7 @@ class FbVideosController < ApplicationController
           else     
             new_taggees = (updated_taggees_ids - existing_taggees)
           end
-          post_vtag(@new, new_taggees, @video.title.titleize)
+          post_vtag(@new, new_taggees, @video.id, @video.title.titleize)
         end #if ids
         redirect_to @video.fb_uri
       end# if update_attributes
