@@ -2724,6 +2724,9 @@ copy
 .addthis_button_google_plusone{
 	width:70px;
 }
+.addthis_button_preferred_1,.addthis_button_preferred_2,.addthis_button_compact,.addthis_button_preferred_3{
+	margin-right:7px;
+}
 /* ------------------------ edit tags galery ------------------------------- */
 div#video_taggees{
 	width:650px;
