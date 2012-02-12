@@ -2734,14 +2734,25 @@ border:1px solid transparent;
 .edit_box{
 	border:1px solid red;
 	width:160px;
+	height:140px;
 	float:left;
 	padding:10px;
 	border:1px solid #C1D2D3;
 	margin-bottom:20px;	
 	margin-right:35px;
 }
+div.edit_seperator{
+	width:35px;
+	height:140px;
+	float:left;
+}
+div.right_seperator{
+	width:0px;
+	height:140px;
+	float:left;
+}
 table#edit_tags_wrappper{
-	width:650px;
+	width:670px;
 }
 input.contact_info{
 	width:160px;
@@ -2758,32 +2769,56 @@ img.gallary_image{
 	
 }
 div#face_tag label{
-	margin-left:52px;
+	clear:both;
+	padding-top:5px;
+	margin-left:50px;
 }
 div.edit_box label{
-	margin-left:35px;
+	text-align:center;
 }
 .gallery_delete{
 	border:1px solid #C1D2D3;
 	padding:2px;
 	margin-left:150px;
-	/*display:none;*/
+	
+}
+.hide{
+	display:none;
+}
+a#add_new_tag{
+	display:box;
+	cursor:pointer;
+	border:1px solid #CCCCCC;
+	text-align:center;
+	padding:6px 10px 6px 10px;
+	background-color:#EDEDED;
+	text-decoration:none;
+	color:#333;
+}
+a#add_new_tag:hover{
+	background-color:#ffffff;
 }
 div.image_border{
 	position:relative;
-	top:-15px;
+	top:0px;
 	width:70px;
 	height:80px;
 	border:3px solid #C1D2D3;
 	margin-left:42px;
+	margin-bottom:10px;
+}
+div.image_border img{
+	position:relative;
+	top:-15px;
 }
 div.avatar_border{
 	position:relative;
-	top:-15px;
+	top:0px;
 	border:3px solid #C1D2D3;
 	width:70px;
 	height:70px;
 	margin-left:42px;
+	margin-bottom:10px;
 }
 .edit_box_back{
 	background-color:red;

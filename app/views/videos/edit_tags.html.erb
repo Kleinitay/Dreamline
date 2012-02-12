@@ -6,11 +6,16 @@
 	<title>VtagO - <%= @page_title %></title>
 	<script>
 	$(document).ready(function(){
+		
+		$('.gallery_delete').hide();
 
-		//$('.gallery_delete').hide();
 		$('.edit_box').hover(function(){			
-			//$(this).find('.gallery_delete').show();
-			
+			$(this).find('.gallery_delete').toggle();		
+		});
+		//display the add new tags box
+		$('#new_tag').hide();
+		$('#add_new_tag').click(function(){
+			$('#new_tag').show();
 		});
 
 });
@@ -32,35 +37,33 @@
 							<div id="video_taggees">
 								<table  id="edit_tags_wrappper"><tr><td>
 								<% @video.video_taggees.each do |video_taggee| %>
-								<%gallery_class_helper%>
-									<div class="edit_box radious_6 <%= @dynamic_class%>" id="video_taggee<%= video_taggee.id.to_s %>">
+									<div class="edit_box radious_6 edit_box_center" id="video_taggee<%= video_taggee.id.to_s %>">
 										<%= fields_for_taggee(video_taggee) do |tag| %>
 											<div id="face_tag" class="ui-widget">
-												<%= link_to_function  image_tag("gallery_delete.png", :class=>'gallery_delete'), "var node1 = document.getElementById(\'video_taggee#{video_taggee.id.to_s}\');node1.parentNode.removeChild(node1)" %>
-												<br>
+												<div class="left"><%= link_to_function  image_tag("gallery_delete.png", :class=>'gallery_delete'), "var node1 = document.getElementById(\'video_taggee#{video_taggee.id.to_s}\');node1.parentNode.removeChild(node1)" %></div>
 												<div class="image_border radious_6"><img class="gallary_image" src="<%= "#{video_taggee.img_path}" %>" width="70" height="80"></div>
-												
 												<label for="tags">Who is this? </label>
 												<br>
 												<%= tag.text_field 	 :contact_info, :class => "contact_info" %>
 												<br>
-												<%= tag.hidden_field :fb_id, :class =>"fb_id" %>
-												
+												<%= tag.hidden_field :fb_id, :class =>"fb_id" %>						
 											</div>
-										
 										<% end %>
 									</div>
-									
+									<!--<div class="div_seperator <%= @dynamic_class%>"></div>-->
 								<% end %>
+								
 								<!-- display of new tag box -->
-								<div class="edit_box radious_6">
-										<%= link_to  image_tag("gallery_delete.png", :class=>'gallery_delete') %>
+								 <div id="new_tag" class="edit_box radious_6">
+										<div class="left"><%= link_to  image_tag("gallery_delete.png", :class=>'gallery_delete') %></div>
 										<div id="new_tag" class="avatar_border radious_6"><%=image_tag "avatar.png", :size=>'55x60'%></div>
 										<label for="tags">Add another Vtag</label>
 										 <br>
 										<input type="text" class="contact_info">
 									</div> 	
 								</td></tr></table>
+								<a class="radious_6" id="add_new_tag">Add another Vtag</a>
+								<br>
 								<br class="clear" />
 								<div id="updade_footer">
 									<div><input class="site_button radious_6" type="submit" onclick = "update_fb_ids();" value="Update video" name="commit"></div>
