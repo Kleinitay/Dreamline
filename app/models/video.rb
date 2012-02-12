@@ -206,7 +206,7 @@ class Video < ActiveRecord::Base
   end
 
   def delete(fb_delete, graph=nil)
-    delete_video_files fb_graph
+    delete_video_files graph
     if fb_delete
       fb = fb_destroy(graph)
     end
@@ -232,14 +232,15 @@ class Video < ActiveRecord::Base
     self.convert_to_flv!
     width = DEFAULT_WIDTH
     height = DEFAULT_HEIGHT
-    unless    video_info["Width"].nil?  ||     video_info["Height"].nil?
-        origWidth = video_info["Width"].to_i
-        origHeight = video_info["Height"].to_i
-        if origHeight / origWidth >= 353/629
-          width = origWidth * height / origHeight
-        else
-          height = origHeight * width / origWidth
-        end
+
+    unless video_info["Width"].nil? || video_info["Height"].nil?
+      origWidth = video_info["Width"].to_i
+      origHeight = video_info["Height"].to_i
+      if origHeight / origWidth >= 353/629
+        width = origWidth * height / origHeight
+      else
+        height = origHeight * width / origWidth
+      end
     end
     success = system(convert_command video_info, width, height)
     if success && $?.exitstatus == 0
@@ -296,7 +297,6 @@ class Video < ActiveRecord::Base
   end
 
   # _____________________________________________ FLV conversion functions _______________________
-
 
   #------------------------------------------------------ Class methods -------------------------------------------------------
   def self.uri(id)
