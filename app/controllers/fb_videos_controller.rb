@@ -129,26 +129,31 @@ class FbVideosController < ApplicationController
   end
  
   def update_tags
-    unless !signed_in? || !params[:video]
+    unless !signed_in?
       @video = Video.find_by_fbid(params[:fb_id])
-      @new = request.path.index("/new") ? true : false
-      existing_taggees = @video.video_taggees_uniq.map(&:fb_id)
-      updated_taggees_ids = []
-      updated_taggees_ids = params[:video][:existing_taggee_attributes].values.map!{|h| h["fb_id"].to_i}.uniq.reject{ |id| id==0 } 
-      if @video.update_attributes(params[:video])
-        if updated_taggees_ids.any?
-          if @new
-            new_taggees = updated_taggees_ids
-          else     
-            new_taggees = (updated_taggees_ids - existing_taggees)
-          end
-          post_vtag(@new, new_taggees, @video.id, @video.title.titleize)
-        end #if ids
-        redirect_to @video.fb_uri
-      end# if update_attributes
+      #---------------------there are at least one taggee left
+      unless !params[:video]
+        @new = request.path.index("/new") ? true : false
+        existing_taggees = @video.video_taggees_uniq.map(&:fb_id)
+        updated_taggees_ids = []
+        updated_taggees_ids = params[:video][:existing_taggee_attributes].values.map!{|h| h["fb_id"].to_i}.uniq.reject{ |id| id==0 }
+        if @video.update_attributes(params[:video])
+          if updated_taggees_ids.any?
+            if @new
+              new_taggees = updated_taggees_ids
+            else
+              new_taggees = (updated_taggees_ids - existing_taggees)
+            end
+            post_vtag(@new, new_taggees, @video.id, @video.title.titleize)
+          end #if ids
+        end# if update_attributes
+        #---------------------all taggees are removed
+      else
+        @video.delete_taggees
+      end
+      redirect_to @video.fb_uri
     else
-      redirect_to "/fb/list"
+      redirect_to "/"
     end
   end
-
 end
