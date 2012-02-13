@@ -7,7 +7,7 @@
 * for browsers that don't understand HTML5 or can't play the provided codec
 * Can play MP4 (H.264), Ogg, WebM, FLV, WMV, WMA, ACC, and MP3
 *
-* Copyright 2010-2011, John Dyer (http://j.hn)
+* Copyright 2010-2012, John Dyer (http://j.hn)
 * Dual licensed under the MIT or GPL Version 2 licenses.
 *
 */
@@ -59,11 +59,13 @@ mejs.Utility = {
 			path = '',
 			name = '',
 			script,
-			scripts = document.getElementsByTagName('script');
+			scripts = document.getElementsByTagName('script'),
+			il = scripts.length,
+			jl = scriptNames.length;
 
-		for (; i < scripts.length; i++) {
+		for (; i < il; i++) {
 			script = scripts[i].src;
-			for (j = 0; j < scriptNames.length; j++) {
+			for (j = 0; j < jl; j++) {
 				name = scriptNames[j];
 				if (script.indexOf(name) > -1) {
 					path = script.substring(0, script.indexOf(name));
@@ -1490,7 +1492,7 @@ window.MediaElement = mejs.MediaElement;
  * Creates a controller bar for HTML5 <video> add <audio> tags
  * using jQuery and MediaElement.js (HTML5 Flash/Silverlight wrapper)
  *
- * Copyright 2010-2011, John Dyer (http://j.hn/)
+ * Copyright 2010-2012, John Dyer (http://j.hn/)
  * Dual licensed under the MIT or GPL Version 2 licenses.
  *
  */
@@ -1714,7 +1716,8 @@ if (typeof jQuery != 'undefined') {
 				t.$media.attr('controls', 'controls');
 
 				// attempt to fix iOS 3 bug
-				t.$media.removeAttr('poster');
+				//t.$media.removeAttr('poster');
+                                // no Issue found on iOS3 -ttroxell
 
 				// override Apple's autoplay override for iPads
 				if (mf.isiPad && t.media.getAttribute('autoplay') !== null) {
@@ -2528,7 +2531,7 @@ if (typeof jQuery != 'undefined') {
 		};
 	}
 	
-	$(function() {
+	$(document).ready(function() {
 		// auto enable using JSON attribute
 		$('.mejs-player').mediaelementplayer();
 	});
@@ -2537,6 +2540,7 @@ if (typeof jQuery != 'undefined') {
 	window.MediaElementPlayer = mejs.MediaElementPlayer;
 
 })(mejs.$);
+
 (function($) {
 
 	$.extend(mejs.MepDefaults, {
@@ -2546,22 +2550,22 @@ if (typeof jQuery != 'undefined') {
 	// PLAY/pause BUTTON
 	$.extend(MediaElementPlayer.prototype, {
 		buildplaypause: function(player, controls, layers, media) {
-			var
+			var 
 				t = this,
-				play =
+				play = 
 				$('<div class="mejs-button mejs-playpause-button mejs-play" >' +
 					'<button type="button" aria-controls="' + t.id + '" title="' + t.options.playpauseText + '"></button>' +
 				'</div>')
 				.appendTo(controls)
 				.click(function(e) {
 					e.preventDefault();
-
+				
 					if (media.paused) {
 						media.play();
 					} else {
 						media.pause();
 					}
-
+					
 					return false;
 				});
 
@@ -2581,7 +2585,7 @@ if (typeof jQuery != 'undefined') {
 			}, false);
 		}
 	});
-
+	
 })(mejs.$);
 (function($) {
 
@@ -2613,8 +2617,8 @@ if (typeof jQuery != 'undefined') {
 				});
 		}
 	});
+	
 })(mejs.$);
-
 (function($) {
 	// progress/loaded bar
 	$.extend(MediaElementPlayer.prototype, {
@@ -2662,9 +2666,9 @@ if (typeof jQuery != 'undefined') {
 
 						// position floating time box
 						if (!mejs.MediaFeatures.hasTouch) {
-							timefloat.css('left', pos);
-							timefloatcurrent.html( mejs.Utility.secondsToTimeCode(newTime) );
-							timefloat.show();
+								timefloat.css('left', pos);
+								timefloatcurrent.html( mejs.Utility.secondsToTimeCode(newTime) );
+								timefloat.show();
 						}
 					}
 				},
@@ -2776,17 +2780,17 @@ if (typeof jQuery != 'undefined') {
 				}
 			}
 
-		}
+		}	
 	});
-
 })(mejs.$);
-
 (function($) {
+	
 	// options
 	$.extend(mejs.MepDefaults, {
 		duration: -1,
 		timeAndDurationSeparator: ' <span> | </span> '
 	});
+
 
 	// current and duration 00:00 / 00:00
 	$.extend(MediaElementPlayer.prototype, {
@@ -2860,8 +2864,6 @@ if (typeof jQuery != 'undefined') {
 	});
 
 })(mejs.$);
-
-// Volume
 (function($) {
 
 	$.extend(mejs.MepDefaults, {
@@ -3027,20 +3029,20 @@ if (typeof jQuery != 'undefined') {
 				}
 			}, false);
 
-			// set initial volume
-			//console.log('init volume',player.options.startVolume);
-			positionVolumeHandle(player.options.startVolume);
-			
-			// shim gets the startvolume as a parameter, but we have to set it on the native <video> and <audio> elements
-			if (media.pluginType === 'native') {
-				media.setVolume(player.options.startVolume);
+			if (t.container.is(':visible')) {
+				// set initial volume
+				positionVolumeHandle(player.options.startVolume);
+				
+				// shim gets the startvolume as a parameter, but we have to set it on the native <video> and <audio> elements
+				if (media.pluginType === 'native') {
+					media.setVolume(player.options.startVolume);
+				}
 			}
 		}
 	});
-
+	
 })(mejs.$);
 
-// Fullscreen
 (function($) {
 	
 	$.extend(mejs.MepDefaults, {
@@ -3455,7 +3457,6 @@ if (typeof jQuery != 'undefined') {
 
 })(mejs.$);
 
-// Tracks
 (function($) {
 
 	// add extra default options 
@@ -3499,12 +3500,12 @@ if (typeof jQuery != 'undefined') {
 						'</div>'+
 					'</div>')
 						.appendTo(controls)
-
+						
 						// hover
 						.hover(function() {
-							$(this).find('.mejs-captions-selector').css('visibility','visible'); //.slideDown('fast');
+							$(this).find('.mejs-captions-selector').css('visibility','visible');
 						}, function() {
-							$(this).find('.mejs-captions-selector').css('visibility','hidden'); //slideUp('fast', function() { $(this).css('visibility','hidden'); });
+							$(this).find('.mejs-captions-selector').css('visibility','hidden');
 						})					
 						
 						// handle clicks to the language radio buttons
@@ -3941,7 +3942,12 @@ if (typeof jQuery != 'undefined') {
 
 })(mejs.$);
 
-// ContextMenu Plugin
+/*
+* ContextMenu Plugin
+* 
+*
+*/
+
 (function($) {
 
 $.extend(mejs.MepDefaults,
@@ -4000,7 +4006,9 @@ $.extend(mejs.MepDefaults,
 				window.location.href = player.media.currentSrc;
 			}
 		}	
-	]);
+	]
+);
+
 
 	$.extend(MediaElementPlayer.prototype, {
 		buildcontextmenu: function(player, controls, layers, media) {
@@ -4127,3 +4135,4 @@ $.extend(mejs.MepDefaults,
 	});
 	
 })(mejs.$);
+

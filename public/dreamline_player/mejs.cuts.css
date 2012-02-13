@@ -1,4 +1,5 @@
 .video-wrap {
+	padding: 5px;
 	border-radius: 3px;
 	background: gray;
 	display: inline-block;
@@ -18,7 +19,7 @@
 	font-size: 14px; color: white;
 }
 	.mejs-controls .mejs-cuts-button button {
-		margin: 0; padding: 7px;
+		margin: 0; padding: 6px;
 		color: white;
 		background: transparent;
 		border-width: 0;
@@ -26,7 +27,7 @@
 	}
 	.mejs-controls .mejs-cuts-button .mejs-cuts-selector {
 		display:none;
-		position: absolute; bottom: 29px; left: -10px;
+		position: absolute; bottom: 27px; left: -10px;
 		width: 120px; height: 100px;
 		padding: 5px;
 		background: url(background.png); background: rgba(50,50,50,0.7);
@@ -48,13 +49,13 @@
 			}
 				.mejs-controls .mejs-cuts-button ul li input {
 					float: left;
-					margin: 3px 3px 0 5px;
+					margin: 1px 3px 0 5px;
 					clear: both;
 				}
 				.mejs-controls .mejs-cuts-button ul li label {
 					display: block;
 					padding: 4px 0 0 0;
-					font-size: 10px; line-height: 15px;
+					font-size: 12px; line-height: 15px;
 					font-family: helvetica, arial;
 				}
 
@@ -78,11 +79,11 @@
 	width: auto; height: 100%;
 }
 	.mejs-time-segments .mejs-segment {
-		position: absolute; top: -11px;
+		position: absolute; top: 0;
 		display: block;
 		width: 0; height: 10px;
 		opacity: 0.4;
 
-		background: white;
+		background: #adff2f;
 		border-radius: 2px;
 	}
