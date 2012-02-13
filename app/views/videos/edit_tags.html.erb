@@ -46,16 +46,16 @@
 														</div>
 													<% end %>
 												</div>
+												<!-- display of new tag box -->
+									 			<div id="new_tag" class="edit_box radious_6">
+													<div class="left"><%= link_to image_tag("gallery_delete.png", :class=>'gallery_delete') %></div>
+													<div id="new_tag" class="avatar_border radious_6"><%=image_tag "avatar.png", :size=>'55x60'%></div>
+													<label for="tags">Add another Vtag</label>
+											 		<br>
+													<input type="text" class="contact_info">
+													<input type="hidden" class="fb_id">
+												</div>
 											<% end %>
-								
-											<!-- display of new tag box -->
-								 			<div id="new_tag" class="edit_box radious_6">
-												<div class="left"><%= link_to image_tag("gallery_delete.png", :class=>'gallery_delete') %></div>
-												<div id="new_tag" class="avatar_border radious_6"><%=image_tag "avatar.png", :size=>'55x60'%></div>
-												<label for="tags">Add another Vtag</label>
-										 		<br>
-												<input type="text" class="contact_info">
-											</div> 	
 										</td>
 									</tr>
 								</table>
