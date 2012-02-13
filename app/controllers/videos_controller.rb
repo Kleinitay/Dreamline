@@ -142,15 +142,15 @@ class VideosController < ApplicationController
       end
       redirect_to video_path (@video)
     else
-        redirect_to "/"
+      redirect_to "/"
     end
   end
 
   def destroy
-     video = Video.find(params[:id])
-     fb_delete = false #currently seems unavailable option by FB!
-     fb_delete ? graph = fb_graph : nil
-     flash[:notice] = video.delete(fb_delete, graph)
-     redirect_to "/users/#{current_user.id}/videos"
-   end
+    video = Video.find(params[:id])
+    fb_delete = false #currently seems unavailable option by FB!
+    fb_delete ? graph = fb_graph : nil
+    flash[:notice] = video.delete(fb_delete, graph)
+    redirect_to "/users/#{current_user.id}/videos"
+  end
 end
