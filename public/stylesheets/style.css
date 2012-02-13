@@ -2828,6 +2828,8 @@ a#add_new_tag{
 	background-color:#EDEDED;
 	text-decoration:none;
 	color:#333;
+	margin-left:520px;
+
 }
 a#add_new_tag:hover{
 	background-color:#ffffff;
@@ -2856,10 +2858,10 @@ div.avatar_border{
 	top:0px;
 	border:3px solid #C1D2D3;
 	width:80px;
-	height:90px;
+	height:80px;
 	margin-top:10px;
-	margin-left:42px;
-	margin-bottom:10px;
+	margin-left:38px;
+	margin-bottom:16px;
 }
 .edit_box_back{
 	background-color:red;
@@ -2876,6 +2878,7 @@ div#updade_footer{
 	border-top:1px solid #C1D2D3;
 	padding-top:15px;
 	height:250px;
+	width:625px;
 	
 }
 div#updade_footer div{
