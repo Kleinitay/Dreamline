@@ -475,6 +475,10 @@ class Video < ActiveRecord::Base
     end
   end
 
+  def delete_taggees
+     self.video_taggees.destroy_all
+  end
+
   #___________________________________________taggees handling______________________
 
   def to_player_json(default_face)
