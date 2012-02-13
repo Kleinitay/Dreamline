@@ -80,7 +80,6 @@ class VideosController < ApplicationController
   end
 
   def edit_tags
-    
     begin
       @new = params[:new]=="new" ? true : false
       @video = Video.find(params[:id])
@@ -119,23 +118,29 @@ class VideosController < ApplicationController
   end
 
   def update_tags
-    unless !signed_in? || !params[:video]
+    unless !signed_in?
       @video = Video.find(params[:id])
-      @new = params[:new]=="new" ? true : false
-      existing_taggees = @video.video_taggees_uniq.map(&:fb_id)
-      updated_taggees_ids = []
-      updated_taggees_ids = params[:video][:existing_taggee_attributes].values.map!{|h| h["fb_id"].to_i}.uniq.reject{ |id| id==0 }
-      if @video.update_attributes(params[:video])
-        if updated_taggees_ids.any?
-          if @new
-            new_taggees = updated_taggees_ids
-          else
-            new_taggees = (updated_taggees_ids - existing_taggees)
-          end
-          post_vtag(@new, new_taggees, @video.id, @video.title.titleize)
-        end #if ids
-        redirect_to "/video/#{@video.id}"#@video.uri#video_path (@video)
-      end# if update_attributes
+      #---------------------there are at least one taggee left
+      unless !params[:video]
+        @new = params[:new]=="new" ? true : false
+        existing_taggees = @video.video_taggees_uniq.map(&:fb_id)
+        updated_taggees_ids = []
+        updated_taggees_ids = params[:video][:existing_taggee_attributes].values.map!{|h| h["fb_id"].to_i}.uniq.reject{ |id| id==0 }
+        if @video.update_attributes(params[:video])
+          if updated_taggees_ids.any?
+            if @new
+              new_taggees = updated_taggees_ids
+            else
+              new_taggees = (updated_taggees_ids - existing_taggees)
+            end
+            post_vtag(@new, new_taggees, @video.id, @video.title.titleize)
+          end #if ids
+        end# if update_attributes
+        #---------------------all taggees are removed
+      else
+        @video.delete_taggees
+      end
+      redirect_to video_path (@video)
     else
       redirect_to "/"
     end
