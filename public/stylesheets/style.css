@@ -1748,14 +1748,19 @@ font-size:11px;
 font-family:Arial, Helvetica, sans-serif;
 }
 
-.panel-video {
+.panel-video, .panel-video-actions {
 float:left;
 width:650px;
 height:34px;
 background:url(../images/bg-panel.gif) repeat-x top;
 border:1px solid #cdcdcd;
-margin-top:8px;
+
 margin-bottom:12px;
+
+}
+
+.panel-video{
+	margin-top:8px;
 }
 .panel-left {
 float:left;
@@ -1842,11 +1847,13 @@ color:#00555a;
 }
 .share-panel {
 float:left;
-width:632px;
-border:1px solid #cdcdcd;
+width:100%;
+width:650px;
+/*width:630px;*/
+/*border:1px solid #cdcdcd;*/
 position:relative;
-padding:18px 8px 8px 8px;
-margin-bottom:10px;
+/*padding:18px 8px 8px 8px;*/
+/*margin-bottom:10px;*/
 }
 .share-panel em.shout-out {
 position:absolute;
@@ -1861,7 +1868,7 @@ background:url(../images/bg-call.gif) no-repeat left top;
 .embed-code {
 float:left;
 width:380px;
-//background:url(../images/bg-icon-embed.gif) no-repeat left top;
+/*background:url(../images/bg-icon-embed.gif) no-repeat left top;*/
 padding-left:10px;
 margin-bottom:8px;
 padding-top: 5px;
@@ -1912,7 +1919,8 @@ float:left;
 float:left;
 background:#f2f2f2;
 padding:8px 0;
-width:630px;
+/*width:630px;*/
+width:100%;
 border:1px solid #d0d0d0;
 }
 .social-network-group li {
@@ -2859,10 +2867,27 @@ div#updade_footer div{
 	margin:auto;
 	
 }
+div#in_this_video{
+	float:left;
+	width:100%;
+	background-color:#f2f2f2;
+	border-left:1px solid #cdcdcd;
+	border-right:1px solid #cdcdcd;
+}
 
 #in_this_video h2{
-
 text-align:left;
+padding-top:10px;
+padding-left:15px;
+}
+div#tagged,div.video_description{
+	padding-top:2px;
+padding-left:15px;
+}
+div.video_description{
+	width:500px;
+	line-height:18px;
+	font-size:12px;
 }
 #fb_upload_file{
 	width:210px;

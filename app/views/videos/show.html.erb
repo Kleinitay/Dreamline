@@ -64,7 +64,7 @@
 					</div>	
 				</div>
 				<div class="share-panel">
-					<em class="shout-out">&nbsp;</em>
+					<!--<em class="shout-out">&nbsp;</em>-->
 					<div class="social-network-group">
 						<!-- AddThis Button BEGIN -->
 						<div class="addthis_toolbox addthis_default_style addthis_32x32_style" id="b_share">
@@ -78,11 +78,11 @@
 						<!-- AddThis Button END -->
 						<script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-4e60daa12b8cdf79"></script>		
 					</div>
-				</div>
+			</div>
 				<div id="in_this_video">
 					<% if @video.description != "" %>
 					<h2>Description:</h2>
-					<div> <%= @video.description %></div>
+					<div class="video_description"> <%= @video.description %></div>
 					<br>
 					<% end %>
 					<h2>In this video:</h2>
@@ -96,7 +96,7 @@
 					</div>
 				</br>
 			</div>
-			<div class="panel-video">
+			<div class="panel-video-actions">
 				<div class="panel-left">
 					<ul>
 						<!--li><a href="#" class="panl-1">Recommand</a></li-->
