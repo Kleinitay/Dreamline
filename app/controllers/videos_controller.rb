@@ -119,33 +119,33 @@ class VideosController < ApplicationController
   end
 
   def update_tags
-     unless !signed_in? || !params[:video]
-       @video = Video.find(params[:id])
-       @new = params[:new]=="new" ? true : false
-       existing_taggees = @video.video_taggees_uniq.map(&:fb_id)
-       updated_taggees_ids = []
-       updated_taggees_ids = params[:video][:existing_taggee_attributes].values.map!{|h| h["fb_id"].to_i}.uniq.reject{ |id| id==0 }
-       if @video.update_attributes(params[:video])
-         if updated_taggees_ids.any?
-           if @new
-             new_taggees = updated_taggees_ids
-           else
-             new_taggees = (updated_taggees_ids - existing_taggees)
-           end
-           post_vtag(@new, new_taggees, @video.id, @video.title.titleize)
-         end #if ids
-         redirect_to video_path (@video)
-       end# if update_attributes
-     else
-       redirect_to "/"
-     end
-   end
+    unless !signed_in? || !params[:video]
+      @video = Video.find(params[:id])
+      @new = params[:new]=="new" ? true : false
+      existing_taggees = @video.video_taggees_uniq.map(&:fb_id)
+      updated_taggees_ids = []
+      updated_taggees_ids = params[:video][:existing_taggee_attributes].values.map!{|h| h["fb_id"].to_i}.uniq.reject{ |id| id==0 }
+      if @video.update_attributes(params[:video])
+        if updated_taggees_ids.any?
+          if @new
+            new_taggees = updated_taggees_ids
+          else
+            new_taggees = (updated_taggees_ids - existing_taggees)
+          end
+          post_vtag(@new, new_taggees, @video.id, @video.title.titleize)
+        end #if ids
+        redirect_to "/video/#{@video.id}"#@video.uri#video_path (@video)
+      end# if update_attributes
+    else
+      redirect_to "/"
+    end
+  end
 
-   def destroy
-     video = Video.find(params[:id])
-     fb_delete = false #currently seems unavailable option by FB!
-     fb_delete ? graph = fb_graph : nil
-     flash[:notice] = video.delete(fb_delete, graph)
-     redirect_to "/users/#{current_user.id}/videos"
-   end
+  def destroy
+    video = Video.find(params[:id])
+    fb_delete = false #currently seems unavailable option by FB!
+    fb_delete ? graph = fb_graph : nil
+    flash[:notice] = video.delete(fb_delete, graph)
+    redirect_to "/users/#{current_user.id}/videos"
+  end
 end
