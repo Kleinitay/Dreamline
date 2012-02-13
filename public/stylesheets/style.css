@@ -2715,6 +2715,10 @@ copy
 }
 
 /* ----------------------- AddThis style -------------------------------- */
+.addthis_toolbox a {
+margin: 0px;
+padding:0px;
+}
 .addthis_button_facebook_like{
 	width:75px;
 }
