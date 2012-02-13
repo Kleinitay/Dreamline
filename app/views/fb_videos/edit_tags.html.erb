@@ -2,6 +2,20 @@
 	<link type="text/css" href="/javascripts/css/ui-lightness/jquery-ui-1.8.16.custom.css" rel="stylesheet" />
 <script type="text/javascript" src="/javascripts/js/jquery-1.6.2.min.js"></script>
 <script type="text/javascript" src="/javascripts/js/jquery-ui-1.8.16.custom.min.js"></script>
+<script>
+		$(document).ready(function(){
+			// hide the gallery delete image
+			$('.gallery_delete').hide();
+			$('.edit_box').hover(function(){			
+				$(this).find('.gallery_delete').toggle();		
+			});
+			//display the add new tags box
+			$('#new_tag').hide();
+			$('#fb_add_new_tag').click(function(){
+				$('#new_tag').show();
+			});
+		});
+	</script>
 </head>
 <div class="vtag_video wrapper">
 	<h2>Edit Tags</h2>
@@ -9,23 +23,35 @@
 		<% if @video.video_taggees.any? %>
 				<%= form_for :video, :url => "/fb/#{@video.fbid}/update_tags#{"/new" if @new}" do |f| %>
 					<div id="video_taggees">
+						<table  id="edit_tags_wrappper"><tr><td>
 						<% @video.video_taggees.each do |video_taggee| %>
-							<div id="video_taggee<%= video_taggee.id.to_s %>">
+							<div class="edit_box radious_6 edit_box_center" id="video_taggee<%= video_taggee.id.to_s %>">
 							    <%= fields_for_taggee(video_taggee) do |tag| %>
 							        <div id="face_tag" class="ui-widget">
-							            <img src="<%= "#{video_taggee.img_path}" %>" width="60" height="70">
+							        	<div class="delete_div"><%= link_to_function image_tag("gallery_delete.png", :class=>'gallery_delete'), "var node1 = document.getElementById(\'video_taggee#{video_taggee.id.to_s}\');node1.parentNode.removeChild(node1)" %></div>
+							            <div class="image_border radious_6"><img class="gallary_image radious_6" src="<%= "#{video_taggee.img_path}" %>" width="70" height="80"></div>
 													<label for="tags">Who is this? </label>
 							            <%= tag.text_field 	 :contact_info, :class => "contact_info" %>
 							            <%= tag.hidden_field :fb_id, :class =>"fb_id" %>
-													<%= link_to_function "remove", "var node1 = document.getElementById(\'video_taggee#{video_taggee.id.to_s}\');node1.parentNode.removeChild(node1)" %>
 							        </div>
 							    <% end %>
 							</div>
 						<% end %>
+						<!-- display of new tag box -->
+								 <div id="new_tag" class="edit_box radious_6">
+										<div class="left"><%= link_to  image_tag("gallery_delete.png", :class=>'gallery_delete') %></div>
+										<div id="new_tag" class="fb_avatar_border radious_6"><%=image_tag "avatar.png", :size=>'55x60'%></div>
+										<label class ="fb_new_tag_label" for="tags">Add another Vtag</label>
+										 <br>
+										<input type="text" class="contact_info">
+									</div> 	
+								</td></tr></table>
+								<a class="radious_6" id="fb_add_new_tag">Add another Vtag</a>
+								<br>
 					</div>
-	
-					<div id="edit_submit">
-						<p><input  class="vtag_but radious_6" type="submit" onclick = "update_fb_ids();" value="Update video" name="commit"></p>
+					<!--<div id="edit_submit">-->
+					<div id="updade_footer">	
+						<div><input  class="vtag_butt radious_6" type="submit" onclick = "update_fb_ids();" value="Update video" name="commit"></div>
 					</div>
 				<% end %>
 			<% else %>
