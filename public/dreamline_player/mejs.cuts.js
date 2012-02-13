@@ -21,7 +21,8 @@ $.extend(mejs.MepDefaults, {
 		select: 'Select Cut',
 		all: 'All Video'
 	},
-	cutsJSON: false
+	cutsJSON: false,
+	cutsFade: true
 });
 
 $.extend(MediaElementPlayer.prototype, {
@@ -94,7 +95,12 @@ $.extend(MediaElementPlayer.prototype, {
 			t.resizeSegments();
 		});
 
+		var last = 0;
 		t.media.addEventListener('timeupdate', function() {
+			if (t.media.currentTime == last)
+				return;
+
+			last = t.media.currentTime;
 			t.playCurrentCut();
 		}, false);
 	},
@@ -111,18 +117,25 @@ $.extend(MediaElementPlayer.prototype, {
 		for (var i in segments) {
 			// in segment
 			if (segments[i][0] <= curr && curr <= segments[i][1]) {
-				console.log(curr+' in segment '+i);
+				console.log(curr+' in segment '+i+' ['+segments[i][0]+','+segments[i][1]+']');
 				return;
 			}
 			// not in segment, jump to next
 			if (curr < segments[i][0]) {
 				console.log(curr+' jumping to '+segments[i][0]+' in segment '+i);
 
+				// still the first segment
+				if (i == 0 || !this.options.cutsFade) {
+					t.media.setCurrentTime(segments[i][0]);
+					t.media.play();
+					return;
+				}
+
 				// fadein and out
 				t.cuts.playOverlay.hide();
 				t.media.pause();
 				t.cuts.fadescreen.fadeIn(400, function() {
-					t.media.setCurrentTime(segments[i][0]);
+				 t.media.setCurrentTime(segments[i][0]);
 					t.cuts.fadescreen.fadeOut(400, function() {
 						t.media.play();
 						t.cuts.playOverlay.show();
@@ -134,9 +147,10 @@ $.extend(MediaElementPlayer.prototype, {
 		// end of cut
 		t.media.pause();
 
-		if (curr > segments[i][1]+1) {
-			console.log('end.');
-			t.media.setCurrentTime(segments[i][1]);
+		if (curr > segments[i][1]+0.2) {
+			console.log('end. '+curr+' > '+(segments[i][1]+0.2), 'jumping to '+segments[0][0]);
+			t.media.setCurrentTime(segments[0][0]);
+			t.media.pause();
 		}
 
 	},
@@ -176,12 +190,12 @@ $.extend(MediaElementPlayer.prototype, {
 		var t = this,
 			cut = t.cuts.current = t.cuts.data.cuts[cutIndex] || t.cuts.all;
 
+		// jump to start of the segment
+		//if (t.media.currentTime)
+		//t.media.setCurrentTime(0); //cut.segments[0][0]);
+
 		// update button text
 		t.cuts.button.find('button').text(cut.name);
-
-		// jump to start of first segment
-		//if (t.media.currentTime)
-		//	t.media.setCurrentTime(cut.segments[0][0]);
 
 		// update timeline
 		t.cuts.segments.empty();
