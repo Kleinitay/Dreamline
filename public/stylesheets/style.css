@@ -1808,6 +1808,16 @@ background:url(../images/bg-panl-4.png) no-repeat 15px 10px;
 width:80px;
 padding-left:35px;
 }
+.panel-left li a.panl-4-edit{
+width:80px;
+padding-left:35px;
+background:url(../images/edit_icon.png) no-repeat 8px 5px;
+}
+.panel-left li a.panl-4-delete{
+width:80px;
+padding-left:35px;
+background:url(../images/delete_icon.png) no-repeat 10px 8px;
+}
 .panel-left li a.panl-5 {
 background:url(../images/bg-panl-5.png) no-repeat 12px 10px;
 width:35px;
