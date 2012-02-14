@@ -18,7 +18,7 @@ class FbVideosController < ApplicationController
 	end
 	
 	def list
-    @page_title = "Videos List"
+    @page_title = "My Videos"
     @videos = fb_graph.get_connections(current_user.fb_id,'videos/uploaded')
     app_fb_ids = Video.all(:conditions => {:user_id => current_user.id}, :select => "fbid,title").map(&:fbid)
     @videos.each do |v|
@@ -105,23 +105,15 @@ class FbVideosController < ApplicationController
       if @video.title.nil?
         @video.title = ""
       end
-      @page_title = "#{@video.title.titleize} - #{@new ? "Add Tags" : "Edit"} Tags"
+      @page_title = "#{@video.title.titleize} - #{@new ? "Add" : "Edit"} Tags"
       @user = current_user
       @taggees = @video.video_taggees
       friends = fb_graph.get_connections(current_user.fb_id,'friends')
-      #@friends=friends # this was added by pnina in order to use it in the autocomplite function
       @friends = {"#{current_user.nick}" => "#{current_user.fb_id }"}
       friends.map {|friend| @friends[friend["name"]] = friend["id"]}
       @friends[current_user.nick] = current_user.fb_id
       @names_arr = @friends.keys
       #@likes = graph.get_connections("me", "likes")
-
-      #sidebar
-  	  #get_sidebar_data # latest
-  	  #@user_videos = Video.get_videos_by_user(1, @user.id, true, 3)
-  	  #@trending_videos = Video.get_videos_by_sort(1,"popular", true ,3)
-  	  #@active_users = User.get_users_by_activity
-  
     #rescue Exception=>e
     #render :text => "Session Has gone away. Please refresh and login again."
     #sign_out
