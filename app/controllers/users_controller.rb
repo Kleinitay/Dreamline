@@ -96,6 +96,7 @@ class UsersController < ApplicationController
     @user_videos_page = true
     @own_videos = current_user == @user ? true : false
     @page_title = @own_videos ? "My" : "#{@user.nick}'s"
+    @empty_message = "This user does not have any videos yet."
     @videos = Video.get_videos_by_user(current_page,@user.id, false)
     get_sidebar_data # latest
     render "/videos/user_videos_list"

@@ -34,6 +34,7 @@ class VideosController < ApplicationController
 	      render_404 and return
     end
     @page_title = @order.titleize
+    @empty_message = "There are no videos to present for this page."
     get_sidebar_data
 
   end
