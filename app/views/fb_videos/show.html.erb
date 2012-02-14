@@ -4,7 +4,7 @@
 			<div id="fb_title-video">
 					<h1><%= @video.title %></h1>
 					<div class="fb-uploader-info"> <!--option for a plus image to add to fav-->
-						<a href="/users/<%= @user.id %>/videos">by : <%= @user.nick %></a>
+						<%=image_tag("https://graph.facebook.com/#{current_user.fb_id}/picture",:size=>"23x23",:class=>'profile_pic') %><a class="top_sign_link" href="/users/<%= current_user.id %><a href="/users/<%= @user.id %>/videos">by : <%= @user.nick %></a>
 					</div>
 			  </div>
 			   <div class="video-slider">
@@ -28,10 +28,10 @@
 			</div><!-- banner slider -->		
 			<div class="fb_panel-video">
 					
-						<textarea rows="" cols=""><%= "http://www.vtago#{@video.uri}" %></textarea>
+						<!--<textarea rows="" cols=""><%= "http://www.vtago#{@video.uri}" %></textarea> -->
 						<!--label><input type="checkbox" />Short URL</label-->
 			
-				<div class="fb_panel-right"><h3><span>views</span><strong>81,387,378</strong> </h3></div>	
+				<div class="fb_panel-right"><h3><strong>81,387,378!!!!!!!</strong><span>views</span></h3></div>	
 			</div>
 			
 		

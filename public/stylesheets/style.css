@@ -892,7 +892,8 @@ display:block;
 padding-top:13px;
 padding-bottom:4px;
 float:left;
-font-family:Georgia, "Times New Roman", Times, serif;
+/*font-family:Georgia, "Times New Roman", Times, serif;*/
+font-family: Arial, Helvetica, sans-serif;
 font-weight:bold;
 color:#454347;
 width:175px;
@@ -901,6 +902,12 @@ width:175px;
 display:block;
 float:left;
 width:175px;
+}
+.classic-channel li a em.user_data {
+display:block;
+float:left;
+width:175px;
+font-style:normal;
 }
 .classic-channel li a.red {
 background:#97020f;
@@ -1748,14 +1755,19 @@ font-size:11px;
 font-family:Arial, Helvetica, sans-serif;
 }
 
-.panel-video {
+.panel-video, .panel-video-actions {
 float:left;
 width:650px;
 height:34px;
 background:url(../images/bg-panel.gif) repeat-x top;
 border:1px solid #cdcdcd;
-margin-top:8px;
+
 margin-bottom:12px;
+
+}
+
+.panel-video{
+	margin-top:8px;
 }
 .panel-left {
 float:left;
@@ -1803,6 +1815,16 @@ background:url(../images/bg-panl-4.png) no-repeat 15px 10px;
 width:80px;
 padding-left:35px;
 }
+.panel-left li a.panl-4-edit{
+width:80px;
+padding-left:35px;
+background:url(../images/edit_icon.png) no-repeat 8px 5px;
+}
+.panel-left li a.panl-4-delete{
+width:80px;
+padding-left:35px;
+background:url(../images/delete_icon.png) no-repeat 10px 8px;
+}
 .panel-left li a.panl-5 {
 background:url(../images/bg-panl-5.png) no-repeat 12px 10px;
 width:35px;
@@ -1842,11 +1864,13 @@ color:#00555a;
 }
 .share-panel {
 float:left;
-width:632px;
-border:1px solid #cdcdcd;
+width:100%;
+width:650px;
+/*width:630px;*/
+/*border:1px solid #cdcdcd;*/
 position:relative;
-padding:18px 8px 8px 8px;
-margin-bottom:10px;
+/*padding:18px 8px 8px 8px;*/
+/*margin-bottom:10px;*/
 }
 .share-panel em.shout-out {
 position:absolute;
@@ -1861,7 +1885,7 @@ background:url(../images/bg-call.gif) no-repeat left top;
 .embed-code {
 float:left;
 width:380px;
-//background:url(../images/bg-icon-embed.gif) no-repeat left top;
+/*background:url(../images/bg-icon-embed.gif) no-repeat left top;*/
 padding-left:10px;
 margin-bottom:8px;
 padding-top: 5px;
@@ -1912,7 +1936,8 @@ float:left;
 float:left;
 background:#f2f2f2;
 padding:8px 0;
-width:630px;
+/*width:630px;*/
+width:100%;
 border:1px solid #d0d0d0;
 }
 .social-network-group li {
@@ -2715,6 +2740,10 @@ copy
 }
 
 /* ----------------------- AddThis style -------------------------------- */
+.addthis_toolbox a {
+margin: 0px;
+padding:0px;
+}
 .addthis_button_facebook_like{
 	width:75px;
 }
@@ -2737,7 +2766,7 @@ border:1px solid transparent;
 .edit_box{
 	border:1px solid red;
 	width:160px;
-	height:140px;
+	height:160px;
 	float:left;
 	padding:10px;
 	border:1px solid #C1D2D3;
@@ -2782,8 +2811,10 @@ div.edit_box label{
 .gallery_delete{
 	border:1px solid #C1D2D3;
 	padding:2px;
-	margin-left:150px;
-	
+	margin-left:150px;	
+}
+.delete_div{
+	height:10px;
 }
 .hide{
 	display:none;
@@ -2797,31 +2828,40 @@ a#add_new_tag{
 	background-color:#EDEDED;
 	text-decoration:none;
 	color:#333;
+	margin-left:520px;
+
 }
 a#add_new_tag:hover{
 	background-color:#ffffff;
 }
-div.image_border{
+/*div.image_border{
 	position:relative;
 	top:0px;
-	width:70px;
-	height:80px;
+	width:80px;
+	height:90px;
 	border:3px solid #C1D2D3;
 	margin-left:42px;
 	margin-bottom:10px;
-}
+}*/
 div.image_border img{
 	position:relative;
-	top:-15px;
+	top:0px;
+	border:4px solid #C1D2D3;
+	margin-left:37px;
+	margin-bottom:10px;
+	width:80px;
+	height:90px;
+
 }
 div.avatar_border{
 	position:relative;
 	top:0px;
 	border:3px solid #C1D2D3;
-	width:70px;
-	height:70px;
-	margin-left:42px;
-	margin-bottom:10px;
+	width:80px;
+	height:80px;
+	margin-top:10px;
+	margin-left:38px;
+	margin-bottom:16px;
 }
 .edit_box_back{
 	background-color:red;
@@ -2838,6 +2878,7 @@ div#updade_footer{
 	border-top:1px solid #C1D2D3;
 	padding-top:15px;
 	height:250px;
+	width:625px;
 	
 }
 div#updade_footer div{
@@ -2846,10 +2887,27 @@ div#updade_footer div{
 	margin:auto;
 	
 }
+div#in_this_video{
+	float:left;
+	width:100%;
+	background-color:#f2f2f2;
+	border-left:1px solid #cdcdcd;
+	border-right:1px solid #cdcdcd;
+}
 
 #in_this_video h2{
-
 text-align:left;
+padding-top:10px;
+padding-left:15px;
+}
+div#tagged,div.video_description{
+	padding-top:2px;
+padding-left:15px;
+}
+div.video_description{
+	width:500px;
+	line-height:18px;
+	font-size:12px;
 }
 #fb_upload_file{
 	width:210px;

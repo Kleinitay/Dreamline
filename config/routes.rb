@@ -15,10 +15,10 @@ Dreamline::Application.routes.draw do |map|
   match 'video/latest'              => 'videos#list', :as => :latest_videos, :order=> "latest", :page => "0"
   match 'users/:id/videos'          => 'users#videos',:as => :user_videos, :page => "0"
   #------------------------------------------------------------------------------------------------------------------------
-
-
   match 'video/latest/*page'        => 'videos#list', :as => :latest_videos, :order=> "latest"#, :requirements => { :page => /(['0'-'9']*)?/}
   match 'video/most_popular/*page'  => 'videos#list', :as => :most_popular_videos, :order=> "most popular" #, :requirements => { :page => /([0-9]*)?/}
+  match 'users/:id/videos/*page'    => 'users#videos',:as => :user_videos
+
   Video::CATEGORIES.values.each do |order|
     # Moozly: to remove - why doesn't work with *page without a page
     match "video/#{order}"          => 'videos#list', :as => :category, :order => "#{order}", :page => "0"

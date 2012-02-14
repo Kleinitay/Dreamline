@@ -18,7 +18,7 @@ class ApplicationController < ActionController::Base
 
   #Moozly: for controllers of listing. Redirecting /1 to no parameter.
   def redirect_first_page_to_base
-    if params[:page] && params[:page].first == '1'
+    if params[:page] == '1'
       uri = request.path
       redirect_to(uri.gsub("/1",""))
     end

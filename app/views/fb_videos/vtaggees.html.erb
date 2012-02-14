@@ -1,13 +1,20 @@
-<div class="got_vtag">
-	<!--<div class="left_sidebar"></div>-->
-	<div class="video_list">
-		<% @videos.each do |v| %>
-			<% user = v.user %>
-			<div class="video_div">
-				<div class="video_title"><a href="/fb/<%= v.fbid %>"><%= v.title %></a></div>
-				<div class="video_title"><a href="http://www.facebook.com/<%= user.fb_id %>">By: <%= user.nick %></a></div>
-				<div class="video_thumb"><a href="/fb/<%= v.fbid %>"><img src="<%= v.thumb_small_src %>" width="90" height="48" alt="<%= v["name"] %>" /></a></div>
-			</div>
-		<% end %>
-	</div>
-</div>	
+		
+<div class="got_vtag wrapper">
+	<h2>My Vtag</h2>
+			<div class="got_vtag">
+				<!--<div class="left_sidebar"></div>-->
+				<ul id="video_list">
+					<% @videos.each do |v| %>
+						<% user = v.user %>
+						<li>
+							<!--<div class="video_div">-->
+								<div class="video_thumb"><a href="/fb/<%= v.fbid %>"><img src="<%= v.thumb_small_src %>" width="90" height="48" alt="<%= v["name"] %>" /></a></div>
+								<div class="video_title"><a href="/fb/<%= v.fbid %>"><%= v.title %></a></div>
+								<div class="video_by"><a href="http://www.facebook.com/<%= user.fb_id %>">By: <%= user.nick %></a></div>
+								
+							<!--</div>-->
+						</li>
+					<% end %>
+				</ul>
+			</div>	
+</div>

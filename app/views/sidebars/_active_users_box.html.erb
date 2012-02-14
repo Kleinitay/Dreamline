@@ -10,7 +10,7 @@
 				<!--<img src="/images/img-c<%= i+1 %>.jpg" alt="<%= u.nick %>" />-->
 				<%=image_tag("https://graph.facebook.com/#{current_user.fb_id}/picture",:size=>"55x55",:class=>'profile_pic', :alt=>u.nick) %>
 				<span><%= u.nick %></span>
-				<em><strong><%= 100 + i %></strong> Videos</em>
+				<em class="user_data"><strong><%= 100 + i %></strong> Videos</em>
 			</a>
 		</li>
 		<% i=i+1; end %>
