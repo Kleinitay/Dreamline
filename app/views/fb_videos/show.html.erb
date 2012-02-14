@@ -1,5 +1,6 @@
 
 <div class="vtag_video wrapper">
+	<div id="left_content">
 		<div id="fb_banner_slider">
 			<div id="fb_title-video">
 					<h1><%= @video.title %></h1>
@@ -32,28 +33,36 @@
 						<!--label><input type="checkbox" />Short URL</label-->
 			
 				<div class="fb_panel-right"><h3><strong>81,387,378!!!!!!!</strong><span>views</span></h3></div>	
+				<div class="fb_share-panel-top">
+						<!-- AddThis Button BEGIN -->
+						<div class="addthis_toolbox addthis_default_style ">
+							<a class="addthis_button_tweet"></a>
+							<a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+						</div>
+						<script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-4f245ea734874980"></script>
+						<!-- AddThis Button END -->
+					</div>
 			</div>
-			
-		
-			
-		<div class="fb_panel-video">
-				<div class="fb_panel-left">
-				<ul>
-					<!--li><a href="#" class="panl-1">Recommand</a></li-->
-					<li><a class="panl-2" onclick="<%= signed_in? ? 'show_comment_form();' : 'alert("You must be logged in for adding a comment");' %>">Comment</a></li>
-					<% if @own_videos %>
-					<li><a href="/video/<%= @video.id %>/edit" class="panl-4">Edit Video</a></li>
-					<li><a href="/video/<%= @video.id %>/edit_tags" class="panl-4">Edit Tags</a></li>
-					<% end %>
-				<!--li><a href="#" class="panl-5">Flag</a></li-->
-				</ul>
+			<div class="fb_share-panel">
+					<!--<em class="shout-out">&nbsp;</em>-->
+					<div class="fb_social-network-group">
+						<!-- AddThis Button BEGIN -->
+						<div class="addthis_toolbox addthis_default_style addthis_32x32_style" id="b_share">
+							<!--<a class="addthis_button_preferred_1"></a>-->
+							<a class="addthis_button_preferred_2"></a>
+							<!--<a class="addthis_button_preferred_4"></a>-->
+							<a class="addthis_button_compact"></a>
+							<a class="addthis_button_preferred_3"></a>
+							<!--<a class="addthis_counter addthis_bubble_style"></a>-->
+						</div>
+						<!-- AddThis Button END -->
+						<script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-4e60daa12b8cdf79"></script>		
+					</div>
 			</div>
-		</div>
-		<div style="clear:both"></div>
 		<div id="fb_in_this_video">
 						<% if @video.description != "" %>
 							<h2>Description:</h2>
-							<div> <%= @video.description %></div>
+							<div class="video_description"> <%= @video.description %></div>
 						<% end %>
 					<h2>In this video:</h2>
 					<div id="tagged">
@@ -65,11 +74,32 @@
 							<% end %>
 						</div>
 					</br>
-		 </div>
+		 </div>			
+		<div class="fb_panel-video-actions">
+			<div class="fb_panel-left">
+				<ul>
+					<!--li><a href="#" class="panl-1">Recommand</a></li-->
+					<li><a class="panl-2" onclick="<%= signed_in? ? 'show_comment_form();' : 'alert("You must be logged in for adding a comment");' %>">Comment</a></li>
+					<% if @own_videos %>
+					<li><a href="/video/<%= @video.id %>/edit" class="panl-4">Edit Video</a></li>
+					<li><a href="/video/<%= @video.id %>/edit_tags" class="panl-4">Edit Tags</a></li>
+					<li><a href="/video/<%= @video.id %>/delete" class="panl-4-delete delete_link">Delete video</a></li>
+					<% end %>
+				<!--li><a href="#" class="panl-5">Flag</a></li-->
+				</ul>
+			</div>
+		</div>
+		
+	<!--	<div style="clear:both"></div>-->
+		
 		<%#= render :partial => "comments/comment_form" %>	
-				<div id="fb_updated">
-					Uploaded by <a href="#"><%=@user.nick %></a> on <%= @video.created_at.strftime("%b %d, %Y, %I:%m %p") %>
-					| Category: <a href="<%= @video.category_uri %>"><%= @video.category_title %></a>	
+				<div class="fb_video-info">
+					<div class="fb_left-info-box">
+						<ul>
+							<li class="nobg">Uploaded by <a href="#"><%=@user.nick %></a> on <%= @video.created_at.strftime("%b %d, %Y, %I:%m %p") %></li>
+							<li>Category: <a href="<%= @video.category_uri %>"><%= @video.category_title %></a></li>
+						</ul>
+					</div>
 				</div>
-
+</div><!-- left content -->
 </div>		
