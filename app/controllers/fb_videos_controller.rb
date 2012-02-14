@@ -19,7 +19,8 @@ class FbVideosController < ApplicationController
 	
 	def list
     @page_title = "My Videos"
-    @videos = fb_graph.get_connections(current_user.fb_id,'videos/uploaded')
+    #Moozly: TBD - change to pagination - find a way to set page + limit on FB
+    @videos = fb_graph.get_connections(current_user.fb_id,'videos/uploaded?limit=1000')
     app_fb_ids = Video.all(:conditions => {:user_id => current_user.id}, :select => "fbid,title").map(&:fbid)
     @videos.each do |v|
       v["analyzed"] = (app_fb_ids.include? v["id"]) ? true : false
@@ -28,7 +29,6 @@ class FbVideosController < ApplicationController
       v["uri"] = Video.fb_uri_for_list(v["id"], v["name"] || "", v["analyzed"])
     end
     #get_sidebar_data
-
   end
   
   def vtaggees
