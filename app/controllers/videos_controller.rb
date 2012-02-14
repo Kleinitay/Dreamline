@@ -1,7 +1,8 @@
 class VideosController < ApplicationController
 
- before_filter :redirect_first_page_to_base, :authorize, :only => [:edit, :edit_tags]
-	
+ before_filter :redirect_first_page_to_base
+ before_filter :authorize, :only => [:edit, :edit_tags]
+
 	def show
 		video_id = params[:id].to_i
 		@video = Video.for_view(video_id) if video_id != 0
