@@ -18,7 +18,7 @@
 	</script>
 </head>
 <div class="vtag_video wrapper">
-	<h2>Edit Tags</h2>
+	<h2><%= @page_title %></h2>
 		<div class="video_list">
 		<% if @video.video_taggees.any? %>
 				<%= form_for :video, :url => "/fb/#{@video.fbid}/update_tags#{"/new" if @new}" do |f| %>
