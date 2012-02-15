@@ -172,16 +172,15 @@ a.info:hover span{ /*the span will display just on :hover state*/
 
 /*  ------------------- facebook about ------------------------ */
 #fb_about{
-margin:40px auto 0px auto;
+margin:30px auto 0px auto;
 width:500px;
-	
 }
 /*  ------------------- facebook upload ------------------------ */
 
 ul#fb_upload{
 	padding:30px 30px 30px 30px;
 	border:1px solid #c1d2d3;
- 	margin:40px auto 0px auto;
+ 	margin:30px auto 0px auto;
 	width:480px;
 	z-index:2;
 	
@@ -1010,7 +1009,7 @@ div#not_found_tags h2{
 .friends_pic{
 	margin-right:10px;
 }
-.edit_box{
+.fb_edit_box{
 	width:160px;
 	height:160px;
 	float:left;
