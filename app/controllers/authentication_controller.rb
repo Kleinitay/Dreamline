@@ -53,7 +53,7 @@ class AuthenticationController < ApplicationController
     user.save
     sign_in(user)
   end
+
   def destroy
   end
-
 end
