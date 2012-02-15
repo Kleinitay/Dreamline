@@ -349,7 +349,6 @@ a#create_account_link{
 */
 #content_sec,#content_sec_pages {
 width:960px;
-
 padding-top:10px;
 padding-bottom:20px;
 position:relative;
@@ -1545,7 +1544,6 @@ li.upload_form_footer div.upload_buts{
 	padding-left:90px;
 }
 #signin-form li div a.upload_cancel_link{
-	border:1px solid red;
 	width:40px;
 }
 
