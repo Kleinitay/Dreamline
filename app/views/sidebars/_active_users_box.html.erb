@@ -7,8 +7,7 @@
 		<% @active_users.each do |u| %>
 		<li>
 			<a href="/users/<%= u.id %>/videos">
-				<!--<img src="/images/img-c<%= i+1 %>.jpg" alt="<%= u.nick %>" />-->
-				<%=image_tag("https://graph.facebook.com/#{current_user.fb_id}/picture",:size=>"55x55",:class=>'profile_pic', :alt=>u.nick) %>
+				<%= fb_profile_pic("55x55", u.nick, u.id) %>
 				<span><%= u.nick %></span>
 				<em class="user_data"><strong><%= 100 + i %></strong> Videos</em>
 			</a>

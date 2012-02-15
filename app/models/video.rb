@@ -31,17 +31,8 @@ class Video < ActiveRecord::Base
 
   mount_uploader :video_file, VideoFileUploader
 
-
   # has_permalink :title, :as => :uri, :update => true
   # Check Why doesn't work??
-
-  # Paperclip
-  # http://www.thoughtbot.com/projects/paperclip
-  #has_attached_file :source, :url => :path_for_origin
-
-  # Paperclip Validations
-  #validates_attachment_presence :source
-  #validates_attachment_content_type :source, :content_type => 'video'
 
   after_update :save_taggees
   # Acts as State Machine
@@ -514,7 +505,8 @@ class Video < ActiveRecord::Base
   end
 
   def gen_player_file current_user
-    write_temp_player_file(current_user.nick, player_file__full_path)
+    nick = current_user ? current_user.nick : ""
+    write_temp_player_file(nick, player_file__full_path)
     player_file_path
   end
 
