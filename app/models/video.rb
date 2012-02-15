@@ -226,23 +226,19 @@ class Video < ActiveRecord::Base
   end
 
 
-  # _____________________________________________ FLV conversion functions _______________________
+  # _____________________________________________ FLV/webm conversion functions _______________________
 
   def convert_to_flv video_info
     self.convert_to_flv!
-    width = DEFAULT_WIDTH
-    height = DEFAULT_HEIGHT
-
-    unless video_info["Width"].nil? || video_info["Height"].nil?
-      origWidth = video_info["Width"].to_i
-      origHeight = video_info["Height"].to_i
-      if origHeight / origWidth >= 353/629
-        width = origWidth * height / origHeight
-      else
-        height = origHeight * width / origWidth
-      end
+    dims = get_width_height video_info
+    #success = system(convert_to_flv_command video_info, dims[0], dims[1])
+    if dims[0] % 2 != 0
+      dims[0] += 1
     end
-    success = system(convert_command video_info, width, height)
+    if dims[1] % 2 != 0
+      dims[1] += 1
+    end
+    success = system(convert_to_h264_command video_info, dims[0], dims[1])
     if success && $?.exitstatus == 0
       self.converted!
     else
@@ -250,9 +246,24 @@ class Video < ActiveRecord::Base
     end
   end
 
+  def get_width_height video_info
+    width = DEFAULT_WIDTH
+    height = DEFAULT_HEIGHT
+    unless video_info["Width"].nil? || video_info["Height"].nil?
+      origWidth = video_info["Width"].gsub(/\s+/, '').to_i
+      origHeight = video_info["Height"].gsub(/\s+/, '').to_i
+      if origHeight / origWidth >= 353/629
+        width = origWidth * height / origHeight
+      else
+        height = origHeight * width / origWidth
+      end
+    end
+    [width, height]
+  end
+
   def set_new_filename
     #update_attribute(:source_file_name, "#{id}.flv")
-    self.video_file = File.open(get_flv_file_name)
+    self.video_file = File.open(get_h264_file_name)
   end
 
   def get_flv_file_name
@@ -260,13 +271,48 @@ class Video < ActiveRecord::Base
     File.join(dirname, "#{id}.flv")
   end
 
-  def convert_command video_info, width, height
+   def get_webm_file_name
+    dirname = Video.full_directory(id)
+    File.join(dirname, "#{id}.webm")
+   end
+
+   def get_h264_file_name
+    dirname = Video.full_directory(id)
+    File.join(dirname, "#{id}.mp4")
+  end
+
+  def convert_to_flv_command video_info, width, height
     output_file = self.get_flv_file_name
     File.open(output_file, 'w')
     command = <<-end_command
     ffmpeg -i #{ video_file.current_path } #{get_video_rotation_cmd video_info['Rotation']} -ar 22050 -ab 32 -acodec libmp3lame -s #{width}x#{height} -vcodec flv -r 25 -qscale 8 -f flv -y #{ output_file }
     end_command
     command.gsub!(/\s+/, " ")
+    puts command
+    command
+  end
+
+  def convert_to_webm_command video_info, width, height
+    output_file = self.get_webm_file_name
+    File.open(output_file, 'w')
+    command = <<-end_command
+    ffmpeg -i #{ video_file.current_path } #{get_video_rotation_cmd video_info['Rotation']} -c:v libvpx -ar 44100 -ab 96k -acodec libvorbis -s #{width}x#{height} -b 345k -y #{ output_file }
+    end_command
+    command.gsub!(/\s+/, " ")
+    puts command
+    command
+  end
+
+  def convert_to_h264_command video_info, width, height
+    output_file = self.get_h264_file_name
+    File.open(output_file, 'w')
+    command = <<-end_command
+    ffmpeg -i #{ video_file.current_path } #{get_video_rotation_cmd video_info['Rotation']}  -acodec libmp3lame -ab 96k -vcodec libx264 -level 21 -refs 2 -b 345k -bt 345k
+    -threads 0 -s #{width}x#{height} -y #{ output_file }
+    end_command
+    command.gsub!(/\s+/, " ")
+    puts command
+    command
   end
 
   def get_video_info
@@ -490,13 +536,32 @@ class Video < ActiveRecord::Base
         segs = TimeSegment.find_all_by_taggee_id(tag.id)
         times = []
         segs.each do |seg|
-          times << [seg.begin / 1000, seg.end / 1000]
+          times << [seg.begin / 1000, seg.end / 1000 + 1]
         end
+        times = screen_and_unite_segments times
         cuts << { :name => tag.contact_info, :segments => times }
       end
     end
     resHash[:cuts] = cuts
     resHash
+  end
+
+  def screen_and_unite_segments (segments)
+    #screen
+    segments.delete_if {|i| i[0] == i[1]}
+    #unite
+    segments.each_index do |i|
+      unless !segments[i] || i >= segments.count - 1
+      for j in i + 1..segments.count - 1
+        if segments[j] && segments[i][1] >= segments[j][0]
+          segments [i][1] = [segments[j][1], segments [i][1]].max
+          segments[j] = nil
+        end
+      end
+      end
+
+    end
+    segments.compact
   end
 
   def write_temp_player_file (default_face, file_path)

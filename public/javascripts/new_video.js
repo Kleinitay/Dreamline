@@ -79,7 +79,7 @@ $(document).ready(function(){
 			$("#fb_upload_file").addClass('error');			
 		}
 		//check if the upload file has the correct extension
-		else if(ext!="MOV" && ext!="AVI"){	
+		else if(ext!="MOV" && ext!="AVI" && ext!= "avi" && ext!="mov" && ext != "mp4" && ext != "wmv" && ext != "mpg"){
 			$("#fb_file_upload_error").text("Incorrect file extension");
 			$("#fb_file_upload_error").show();		
 			$("#fb_upload_file").addClass('error')

@@ -127,7 +127,7 @@ $.extend(MediaElementPlayer.prototype, {
 				// still the first segment
 				if (i == 0 || !this.options.cutsFade) {
 					t.media.setCurrentTime(segments[i][0]);
-					t.media.play();
+					//t.media.play();
 					return;
 				}
 
@@ -135,7 +135,7 @@ $.extend(MediaElementPlayer.prototype, {
 				t.cuts.playOverlay.hide();
 				t.media.pause();
 				t.cuts.fadescreen.fadeIn(400, function() {
-				 t.media.setCurrentTime(segments[i][0]);
+					t.media.setCurrentTime(segments[i][0]);
 					t.cuts.fadescreen.fadeOut(400, function() {
 						t.media.play();
 						t.cuts.playOverlay.show();
@@ -164,7 +164,7 @@ $.extend(MediaElementPlayer.prototype, {
 			// fill cut selector
 			var cut =
 				$('<li>' +
-					'<label>'+
+					'<label title="'+data.cuts[i].name+'">'+
 						'<input type="radio" name="'+ t.id +'_cuts" value="'+ i +'" />' +
 						data.cuts[i].name +
 					'</label>' +
@@ -190,10 +190,6 @@ $.extend(MediaElementPlayer.prototype, {
 		var t = this,
 			cut = t.cuts.current = t.cuts.data.cuts[cutIndex] || t.cuts.all;
 
-		// jump to start of the segment
-		//if (t.media.currentTime)
-		//t.media.setCurrentTime(0); //cut.segments[0][0]);
-
 		// update button text
 		t.cuts.button.find('button').text(cut.name);
 
@@ -208,11 +204,14 @@ $.extend(MediaElementPlayer.prototype, {
 			$('<li class="mejs-segment" data-start="'+segments[i][0]+'" data-end="'+segments[i][1]+'"></li>')
 				.appendTo(t.cuts.segments);
 
-		if (t.media.duration)
+		if (t.media.duration) {
 			t.resizeSegments();
+			t.media.setCurrentTime(segments[0][0]);
+		}
 		else // wait till we have duration to resize
 			t.media.addEventListener('loadedmetadata', function(e) {
 				t.resizeSegments();
+				t.media.setCurrentTime(segments[0][0]);
 			}, false);
 	},
 
@@ -224,7 +223,8 @@ $.extend(MediaElementPlayer.prototype, {
 			s.css({
 				width:	w * ( s.data('end') - s.data('start') ) / d,
 				left:	w * s.data('start') / d
-			})
+			});
 		});
+
 	}
 });
