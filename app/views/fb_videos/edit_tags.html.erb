@@ -6,7 +6,7 @@
 		$(document).ready(function(){
 			// hide the gallery delete image
 			$('.gallery_delete').hide();
-			$('.edit_box').hover(function(){			
+			$('.fb_edit_box').hover(function(){			
 				$(this).find('.gallery_delete').toggle();		
 			});
 			//display the add new tags box
@@ -25,7 +25,7 @@
 					<div id="video_taggees">
 						<table  id="edit_tags_wrappper"><tr><td>
 						<% @video.video_taggees.each do |video_taggee| %>
-							<div class="edit_box radious_6 edit_box_center" id="video_taggee<%= video_taggee.id.to_s %>">
+							<div class="fb_edit_box radious_6 edit_box_center" id="video_taggee<%= video_taggee.id.to_s %>">
 							    <%= fields_for_taggee(video_taggee) do |tag| %>
 							        <div id="face_tag" class="ui-widget">
 							        	<div class="delete_div"><%= link_to_function image_tag("gallery_delete.png", :class=>'gallery_delete'), "var node1 = document.getElementById(\'video_taggee#{video_taggee.id.to_s}\');node1.parentNode.removeChild(node1)" %></div>
@@ -38,7 +38,7 @@
 							</div>
 						<% end %>
 						<!-- display of new tag box -->
-								 <div id="new_tag" class="edit_box radious_6">
+								 <div id="new_tag" class="fb_edit_box radious_6">
 										<div class="left"><%= link_to  image_tag("gallery_delete.png", :class=>'gallery_delete') %></div>
 										<div id="new_tag" class="fb_avatar_border radious_6"><%=image_tag "avatar.png", :size=>'55x60'%></div>
 										<label class ="fb_new_tag_label" for="tags">Add another Vtag</label>
@@ -70,39 +70,35 @@
 </div>
 
 <script type="text/javascript">
-$(function() {
-	var availableTags = <%= raw @names_arr.to_json %>;
-	var contacts = document.getElementsByClassName("contact_info");
-	$(contacts).autocomplete({
-		source: availableTags
-	});
-});
-	
-//	$(function() {
-//		var availableTags = <%#= raw @names_arr.to_json %>;
-//		var contacts = document.getElementsByClassName("contact_info"); //no longer nedded 
-		
-		//this function display the JQuery ui autocomplite+image
-//		$(".contact_info").each(function() {
-//			$(this).autocomplete({
-				//source: availableTags
-//			source: [
-//			<%# @friends.each do |f|%>
-//            {
-//                value:'<%#=f[0]%>',
-//                id: '<%#=f[1]%>'               
-//            },
-//            <%# end %>
-//        ],
-//        minLength: 1	
-//			}).data("autocomplete")._renderItem = function (ul, item) { // this section was added by pnina this is the place where the image is added to the autocomplite
-//				return $("<li />")
-//				.data("item.autocomplete", item)
-//				.append("<a><img class=friends_pic src=https://graph.facebook.com/" +item.id+ "/picture/ width=23 height=23>" + item.value + "</a>")
-//				.appendTo(ul);
-//			}; //data
-//		});	
+//$(function() {
+//	var availableTags = <%= raw @names_arr.to_json %>;
+//	var contacts = document.getElementsByClassName("contact_info");
+//	$(contacts).autocomplete({
+//		source: availableTags
 //	});
+//});
+	
+	$(function() {		
+		//this function display the JQuery ui autocomplite+image
+		$(".contact_info").each(function() {
+			$(this).autocomplete({
+			source: [
+			<% @friends.each do |f|%>
+            {
+                value:'<%=f[0]%>',
+                id: '<%=f[1]%>'               
+            },
+            <% end %>
+        ],
+        minLength: 1	
+			}).data("autocomplete")._renderItem = function (ul, item) { // this section was added by pnina this is the place where the image is added to the autocomplite
+				return $("<li />")
+				.data("item.autocomplete", item)
+				.append("<a><img class=friends_pic src=https://graph.facebook.com/" +item.id+ "/picture/ width=23 height=23>" + item.value + "</a>")
+				.appendTo(ul);
+			}; //data
+		});	
+	});
 
 	var friends_hash = <%= raw @friends.to_json %>;
 	function update_fb_ids(){
