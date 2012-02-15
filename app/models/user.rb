@@ -16,6 +16,8 @@
 #  status             :integer(4)      not null
 #
 
+require 'carrierwave/orm/activerecord'
+
 class User < ActiveRecord::Base
   include Clearance::User
   
@@ -26,19 +28,31 @@ class User < ActiveRecord::Base
   validates_presence_of :nick, :message => "must be entered."
   validates_uniqueness_of :nick, :message => "already taken."
 
+  mount_uploader :profile_pic, ProfilePicUploader
+
 #--------------------- Global params --------------------------
-  IMAGES_PATH = '/images/user_images/'
+  FULL_USER_IMG_PATH = "#{Rails.root.to_s}/public/images/users/"
+  USER_IMG_PATH = "/images/users/"
+  IMG_PATH_PREFIX = "#{Rails.root.to_s}/public"
+  DEFAULT_PROFILE_IMG = "#{USER_IMG_PATH}default_profile.png"
 #------------------------------------------------------ Instance methods -------------------------------------------------------
 
-
-
-
 #------------------------------------------------------ Class methods -------------------------------------------------------
-  def self.directory(user_id)
+  def self.profile_pic_directory(user_id)
     string_id = (user_id.to_s).rjust(9,"0")
-    "#{IMAGES_PATH}#{string_id[0..2]}/#{string_id[3..5]}/#{string_id[6..8]}"
+    "#{USER_IMG_PATH}#{string_id[0..2]}/#{string_id[3..5]}/#{string_id[6..8]}"
   end
   
+  def self.profile_pic_full_directory(user_id)
+    string_id = (user_id.to_s).rjust(9,"0")
+    "#{FULL_USER_IMG_PATH}#{string_id[0..2]}/#{string_id[3..5]}/#{string_id[6..8]}"
+  end
+
+  def self.profile_pic_src(user_id)
+   pic_path = "#{User.profile_pic_directory(user_id)}/profile.jpg"
+   (FileTest.exists? "#{IMG_PATH_PREFIX}#{pic_path}") ? pic_path : DEFAULT_PROFILE_IMG
+  end
+
   def self.get_users_by_activity
     #Moozly - updat this for real data!!!
     User.all(:limit => 3)

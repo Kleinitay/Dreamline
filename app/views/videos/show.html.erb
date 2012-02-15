@@ -26,7 +26,7 @@
 				<div id="title-video">
 					<h1><%= @video.title %></h1>
 					<div class="uploader-info"> <!--option for a plus image to add to fav-->
-						<%=image_tag("https://graph.facebook.com/#{current_user.fb_id}/picture",:size=>"23x23",:class=>'profile_pic') %><a class="top_sign_link" href="/users/<%= current_user.id %><a href="/users/<%= @user.id %>/videos">by :  <%= @user.nick %></a>
+						<%= fb_profile_pic("23x23", @user.nick, @user.id) %><a class="top_sign_link" href="/users/<%= @user.id %><a href="/users/<%= @user.id %>/videos">by :  <%= @user.nick %></a>
 					</div>
 				</div>
 				<div class="video-slider">
