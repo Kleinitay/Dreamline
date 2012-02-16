@@ -222,7 +222,8 @@ class Video < ActiveRecord::Base
   def convert_to_flv video_info
     self.convert_to_flv!
     dims = get_width_height video_info
-    #success = system(convert_to_flv_command video_info, dims[0], dims[1])
+    success = system(convert_to_flv_command video_info, dims[0], dims[1])
+=begin
     if dims[0] % 2 != 0
       dims[0] += 1
     end
@@ -230,6 +231,7 @@ class Video < ActiveRecord::Base
       dims[1] += 1
     end
     success = system(convert_to_h264_command video_info, dims[0], dims[1])
+=end
     if success && $?.exitstatus == 0
       self.converted!
     else
@@ -254,7 +256,7 @@ class Video < ActiveRecord::Base
 
   def set_new_filename
     #update_attribute(:source_file_name, "#{id}.flv")
-    self.video_file = File.open(get_h264_file_name)
+    self.video_file = File.open(get_flv_file_name)
   end
 
   def get_flv_file_name
@@ -533,8 +535,25 @@ class Video < ActiveRecord::Base
         cuts << { :name => tag.contact_info, :segments => times }
       end
     end
+    cuts = unite_cuts_with_same_name cuts
     resHash[:cuts] = cuts
     resHash
+  end
+
+  def unite_cuts_with_same_name(cuts)
+    new_cuts = []
+    cuts.each_with_index do |cut|
+      unless cut[:name] == ""
+        cuts.each do |cut2|
+          if cuts.index(cut) < cuts.index(cut2) && cut[:name] == cut2[:name]
+            cut[:segments] << cut2[:segments]
+            cut2[:name] = ""
+          end
+        end
+        new_cuts << cut
+      end
+    end
+    new_cuts
   end
 
   def screen_and_unite_segments (segments)
