@@ -12,7 +12,7 @@ outline:none;
 }
 #b_share{
 	float:left;
-		width:250px;
+	width:250px;
 	padding-left:15px;;
 }
  #s_share{
@@ -88,8 +88,6 @@ text-decoration:none;
 a.footer:hover{
 	text-decoration:underline;
 }
-
-
 h3 {
 font-size:13px;
 font-family:Arial, Helvetica, sans-serif;
@@ -115,6 +113,11 @@ font-family:Arial, Helvetica, sans-serif;
 h5 a {
 color:#00555a;
 text-decoration:none;
+}
+.radious_6{
+	-webkit-border-radius: 6px;
+-moz-border-radius: 6px;
+border-radius: 6px;
 }
 .light_gray{
 	background: #ffffff; /* Old browsers */
@@ -346,7 +349,6 @@ a#create_account_link{
 */
 #content_sec,#content_sec_pages {
 width:960px;
-
 padding-top:10px;
 padding-bottom:20px;
 position:relative;
@@ -1496,14 +1498,53 @@ color:#fff;
 width:100%;
 background:url(../images/bg-content-sign-in.png) no-repeat center 50px;
 padding-top:60px;
-
+}
+#new_content_wrapper{
+padding:0px;
+position:relative;
+top:-14px;
 }
 #signin_content {
 width:935px;
 margin:0 auto;
 background:#fff;
 padding-bottom:74px;
+}
 
+#new_content{
+	width:935px;
+margin:0 auto;
+background:#fff;
+padding-bottom:74px;
+background-color:#EFEFEF;;
+padding-top:50px;
+}
+#upload_box{
+	width:543px;
+	height:500px;
+	margin-left:auto;
+	margin-right:auto;
+	background-image:url("../images/upload_video_back.png") no-repeat;
+	border:1px solid #AFAFAF;
+	background-color:#E9E9E9;
+}
+#form_upload_wrapper{
+	width:300px;
+	height:450px;
+	margin-left:auto;
+	margin-right:auto;
+	padding-top:30px;	
+}
+li.upload_form_footer{
+	width:297px;
+background:url(../images/db-border.gif) repeat-x top;
+padding-top:10px;
+}
+li.upload_form_footer div.upload_buts{
+	padding-left:90px;
+}
+#signin-form li div a.upload_cancel_link{
+	width:40px;
 }
 
 #left_col {
@@ -1532,19 +1573,28 @@ background:url(../images/bg-login-shadow.png) no-repeat left top;
 }
 .signin_form_heading,.upload_form_heading,.edit_form_heading {
 width:297px;
-float:left;
 background:url(../images/db-border.gif) repeat-x bottom;
 padding-bottom:6px;
 margin-bottom:10px;
 position:relative;
 top:-15px;
 }
+
+.signin_form_heading{
+float:left;	
+}
+.edit_form_heading{
+	float:left;	
+}
+
 .signin_form_heading h1,.upload_form_heading h1,.edit_form_heading h1 {
 height:46px;
 text-indent:-9999px;
 margin-bottom:8px;
 }
 .upload_form_heading h1{
+	position:relative;
+	left:-12px;
 background:url(../images/upload-heading.png) no-repeat left top;	
 }
 .signin_form_heading h1{
@@ -1573,23 +1623,23 @@ background:url(../images/signup-heading.png) no-repeat left top;
 text-indent:-9999px;
 margin-bottom:8px;
 }
-.signin-form{
+.signin-form,.signin-form-upload{
 float:left;
 width:297px;
 padding-top:5px;
 }
 
-.signin-form a{
+.signin-form a,.signin-form-upload a{
 cursor:pointer;
 }
 
-.signin-form li{
+.signin-form li,.signin-form-upload li{
 float:left;
 width:297px;
 padding-bottom:13px;
 }
 
-.signin-form textarea{
+.signin-form textarea,.signin-form-upload textarea{
 //float:left;
 //width:200px;
 width: 195px;
@@ -1602,7 +1652,7 @@ background-repeat: no-repeat;
 font-size:12px;
 }
 
-.signin-form li label {
+.signin-form li label, .signin-form-upload li label{
 display:block;
 float:left;
 width:81px;
@@ -1612,14 +1662,14 @@ color:#00555a;
 font-family:Arial, Helvetica, sans-serif;
 line-height:27px;
 }
-.signin-form li span {
+.signin-form li span ,.signin-form-upload li span{
 display:block;
 float:left;
 width:211px;
 height:27px;
 background:url(../images/bg-input-usr.png) no-repeat left top;
 }
-.signin-form li span input {
+.signin-form li span input,.signin-form-upload li span input{
 float:left;
 width:191px;
 height:15px;
@@ -1630,17 +1680,17 @@ font-family:Arial, Helvetica, sans-serif;
 background:none;
 padding:6px 10px;
 }
-.signin-form li span input.password {
+.signin-form li span input.password,.signin-form-upload li span input.password,{
 font-size:18px;
 }
-.signin-form li div {
+.signin-form li div ,.signin-form-upload li div{
 float:left;
 padding-left:81px;
 width:211px;
 padding-top:5px;
 padding-bottom:2px;
 }
-.signin-form li div label {
+.signin-form li div label,.signin-form-upload li div label{
 font-weight:normal;
 width:auto;
 font-size:11px;
@@ -1648,7 +1698,7 @@ line-height:15px;
 color:#6f6f6f;
 width:120px;
 }
-.signin-form li div label input {
+.signin-form li div label input,.signin-form-upload li div label input{
 float:left;
 margin-right:6px;
 width:15px;
@@ -1656,11 +1706,17 @@ height:15px;
 line-height:0;
 font-size:0;
 }
-.signin-form li div a {
+.signin-form li div a,.signin-form-upload li div a{
 float:right;
 display:block;
 width:90px;
 text-align:right;
+}
+.signin-form-upload li div a.upload_cancel_link{
+	width:50px;
+	float:left;
+	position:relative;
+	top:10px;
 }
 .signin-form li div a.fb-connect {
 display:block;
@@ -1864,7 +1920,7 @@ color:#00555a;
 }
 .share-panel {
 float:left;
-width:100%;
+/*width:100%;*/
 width:650px;
 /*width:630px;*/
 /*border:1px solid #cdcdcd;*/
@@ -2764,7 +2820,6 @@ padding-left:0px;
 border:1px solid transparent;
 }
 .edit_box{
-	border:1px solid red;
 	width:160px;
 	height:160px;
 	float:left;
@@ -3023,8 +3078,5 @@ a.delete_link,a#delete_cancel{
 	width:100%;
 	font-weight:bold;
 }
-.upload_cancel_link{
-	position:relative;
-	top:10px;
-	margin-left:20px;
-}
+
+

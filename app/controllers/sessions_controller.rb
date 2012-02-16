@@ -31,19 +31,20 @@ class SessionsController < ApplicationController
   end
 
   def aoth_athenticate
-          redirect_to("https://www.facebook.com/dialog/aouth?client_id=#{FB_APP_ID}&redirect_uri=localhost:3000/aoth_return")
+    redirect_to("https://www.facebook.com/dialog/aouth?client_id=#{FB_APP_ID}&redirect_uri=localhost:3000/aoth_return")
   end
 
-    def aoth_authenticate_return
-           code = params[:code]
-        access_token = params[:access_token]
-        expires = params[:expires]
-        if code
-            redirect_to("https://graph.facebook.com/oauth/access_token?client_id=#{APP_ID}&redirect_uri=localhost:3000/session/aoth_authenticate_return&client_secret=#{APP_SECRET}&code=#{code}")
-        else
-            access_token
-        end
+  def aoth_authenticate_return
+    code = params[:code]
+    access_token = params[:access_token]
+    expires = params[:expires]
+    if code
+      redirect_to("https://graph.facebook.com/oauth/access_token?client_id=#{APP_ID}&redirect_uri=localhost:3000/session/aoth_authenticate_return&client_secret=#{APP_SECRET}&code=#{code}")
+    else
+      access_token
     end
+  end
+
   private
 
   def flash_failure_after_create

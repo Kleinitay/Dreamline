@@ -82,28 +82,23 @@ class VideosController < ApplicationController
   end
 
   def edit_tags
-    begin
-      @new = params[:new]=="new" ? true : false
-      @video = Video.find(params[:id])
-      @page_title = "#{@video.title.titleize} - #{@new ? "Add Tags" : "Edit"} Tags"
-      @user = current_user
-      @taggees = @video.video_taggees
-      friends = fb_graph.get_connections(current_user.fb_id,'friends')
-      friends.map {|friend| @friends[friend["name"]] = friend["id"]}
-      @friends[current_user.nick] = current_user.fb_id
-      @names_arr = @friends.keys
-      #@likes = graph.get_connections("me", "likes")
-
-      #sidebar
-  	  get_sidebar_data # latest
-  	  @user_videos = Video.get_videos_by_user(1, @user.id, true, 3)
-  	  @trending_videos = Video.get_videos_by_sort(1,"popular", true ,3)
-  	  @active_users = User.get_users_by_activity
-       @gallery_var=0 #this variable is used to count the number of boxes in the gallery in order to put dynamic class on the last box
-    rescue Exception=>e
-    render :text => "Session Has gone away. Please refresh and login again."
-    sign_out
-    end
+    @new = params[:new]=="new" ? true : false
+    @video = Video.find(params[:id])
+    @page_title = "#{@video.title.titleize} - #{@new ? "Add Tags" : "Edit"} Tags"
+    @user = current_user
+    @taggees = @video.video_taggees
+    friends = fb_graph.get_connections(current_user.fb_id,'friends')
+    @friends = {}
+    friends.map {|friend| @friends[friend["name"]] = friend["id"]}
+    @friends[current_user.nick] = current_user.fb_id
+    @names_arr = @friends.keys
+    @gallery_var=0 #this variable is used to count the number of boxes in the gallery in order to put dynamic class on the last box
+    #@likes = graph.get_connections("me", "likes")
+    #sidebar
+	  get_sidebar_data # latest
+	  @user_videos = Video.get_videos_by_user(1, @user.id, true, 3)
+	  @trending_videos = Video.get_videos_by_sort(1,"popular", true ,3)
+	  @active_users = User.get_users_by_activity
   end
 
   def update_video

@@ -1,42 +1,41 @@
 class UsersController < ApplicationController
 
   before_filter :redirect_first_page_to_base
+  before_filter :authorize_admins, :only => [:index, :edit]
 
   # GET /users
   # GET /users.xml
   def index
-    if signed_in? && (["elinor.dreamer@gmail.com", "klein.itay@gmail.com"].include? current_user.email)
-      @users = User.all
-      respond_to do |format|
-        format.html # index.html.erb
-        format.xml  { render :xml => @users }
-      end
-    else
-      render_404 and return
+    @users = User.all
+    respond_to do |format|
+      format.html # index.html.erb
+      format.xml  { render :xml => @users }
     end
   end
 
   # GET /users/1
   # GET /users/1.xml
   def show
-    @user = User.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @user }
+    if signed_in? && current_user.id == params[:id] || (["elinor.dreamer@gmail.com", "klein.itay@gmail.com"].include? current_user.email)
+      @user = User.find(params[:id])
+      respond_to do |format|
+        format.html # show.html.erb
+        format.xml  { render :xml => @user }
+      end
+    else
+      redirect_to "/"
     end
   end
 
   # GET /users/new
   # GET /users/new.xml
   def new
-    @user = User.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @user }
-    end
-
+    render_404
+    #@user = User.new
+    #respond_to do |format|
+    #  format.html # new.html.erb
+    #  format.xml  { render :xml => @user }
+    #end
   end
 
   # GET /users/1/edit
@@ -65,7 +64,6 @@ class UsersController < ApplicationController
   # PUT /users/1.xml
   def update
     @user = User.find(params[:id])
-
     respond_to do |format|
       if @user.update_attributes(params[:user])
         format.html { redirect_to(@user, :notice => 'User was successfully updated.') }
@@ -74,6 +72,12 @@ class UsersController < ApplicationController
         format.html { render :action => "edit" }
         format.xml  { render :xml => @user.errors, :status => :unprocessable_entity }
       end
+    end
+  end
+
+  def authorize_admins
+    unless (["elinor.dreamer@gmail.com", "klein.itay@gmail.com"].include? current_user.email)
+      render_404 and return
     end
   end
 

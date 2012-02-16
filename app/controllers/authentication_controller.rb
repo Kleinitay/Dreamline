@@ -28,6 +28,8 @@ class AuthenticationController < ApplicationController
         if fb_id #Logged in with Facebook
           user = User.find_by_fb_id(fb_id)
           if user
+            user.remote_profile_pic_url = fb_graph.get_picture("me")
+            user.save
             sign_in(user)
           else
             subscribe_new_fb_user(fb_id) # new Facebook user
@@ -46,10 +48,12 @@ class AuthenticationController < ApplicationController
     email = profile["email"]
     fb_id = profile["id"]
     password = SecureRandom.hex(10)
-    user = User.create(:status => 2, :nick => nick, :email => email, :fb_id => fb_id, :password => password)
+    user = User.new(:status => 2, :nick => nick, :email => email, :fb_id => fb_id, :password => password)
+    user.remote_profile_pic_url = fb_graph.get_picture("me")
+    user.save
     sign_in(user)
   end
+
   def destroy
   end
-
 end

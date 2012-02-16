@@ -60,4 +60,8 @@ module ApplicationHelper
      image_tag("logo.png",:size => "193x50", :id=>'logo',:border=>"0" )   
   end
   
+  def fb_profile_pic(size, nick, user_id)
+    src = User.profile_pic_src(user_id)
+    image_tag(src,:size=> size,:class=>'profile_pic', :alt=> nick)
+  end
 end
