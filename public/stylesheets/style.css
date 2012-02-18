@@ -376,7 +376,7 @@ margin:0 auto;
 }
 
 #content_sec_pages_wrapper{
-	margin-left:210px;
+	margin-left:80px;
 	width:600px;
 } 
 
@@ -460,7 +460,7 @@ border:1px solid #e4e4e4;
 height:27px;
 background:url(../images/bg-heading-gr.gif) repeat-x top;
 padding-top:6px;
-text-align:center;
+/*text-align:center;*/
 padding-left:18px;
 padding-right:12px;
 margin-bottom:10px;
@@ -472,11 +472,11 @@ width:618px;
 	width:590px;
 }
 
-.heading-list h1 {
+.heading-list h1,.heading-list-edit h1 {
 float:left;
-width:500px;
 padding-bottom:0;
 line-height:20px;
+margin:auto;
 }
 .heading-list ul {
 float:right;
@@ -860,11 +860,13 @@ width:290px;
 border-bottom:1px solid #ccc;
 padding-bottom:8px;
 margin-bottom:10px;
+
 }
 .heading-top h2 {
 float:left;
 width:220px;
 padding-bottom:0;
+text-align:left;
 }
 .heading-top a {
 display:block;
