@@ -172,9 +172,9 @@
 				.appendTo('body');
 				//set the confirm box position
 				var delete_element = $("#delete_<%= @video.id%>");
-				var position = delete_element.position();
-				var top=position.top-100;
-				var left=position.left;
+				var offset = delete_element.offset();
+				var top=offset.top-200;
+				var left=offset.left-150;
 				$("#confirm_delete_box").show().appendTo('body');
 				$('#confirm_delete_box').css('top',top);
 				$('#confirm_delete_box').css('left',left);
