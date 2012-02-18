@@ -1019,51 +1019,49 @@ div#not_found_tags h2{
 	margin-right:10px;
 }
 .fb_edit_box{
-	width:160px;
+	width:134px;
 	height:160px;
 	float:left;
 	padding:10px;
 	border:1px solid #C1D2D3;
 	margin-bottom:20px;	
-	margin-right:35px;
+	margin-right:38px;
 }
-input.contact_info{
-	width:160px;
+input.fb_contact{
+	width:130px;
 	border:1px solid #C1D2D3;
 	margin-bottom:10px;
 }
-div.image_border img{
+div.fb_image_border img{
 	position:relative;
 	top:0px;
 	border:4px solid #C1D2D3;
-	margin-left:37px;
+	margin-left:23px;
 	margin-bottom:10px;
 	width:80px;
 	height:90px;
 
 }
-div#face_tag label{
+div#fb_face_tag label{
 	clear:both;
 	padding-top:5px;
-	margin-left:50px;
+	margin-left:35px;
 }
 .delete_div{
 	height:10px;
-
 }
 table#fb_edit_tags_wrappper{
-	width:670px;
-	margin-left:65px;
+	width:590px;
+	margin-left:105px;
 }
 div#updade_footer{
 	border-top:1px solid #C1D2D3;
 	padding-top:15px;
 	height:250px;
-	width:650px;
+	width:547px;
 	text-align:center;
-	float:left;
-	margin-left:50px;
-	margin-top:15px;
+	margin:auto;
+	margin-top:20px;
 }
 div#updade_footer div{
 	width:105px;
@@ -1078,7 +1076,7 @@ a#fb_add_new_tag{
 	background-color:#EDEDED;
 	text-decoration:none;
 	color:#333;
-	margin-left:580px;
+	margin-left:537px;
 
 }
 a#add_new_tag:hover{
@@ -1095,23 +1093,46 @@ div.fb_avatar_border{
 	width:80px;
 	height:80px;
 	margin-top:10px;
-	margin-left:38px;
+	margin-left:23px;
 	margin-bottom:16px;
 	text-align:center;
 	padding-top:5px;
 }
 .fb_new_tag_label{
-	margin-left:38px;
+	margin-left:25px;
 }
-div.edit_box:hover{
+div.fb_edit_box:hover{
 	cursor:pointer;
 	background-color:#f3f0f0;
 }
-.gallery_delete{
+.fb_delete_img{
 	border:1px solid #C1D2D3;
 	padding:2px;
-	margin-left:150px;	
+	margin-left:120px;	
 }
+h2.fb_edit_tags_title{
+	width:547px;
+	margin-left:auto;
+	margin-right:auto;
+	font-size:14px;
+	position:relative;
+	top:-8px;
+}
+.fb_heading-list-edit{
+	width:547px;
+margin-left:auto;
+margin-right:auto;
+border:1px solid #e4e4e4;
+height:27px;
+background:url(../images/bg-heading-gr.gif) repeat-x top;
+padding-top:6px;
+text-align:center;
+margin-bottom:10px;
+margin-top:10px;
+}
+
+
+
 /**************************** Delete Box ************************************ */
 #confirm_delete_box{
 	position:absolute;
