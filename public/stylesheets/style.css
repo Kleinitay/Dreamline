@@ -1561,6 +1561,11 @@ li.upload_form_footer div.upload_buts{
 	width:40px;
 }
 
+.edit_cancel_link{
+	margin-left:20px;
+	position:relative;
+	top:10px;
+}
 #left_col {
 float:left;
 width:297px;
