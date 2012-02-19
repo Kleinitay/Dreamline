@@ -187,8 +187,10 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a4c4c6', end
 #outer_header {
 width:100%;
 border-top:5px solid #00555a;
-height:72px;
-background:url(../images/bg-outer-header.gif) repeat-x top;
+/*height:72px;
+background:url(../images/bg-outer-header.gif) repeat-x top;*/
+height:80px;
+background:url(../images/new_header_vitago.png) repeat-x top;
 border-bottom:1px solid #d1d1d1;
 position:relative;
 /*z-index:1000;*/
@@ -209,6 +211,7 @@ float:left;
 width:452px;
 padding-left:10px;
 padding-top:12px;
+margin-top:10px;
 }
 #header_sec #nav li {
 float:left;
@@ -294,6 +297,8 @@ padding-top:14px;
 
 }
 #header_sec .signin ul {
+
+margin-top:6px;
 float:right;
 width:350px;
 }
@@ -342,6 +347,10 @@ a#create_account_link{
 	top:2px;
 } 
 
+#logo{
+	position:relative;
+	top:-3px
+}
 /*
 =========================================================
 		Content Section
