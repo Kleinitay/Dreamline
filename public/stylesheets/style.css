@@ -197,7 +197,7 @@ position:relative;
 }
 
 #header_sec {
-width:990px;
+width:965px;
 margin:0 auto;
 padding-top:11px;
 
@@ -350,6 +350,8 @@ a#create_account_link{
 #logo{
 	position:relative;
 	top:-3px
+left:100px;
+
 }
 /*
 =========================================================
