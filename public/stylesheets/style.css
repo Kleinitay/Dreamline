@@ -187,15 +187,17 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a4c4c6', end
 #outer_header {
 width:100%;
 border-top:5px solid #00555a;
-height:72px;
-background:url(../images/bg-outer-header.gif) repeat-x top;
+/*height:72px;
+background:url(../images/bg-outer-header.gif) repeat-x top;*/
+height:80px;
+background:url(../images/new_header_vitago.png) repeat-x top;
 border-bottom:1px solid #d1d1d1;
 position:relative;
 /*z-index:1000;*/
 }
 
 #header_sec {
-width:990px;
+width:965px;
 margin:0 auto;
 padding-top:11px;
 
@@ -209,6 +211,7 @@ float:left;
 width:452px;
 padding-left:10px;
 padding-top:12px;
+margin-top:10px;
 }
 #header_sec #nav li {
 float:left;
@@ -294,6 +297,8 @@ padding-top:14px;
 
 }
 #header_sec .signin ul {
+
+margin-top:6px;
 float:right;
 width:350px;
 }
@@ -342,6 +347,12 @@ a#create_account_link{
 	top:2px;
 } 
 
+#logo{
+	position:relative;
+	top:-3px
+left:100px;
+
+}
 /*
 =========================================================
 		Content Section
@@ -376,7 +387,7 @@ margin:0 auto;
 }
 
 #content_sec_pages_wrapper{
-	margin-left:210px;
+	margin-left:80px;
 	width:600px;
 } 
 
@@ -460,7 +471,7 @@ border:1px solid #e4e4e4;
 height:27px;
 background:url(../images/bg-heading-gr.gif) repeat-x top;
 padding-top:6px;
-text-align:center;
+/*text-align:center;*/
 padding-left:18px;
 padding-right:12px;
 margin-bottom:10px;
@@ -472,11 +483,11 @@ width:618px;
 	width:590px;
 }
 
-.heading-list h1 {
+.heading-list h1,.heading-list-edit h1 {
 float:left;
-width:500px;
 padding-bottom:0;
 line-height:20px;
+margin:auto;
 }
 .heading-list ul {
 float:right;
@@ -860,11 +871,14 @@ width:290px;
 border-bottom:1px solid #ccc;
 padding-bottom:8px;
 margin-bottom:10px;
+
 }
 .heading-top h2 {
 float:left;
 width:220px;
 padding-bottom:0;
+text-align:left;
+padding-left:15px;
 }
 .heading-top a {
 display:block;
@@ -1524,7 +1538,7 @@ padding-top:50px;
 	height:500px;
 	margin-left:auto;
 	margin-right:auto;
-	background-image:url("../images/upload_video_back.png") no-repeat;
+	background-image:url("../images/upload_video_back.png"); background-repeat:no-repeat;
 	border:1px solid #AFAFAF;
 	background-color:#E9E9E9;
 }
@@ -1547,6 +1561,11 @@ li.upload_form_footer div.upload_buts{
 	width:40px;
 }
 
+.edit_cancel_link{
+	margin-left:20px;
+	position:relative;
+	top:10px;
+}
 #left_col {
 float:left;
 width:297px;
@@ -2790,7 +2809,7 @@ copy
 
 #facebook_app_link{
 	width:290px;
-	height:38px;
+	height:58px;
 	margin-bottom:15px;
 	display:box;
 }
