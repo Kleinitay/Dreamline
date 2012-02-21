@@ -33,13 +33,13 @@ body {
 font-family:tahoma, arial, sans-serif;
 font-size:11px;
 color:#333;
-background:url(../images/bg-body-home.jpg) no-repeat center 79px;
+background: #ffffff; //url(../images/bg-body-home.jpg) no-repeat center 79px;
 }
 body.bg-body-v {
-background:url(../images/bg-body-videodetail.jpg) no-repeat center 79px;
+background: #ffffff //url(../images/bg-body-videodetail.jpg) no-repeat center 79px;
 }
 body.bg-body-l {
-background:url(../images/bg-body-listing.jpg) no-repeat center 79px;
+background: #ffffff //url(../images/bg-body-listing.jpg) no-repeat center 79px;
 }
 a.top_sign_link{
 text-decoration:none;
