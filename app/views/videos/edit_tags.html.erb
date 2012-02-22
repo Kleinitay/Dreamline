@@ -1,5 +1,6 @@
 <link type="text/css" href="/javascripts/css/ui-lightness/jquery-ui-1.8.16.custom.css" rel="stylesheet" />
-<script type="text/javascript" src="/javascripts/js/jquery-1.6.2.min.js"></script>
+<!--<script type="text/javascript" src="/javascripts/js/jquery-1.6.2.min.js"></script>-->
+<!--<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>-->
 <script type="text/javascript" src="/javascripts/js/jquery-ui-1.8.16.custom.min.js"></script>
 
 <head>
@@ -11,9 +12,14 @@
 				$(this).find('.gallery_delete').toggle();
 			});
 			//display the add new tags box
-			$('#new_tag').hide();
 			$('#add_new_tag').click(function(){
 				$('#new_tag').show();
+				var new_tag_d=$("<div class='edit_box edit_box_new radious_6'><div class='left'><img src='/images/gallery_delete.png' class='gallery_delete'></div><div id='new_tag' class='avatar_border radious_6'><img src='/images/avatar.png' width='55' height='60'></div><label class ='new_tag_label' for='tags'>Add another Vtag</label><br><input type='text' class='contact_info'><input type='hidden' class='fb_id'></div>");
+				new_tag_d.appendTo('#tag_table');
+			});			
+			//remove the appended new tag div
+			$('#tag_table').on('click','.gallery_delete',function(){
+				$(this).parent().parent().remove();
 			});
 		});
 	</script>
@@ -31,7 +37,7 @@
 							<div id="video_taggees">
 								<table  id="edit_tags_wrappper">
 									<tr>
-										<td>
+										<td id="tag_table">
 											<% @video.video_taggees.each do |video_taggee| %>
 												<div class="edit_box radious_6 edit_box_center" id="video_taggee<%= video_taggee.id.to_s %>">
 													<%= fields_for_taggee(video_taggee) do |tag| %>
@@ -45,15 +51,6 @@
 															<br>
 														</div>
 													<% end %>
-												</div>
-												<!-- display of new tag box -->
-									 			<div id="new_tag" class="edit_box radious_6">
-													<div class="left"><%= link_to image_tag("gallery_delete.png", :class=>'gallery_delete') %></div>
-													<div id="new_tag" class="avatar_border radious_6"><%=image_tag "avatar.png", :size=>'55x60'%></div>
-													<label for="tags">Add another Vtag</label>
-											 		<br>
-													<input type="text" class="contact_info">
-													<input type="hidden" class="fb_id">
 												</div>
 											<% end %>
 										</td>

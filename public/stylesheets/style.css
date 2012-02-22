@@ -3102,5 +3102,6 @@ a.delete_link,a#delete_cancel{
 	width:100%;
 	font-weight:bold;
 }
-
-
+.new_tag_label{
+margin-left:40px;
+}
