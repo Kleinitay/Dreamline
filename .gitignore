@@ -4,7 +4,7 @@ log/*.log
 tmp/
 public/videos/
 public/images/users
-public/.DS_Store
+*.DS_Store
 ruby-debug/
 Gemfile
 /app/.DS_Store
