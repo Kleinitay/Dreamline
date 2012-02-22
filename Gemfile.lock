@@ -42,6 +42,12 @@ GEM
       rails (>= 3.0)
     cocaine (0.2.0)
     columnize (0.3.4)
+    daemons (1.1.8)
+    delayed_job (3.0.1)
+      activesupport (~> 3.0)
+    delayed_job_active_record (0.3.2)
+      activerecord (> 2.1.0)
+      delayed_job (~> 3.0.0)
     diesel (0.1.5)
       railties
     erubis (2.6.6)
@@ -138,6 +144,8 @@ DEPENDENCIES
   annotate (= 2.4.0)
   carrierwave
   clearance
+  daemons
+  delayed_job_active_record
   flowplayer
   jquery-rails (>= 1.0.12)
   koala

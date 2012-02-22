@@ -16,6 +16,9 @@ gem 'flowplayer'
 gem 'jquery-rails', '>= 1.0.12'
 gem 'omniauth-facebook'
 gem 'carrierwave'
+gem 'delayed_job_active_record'
+gem 'daemons'
+
 
 # Use unicorn as the web server
 # gem 'unicorn'
