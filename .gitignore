@@ -11,5 +11,5 @@ Gemfile
 .idea/
 ruby/
 Gemfile.lock
-MovieFaceDetector/MovieFaceRecognition.exe
+MovieFaceDetector/MovieFaceRecognition
 .gitignore
