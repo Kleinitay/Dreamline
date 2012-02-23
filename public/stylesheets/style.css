@@ -1,7 +1,6 @@
 @charset "utf-8";
 /* CSS Document */
 
-
 * {
 padding:0;
 margin:0;
@@ -146,6 +145,9 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 .left{
 	float:left;
 }
+.seperator_width{
+	width:75px;
+}
 /* ================= button ===================================*/
 .vtag_butt{
 	display:block;
@@ -197,7 +199,8 @@ position:relative;
 }
 
 #header_sec {
-width:965px;
+/*width:965px;*/
+width:1055px;
 margin:0 auto;
 padding-top:11px;
 
@@ -209,13 +212,13 @@ float:left;
 #header_sec #nav {
 float:left;
 width:452px;
-padding-left:10px;
+padding-left:40px;
 padding-top:12px;
 margin-top:10px;
 }
 #header_sec #nav li {
 float:left;
-padding-left:5px;
+padding-left:16px;
 position:relative;
 }
 #header_sec #nav li a {
@@ -291,16 +294,16 @@ border-bottom:1px solid #d9d8d8;
 }
 #header_sec .signin {
 float:right;
-width:280px;
+width:380px;
 height:100%;
 padding-top:14px;
 
 }
 #header_sec .signin ul {
-
 margin-top:6px;
 float:right;
 width:350px;
+margin-left:160px;
 }
 #header_sec .signin li {
 float:left;
@@ -488,14 +491,16 @@ width:618px;
 	width:590px;
 }
 
-.heading-list h1,.heading-list-edit h1 {
-float:left;
+
+.heading-list h1,.heading-list-edit h1{
 padding-bottom:0;
 line-height:20px;
 margin:auto;
 }
 .heading-list ul {
 float:right;
+position:relative;
+top:-20px;
 }
 
 .heading-list ul li {
@@ -3102,5 +3107,9 @@ a.delete_link,a#delete_cancel{
 	width:100%;
 	font-weight:bold;
 }
-
-
+.new_tag_label{
+margin-left:40px;
+}
+#header_wrap{
+	margin-left:45px;
+}

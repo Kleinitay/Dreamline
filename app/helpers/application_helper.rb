@@ -44,7 +44,7 @@ module ApplicationHelper
     end
   end
   
-  def nice_how_many_comments(num,v_id)
+  def nice_how_many_comments(num)
     number = num.to_i
     if number == 0
 		  "Comment!"
@@ -52,6 +52,15 @@ module ApplicationHelper
         "1 Comment"
     else
       "#{number} Comments"
+    end
+  end
+
+  def nice_how_many_string(num, string)
+    number = num.to_i
+    if number == 1
+		  string
+    else
+      "#{string}s"
     end
   end
   
