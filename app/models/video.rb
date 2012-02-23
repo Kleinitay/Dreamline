@@ -163,29 +163,14 @@ class Video < ActiveRecord::Base
     #perform the face detection
     detect_face_and_timestamps video_file.current_path
 
-    # coming from site upload and logged in to facebook - upload video to facebook
-=begin
-    if graph && !fbid
-      self.delay.upload_video_to_fb(graph)
-    end
-=end
   end
 
   def upload_video_to_fb(graph)
     result = graph.put_video(self.video_file.current_path, { :title => self.title, :description => self.description })
-    #puts "1"
     unless result.nil?
-      #puts "2"
-      #puts "self is:" + self.id.to_s
-      #puts self.to_s
-      #puts "fbid is:" + result["id"]
       update_attributes(:fbid => result["id"])
-      #puts "3"
     end
-    #puts "4"
-    #return true
   end
-  #handle_asynchronously :upload_video_to_fb
 
   def video_taggees_uniq
     VideoTaggee.find(:all, :select => "DISTINCT contact_info, fb_id", :conditions => { :video_id => self.id })
