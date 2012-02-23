@@ -163,14 +163,12 @@ class Video < ActiveRecord::Base
     #perform the face detection
     detect_face_and_timestamps video_file.current_path
 
-    # coming from site upload and logged in to facebook - upload video to facebook
-    if graph && !fbid
-      result = graph.put_video(video_file.current_path, { :title => self.title, :description => self.description })
-      if result.nil?
-        flash[:notice] = "Cannot upload to facebook"
-      else
-        self.update_attribute(:fbid, result["id"])
-      end
+  end
+
+  def upload_video_to_fb(graph)
+    result = graph.put_video(self.video_file.current_path, { :title => self.title, :description => self.description })
+    unless result.nil?
+      update_attributes(:fbid => result["id"])
     end
   end
 
