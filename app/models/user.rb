@@ -55,6 +55,6 @@ class User < ActiveRecord::Base
 
   def self.get_users_by_activity
     #Moozly: updae to users with latest video till a week ago + no zeros...
-    users = Video.find_by_sql("select users.id, nick, count(user_id) from videos, users where videos.user_id = users.id group by videos.user_id order by count(user_id) desc limit 3;")
+    Video.find_by_sql("select users.id, nick, count(user_id) as videos_num from videos, users where videos.user_id = users.id group by videos.user_id order by videos_num desc limit 3;")
   end
 end

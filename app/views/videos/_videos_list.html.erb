@@ -37,7 +37,7 @@
 									<li><strong>Category: </strong> <a href=<%= v.category_uri %>><%= v.category_title %></a></li>
 								<% end %>
 								<li><strong><%= v.views_count %></strong> Views</li>
-								<% comment_text = nice_how_many_comments(v.comments.count,v.id) %>
+								<% comment_text = nice_how_many_comments(v.comments.count) %>
 								<li><a href="<%= v.uri %>?comment=true&signed=<%= signed_in? %>#comment-area"> <%= comment_text %> </a></li>
 							</ul>
 							<!-- rating... -->

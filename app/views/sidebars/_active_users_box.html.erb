@@ -9,7 +9,7 @@
 			<a href="/users/<%= u.id %>/videos">
 				<%= fb_profile_pic("55x55", u.nick, u.id) %>
 				<span><%= u.nick %></span>
-				<em class="user_data"><strong><%= 100 + i %></strong> Videos</em>
+				<em class="user_data"><strong><%= u.videos_num %></strong> <%= nice_how_many_string(u.videos_num, "Video") %></em>
 			</a>
 		</li>
 		<% i=i+1; end %>
