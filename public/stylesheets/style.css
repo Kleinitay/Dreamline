@@ -1,7 +1,6 @@
 @charset "utf-8";
 /* CSS Document */
 
-
 * {
 padding:0;
 margin:0;
@@ -33,13 +32,13 @@ body {
 font-family:tahoma, arial, sans-serif;
 font-size:11px;
 color:#333;
-background:url(../images/bg-body-home.jpg) no-repeat center 79px;
+background: #ffffff; //url(../images/bg-body-home.jpg) no-repeat center 79px;
 }
 body.bg-body-v {
-background:url(../images/bg-body-videodetail.jpg) no-repeat center 79px;
+background: #ffffff //url(../images/bg-body-videodetail.jpg) no-repeat center 79px;
 }
 body.bg-body-l {
-background:url(../images/bg-body-listing.jpg) no-repeat center 79px;
+background: #ffffff //url(../images/bg-body-listing.jpg) no-repeat center 79px;
 }
 a.top_sign_link{
 text-decoration:none;
@@ -146,6 +145,9 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 .left{
 	float:left;
 }
+.seperator_width{
+	width:75px;
+}
 /* ================= button ===================================*/
 .vtag_butt{
 	display:block;
@@ -187,15 +189,18 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a4c4c6', end
 #outer_header {
 width:100%;
 border-top:5px solid #00555a;
-height:72px;
-background:url(../images/bg-outer-header.gif) repeat-x top;
+/*height:72px;
+background:url(../images/bg-outer-header.gif) repeat-x top;*/
+height:80px;
+background:url(../images/new_header_vitago.png) repeat-x top;
 border-bottom:1px solid #d1d1d1;
 position:relative;
 /*z-index:1000;*/
 }
 
 #header_sec {
-width:990px;
+/*width:965px;*/
+width:1055px;
 margin:0 auto;
 padding-top:11px;
 
@@ -207,12 +212,13 @@ float:left;
 #header_sec #nav {
 float:left;
 width:452px;
-padding-left:10px;
+padding-left:40px;
 padding-top:12px;
+margin-top:10px;
 }
 #header_sec #nav li {
 float:left;
-padding-left:5px;
+padding-left:16px;
 position:relative;
 }
 #header_sec #nav li a {
@@ -288,14 +294,16 @@ border-bottom:1px solid #d9d8d8;
 }
 #header_sec .signin {
 float:right;
-width:280px;
+width:380px;
 height:100%;
 padding-top:14px;
 
 }
 #header_sec .signin ul {
+margin-top:6px;
 float:right;
 width:350px;
+margin-left:160px;
 }
 #header_sec .signin li {
 float:left;
@@ -304,13 +312,18 @@ padding:6px 10px 0 15px;
 #header_sec .signin li.sign_in a{
 position:relative;
 top:2px;
-color:#6f696b;
+//color:#6f696b;
 text-decoration:none;
 }
 #header_sec .signin li.sign_in a:hover {
 text-decoration:underline;
 }
 #header_sec .signin li.sign_in {
+//background:url(../images/bg-sep-signin.gif) no-repeat left 8px;
+padding-right:0;
+}
+//Moozly: temp for removing the seperator due to "create account" removal. Removing in sign in and leaving it in sign out
+#header_sec .signin li.sign_out {
 background:url(../images/bg-sep-signin.gif) no-repeat left 8px;
 padding-right:0;
 }
@@ -342,6 +355,12 @@ a#create_account_link{
 	top:2px;
 } 
 
+#logo{
+	position:relative;
+	top:-3px
+left:100px;
+
+}
 /*
 =========================================================
 		Content Section
@@ -376,7 +395,7 @@ margin:0 auto;
 }
 
 #content_sec_pages_wrapper{
-	margin-left:210px;
+	margin-left:80px;
 	width:600px;
 } 
 
@@ -460,7 +479,7 @@ border:1px solid #e4e4e4;
 height:27px;
 background:url(../images/bg-heading-gr.gif) repeat-x top;
 padding-top:6px;
-text-align:center;
+/*text-align:center;*/
 padding-left:18px;
 padding-right:12px;
 margin-bottom:10px;
@@ -472,14 +491,16 @@ width:618px;
 	width:590px;
 }
 
-.heading-list h1 {
-float:left;
-width:500px;
+
+.heading-list h1,.heading-list-edit h1{
 padding-bottom:0;
 line-height:20px;
+margin:auto;
 }
 .heading-list ul {
 float:right;
+position:relative;
+top:-20px;
 }
 
 .heading-list ul li {
@@ -860,11 +881,14 @@ width:290px;
 border-bottom:1px solid #ccc;
 padding-bottom:8px;
 margin-bottom:10px;
+
 }
 .heading-top h2 {
 float:left;
 width:220px;
 padding-bottom:0;
+text-align:left;
+padding-left:15px;
 }
 .heading-top a {
 display:block;
@@ -1524,7 +1548,7 @@ padding-top:50px;
 	height:500px;
 	margin-left:auto;
 	margin-right:auto;
-	background-image:url("../images/upload_video_back.png") no-repeat;
+	background-image:url("../images/upload_video_back.png"); background-repeat:no-repeat;
 	border:1px solid #AFAFAF;
 	background-color:#E9E9E9;
 }
@@ -1547,6 +1571,11 @@ li.upload_form_footer div.upload_buts{
 	width:40px;
 }
 
+.edit_cancel_link{
+	margin-left:20px;
+	position:relative;
+	top:10px;
+}
 #left_col {
 float:left;
 width:297px;
@@ -1595,10 +1624,10 @@ margin-bottom:8px;
 .upload_form_heading h1{
 	position:relative;
 	left:-12px;
-background:url(../images/upload-heading.png) no-repeat left top;	
+background:url(../images/upload-heading.png) no-repeat center top;	
 }
 .signin_form_heading h1{
-background:url(../images/login-heading.png) no-repeat left top;	
+background:url(../images/signin-heading.png) no-repeat center top;
 }
 .edit_form_heading h1{
 	background:url(../images/edit-heading.png) no-repeat left top;	
@@ -2790,7 +2819,7 @@ copy
 
 #facebook_app_link{
 	width:290px;
-	height:38px;
+	height:58px;
 	margin-bottom:15px;
 	display:box;
 }
@@ -3078,5 +3107,9 @@ a.delete_link,a#delete_cancel{
 	width:100%;
 	font-weight:bold;
 }
-
-
+.new_tag_label{
+margin-left:40px;
+}
+#header_wrap{
+	margin-left:45px;
+}

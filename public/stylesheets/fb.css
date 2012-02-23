@@ -100,13 +100,20 @@ body {
 	margin-right: auto;
 
 }
-#fb_nav ul {
-	
+#logo{
+	position:relative;
+	top:-1px
+}
+#fb_nav ul {	
  display:block;
- float:right;		
+ float:right;
+ border:1px solid red;
+ margin-top:10px;
+ height:150px;
+ width:300px;		
 }
 ul#fb_nav  li{
-padding:0px 2px 0px 2px;
+padding:6px 2px 0px 2px;
 margin-top:10px;
 float:left;	
 }
@@ -323,7 +330,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a4c4c6', end
 	padding:12px 5px 0px 0px;
 }
 .video_title {
-	padding: 15px 30px 0px 15px;
+	padding: 23px 30px 0px 15px;
 	width: 230px;
 }
 .video_by{
@@ -525,7 +532,7 @@ div#title-video h1{
 	float:left;
 	width:380px;
 	height:27px;
-	background:url(../images/bg-input-usr.png) no-repeat left top;
+	background:url(../images/fb/bg-input-usr.png) no-repeat left top;
 	padding-left: 10px;
 }
 .signin-form_fb li textarea {
@@ -533,7 +540,7 @@ div#title-video h1{
 	float:left;
 	width:211px;
 	height:27px;
-	background:url(../images/bg-input-usr.png) no-repeat left top;
+	background:url(../images/fb/bg-input-usr.png) no-repeat left top;
 	padding-left: 10px;
 }
 .signin-form_fb li select {
@@ -541,7 +548,7 @@ div#title-video h1{
 	float:left;
 	width:211px;
 	height:27px;
-	background:url(../images/bg-input-usr.png) no-repeat left top;
+	background:url(../images/fb/bg-input-usr.png) no-repeat left top;
 	padding-left: 10px;
 }
 
@@ -585,8 +592,11 @@ img.profile_pic{
 #outer_header {
 width:100%;
 border-top:5px solid #00555a;
-height:72px;
-background:url(../images/bg-outer-header.gif) repeat-x top;
+/*height:72px;
+background:url(../images/fb/bg-outer-header.gif) repeat-x top;
+*/
+height:80px;
+background:url(../images/new_header_vitago.png) repeat-x top;
 border-bottom:1px solid #d1d1d1;
 position:relative;
 z-index:1000;
@@ -594,7 +604,7 @@ z-index:1000;
 
 #outer-bottom-footer {
 padding-bottom:12px;
-background:url(../images/bottom-footer.gif) repeat-x bottom;
+background:url(../images/fb/bottom-footer.gif) repeat-x bottom;
 margin:auto;
 height:100px;
 background-color:#ffffff;
@@ -604,7 +614,7 @@ background-color:#ffffff;
 float:left;	
 width: 760px;
 border-top: 1px solid #C1D2D3;
-background: url(../images/bg-gr-footer.gif) repeat-x top white;
+background: url(../images/fb/bg-gr-footer.gif) repeat-x top white;
 padding-top: 16px;
 }
 
@@ -680,18 +690,18 @@ border:1px solid #AFAFAF /* this border should be removed when the actual advert
 }
 /*  video player page */
 
-.video-slider {
+.fb_video-slider {
 padding:11px 10px 11px 11px;
 float:left;
-height:353px;
-width:629px;
+height:307px;
+width:527px;
 }
 
 .fb_panel-video,.fb_panel-video-actions {
 float: left;
-width: 650px;
+width: 547px;
 height: 34px;
-background: url(../images/bg-panel.gif) repeat-x top;
+background: url(../images/fb/bg-panel.gif) repeat-x top;
 border: 1px solid #CDCDCD;
 
 margin-bottom: 12px;
@@ -726,12 +736,12 @@ text-decoration:none;
 color:#00555a;
 }
 .fb_panel-left li a.panl-1 {
-background:url(../images/bg-panl-1.png) no-repeat 15px 11px;
+background:url(../images/fb/bg-panl-1.png) no-repeat 15px 11px;
 width:80px;
 padding-left:35px;
 }
 .fb_panel-left li a.panl-2 {
-background:url(../images/bg-panl-2.png) no-repeat 15px 11px;
+background:url(../images/fb/bg-panl-2.png) no-repeat 15px 11px;
 width:80px;
 padding-left:35px;
 cursor:pointer;
@@ -739,32 +749,40 @@ cursor:pointer;
 .fb_panel-left li a.panl-4-delete{
 width:80px;
 padding-left:35px;
-background:url(../images/delete_icon.png) no-repeat 10px 8px;
+background:url(../images/fb/delete_icon.png) no-repeat 10px 8px;
+}
+.fb_panel-left li a.panl-4-edit{
+width:80px;
+padding-left:35px;
+background:url(../images/fb/edit_icon.png) no-repeat 8px 5px;
 }
 .fb_panel-left li a.panl-3 {
-background:url(../images/bg-panl-3.png) no-repeat 13px 10px;
+background:url(../images/fb/bg-panl-3.png) no-repeat 13px 10px;
 width:40px;
 padding-left:35px;
 }
 .fb_panel-left li a.panl-4 {
-background:url(../images/bg-panl-4.png) no-repeat 15px 10px;
+background:url(../images/fb/bg-panl-4.png) no-repeat 15px 10px;
 width:80px;
 padding-left:35px;
 }
 .fb_panel-left li a.panl-5 {
-background:url(../images/bg-panl-5.png) no-repeat 12px 10px;
+background:url(../images/fb/bg-panl-5.png) no-repeat 12px 10px;
 width:35px;
 padding-left:30px;
 }
 #fb_title-video {
-width:630px;
+width:547px;
 float:left;
 height:30px;
 border-bottom:1px solid #fff;
-background:url(../images/bg-nav-slider.gif) repeat-x top;
+background:url(../images/fb/bg-nav-slider.gif) repeat-x top;
 padding-top:9px;
-padding-left:12px;
-padding-right:8px;
+/*padding-left:12px;*/
+/*padding-right:8px;*/
+}
+.fb_user_info{
+	padding-right:8px;
 }
 #fb_title-video h1 {
 	position:relative;
@@ -777,7 +795,7 @@ float:left;
 font-size:14px;
 }
 #fb_banner_slider {
-width:650px;
+width:547px;
 float:left;
 background:#e7e7e7;
 border-top:1px solid #d1d1d1;
@@ -793,7 +811,7 @@ padding-right:8px;
 float:left;	
 position:relative;
 top:-15px;
-background:url(../images/bg-icon-stat.gif) no-repeat left 0px;
+background:url(../images/fb/bg-icon-stat.gif) no-repeat left 0px;
 padding-left:35px;
 font-size:15px;
 color:#202020;
@@ -835,7 +853,7 @@ width:615px;
 .fb_panel-left li {
 	margin-top:0px;
 float:left;
-background:url(../images/bg-dbl-bord.gif) repeat-y left top;
+background:url(../images/fb/bg-dbl-bord.gif) repeat-y left top;
 padding-left:2px;
 }
 .fb_panel-left li a {
@@ -854,29 +872,29 @@ text-decoration:none;
 color:#00555a;
 }
 .fb_panel-left li a.panl-1 {
-background:url(../images/bg-panl-1.png) no-repeat 15px 11px;
+background:url(../images/fb/bg-panl-1.png) no-repeat 15px 11px;
 width:80px;
 padding-left:35px;
 }
 .fb_panel-left li a.panl-2 {
-background:url(../images/bg-panl-2.png) no-repeat 15px 11px;
+background:url(../images/fb/bg-panl-2.png) no-repeat 15px 11px;
 width:80px;
 padding-left:35px;
 cursor:pointer;
 
 }
 .fb_panel-left li a.panl-3 {
-background:url(../images/bg-panl-3.png) no-repeat 13px 10px;
+background:url(../images/fb/bg-panl-3.png) no-repeat 13px 10px;
 width:40px;
 padding-left:35px;
 }
 .fb_panel-left li a.panl-4 {
-background:url(../images/bg-panl-4.png) no-repeat 15px 10px;
+background:url(../images/fb/bg-panl-4.png) no-repeat 15px 10px;
 width:80px;
 padding-left:35px;
 }
 .fb_panel-left li a.panl-5 {
-background:url(../images/bg-panl-5.png) no-repeat 12px 10px;
+background:url(../images/fb/bg-panl-5.png) no-repeat 12px 10px;
 width:35px;
 padding-left:30px;
 }
@@ -884,19 +902,20 @@ div#fb_updated{
 margin-left:55px;
 }
 #fb_left_content {
-width:650px;
-float:left;
-margin-left: 55px;
+width:547px;
+/*float:left;
+margin-left: 55px;*/
+margin:auto;
 }
 
 .fb_share-panel-top{
 	position:relative;
 	top:-5px;
-	width:250px;
+	width:190px;
 	float:right;
 }
 .fb_share-panel {
-width:650px;
+width:547px;
 height:100%;
 /*width:630px;*/
 /*border:1px solid #cdcdcd;*/
@@ -940,7 +959,7 @@ padding-left:0px;
 }
 .fb_left-info-box ul li {
 float:left;
-background:url(../images/bg-sep-signin.gif) no-repeat left 3px;
+background:url(../images/fb/bg-sep-signin.gif) no-repeat left 3px;
 padding:0 6px 0 8px;
 line-height:16px;
 font-family:Arial, Helvetica, sans-serif;
@@ -1010,51 +1029,49 @@ div#not_found_tags h2{
 	margin-right:10px;
 }
 .fb_edit_box{
-	width:160px;
+	width:134px;
 	height:160px;
 	float:left;
 	padding:10px;
 	border:1px solid #C1D2D3;
 	margin-bottom:20px;	
-	margin-right:35px;
+	margin-right:38px;
 }
-input.contact_info{
-	width:160px;
+input.fb_contact{
+	width:130px;
 	border:1px solid #C1D2D3;
 	margin-bottom:10px;
 }
-div.image_border img{
+div.fb_image_border img{
 	position:relative;
 	top:0px;
 	border:4px solid #C1D2D3;
-	margin-left:37px;
+	margin-left:23px;
 	margin-bottom:10px;
 	width:80px;
 	height:90px;
 
 }
-div#face_tag label{
+div#fb_face_tag label{
 	clear:both;
 	padding-top:5px;
-	margin-left:50px;
+	margin-left:35px;
 }
 .delete_div{
 	height:10px;
-
 }
-table#edit_tags_wrappper{
-	width:670px;
-	margin-left:65px;
+table#fb_edit_tags_wrappper{
+	width:590px;
+	margin-left:105px;
 }
 div#updade_footer{
 	border-top:1px solid #C1D2D3;
 	padding-top:15px;
 	height:250px;
-	width:650px;
+	width:547px;
 	text-align:center;
-	float:left;
-	margin-left:50px;
-	margin-top:15px;
+	margin:auto;
+	margin-top:20px;
 }
 div#updade_footer div{
 	width:105px;
@@ -1069,7 +1086,7 @@ a#fb_add_new_tag{
 	background-color:#EDEDED;
 	text-decoration:none;
 	color:#333;
-	margin-left:580px;
+	margin-left:537px;
 
 }
 a#add_new_tag:hover{
@@ -1086,20 +1103,111 @@ div.fb_avatar_border{
 	width:80px;
 	height:80px;
 	margin-top:10px;
-	margin-left:38px;
+	margin-left:23px;
 	margin-bottom:16px;
 	text-align:center;
 	padding-top:5px;
 }
 .fb_new_tag_label{
-	margin-left:38px;
+	margin-left:25px;
 }
-div.edit_box:hover{
+div.fb_edit_box:hover{
 	cursor:pointer;
 	background-color:#f3f0f0;
 }
-.gallery_delete{
+.fb_delete_img{
 	border:1px solid #C1D2D3;
 	padding:2px;
-	margin-left:150px;	
+	margin-left:120px;	
+}
+h2.fb_edit_tags_title{
+	width:547px;
+	margin-left:auto;
+	margin-right:auto;
+	font-size:14px;
+	position:relative;
+	top:-8px;
+}
+.fb_heading-list-edit{
+	width:547px;
+margin-left:auto;
+margin-right:auto;
+border:1px solid #e4e4e4;
+height:27px;
+background:url(../images/fb/bg-heading-gr.gif) repeat-x top;
+padding-top:6px;
+text-align:center;
+margin-bottom:10px;
+margin-top:10px;
+}
+
+
+
+/**************************** Delete Box ************************************ */
+#confirm_delete_box{
+	position:absolute;
+	border:4px solid gray;
+	width:300px;
+	height:140px;
+	background-color:#ffffff;
+	z-index:1999;	
+	display:none;
+	
+}
+div#delete_box_header{
+	width:290px;
+	height:20px;
+	color:#ffffff;
+	font-size:12px;
+	font-weight:bold;
+	background-color:#054B4F;
+	padding-top:8px;
+	padding-left:10px;
+}
+div#delete_box_body{
+	padding-top:10px;
+	padding-left:10px;
+	height:60px;
+}
+div#delete_box_footer{
+	padding-top:15px;
+	padding-left:10px;
+	border-top:1px solid gray;
+	background-color:1px #F5F5F5;
+}
+div#delete_box_footer div{
+	float:right;
+	margin-right:15px; 
+}
+div#delete_box_body label{
+	margin-left:5px;
+}
+a#delete_link{
+	display:box;
+	width:25px;
+	height:25px;
+	color:#ffffff;
+	text-align:center;
+	font-size:12px;
+	background-color:#054B4F;
+	text-decoration:none;
+	padding:2px 10px 2px 10px;
+	margin-right:15px;
+}
+a#delete_link:hover{
+	background-color:#a4c4c6;
+	color:#000000;
+}
+a.delete_link,a#delete_cancel{
+	cursor:pointer;
+}
+#delete_overlay{
+    position:absolute;
+    z-index:1900;
+    top:0px;
+    height:0px;
+    background-color:#000000;
+    width:100%;
+    height:100%;
+
 }

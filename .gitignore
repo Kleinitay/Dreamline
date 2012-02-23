@@ -3,12 +3,13 @@ db/*.sqlite3
 log/*.log
 tmp/
 public/videos/
-public/.DS_Store
+public/images/users
+*.DS_Store
 ruby-debug/
 Gemfile
 /app/.DS_Store
 .idea/
 ruby/
 Gemfile.lock
-MovieFaceDetector/MovieFaceRecognition.exe
+MovieFaceDetector/MovieFaceRecognition
 .gitignore
