@@ -13,3 +13,5 @@ ruby/
 Gemfile.lock
 MovieFaceDetector/MovieFaceRecognition
 .gitignore
+*.swp
+*.swo

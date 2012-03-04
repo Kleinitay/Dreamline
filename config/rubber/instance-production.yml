@@ -1,0 +1,57 @@
+--- 
+- !ruby/object:Rubber::Configuration::InstanceItem 
+  domain: vtago.com
+  external_host: ec2-184-72-185-12.compute-1.amazonaws.com
+  external_ip: 184.72.185.12
+  image_id: ami-7000f019
+  image_type: m1.small
+  instance_id: i-11955075
+  internal_host: ip-10-112-39-41.ec2.internal
+  internal_ip: 10.112.39.41
+  name: production
+  platform: linux
+  roles: 
+  - !ruby/object:Rubber::Configuration::RoleItem 
+    name: web
+    options: {}
+
+  - !ruby/object:Rubber::Configuration::RoleItem 
+    name: haproxy
+    options: {}
+
+  - !ruby/object:Rubber::Configuration::RoleItem 
+    name: app
+    options: {}
+
+  - !ruby/object:Rubber::Configuration::RoleItem 
+    name: passenger
+    options: {}
+
+  - !ruby/object:Rubber::Configuration::RoleItem 
+    name: apache
+    options: {}
+
+  - !ruby/object:Rubber::Configuration::RoleItem 
+    name: db
+    options: 
+      primary: true
+  - !ruby/object:Rubber::Configuration::RoleItem 
+    name: mysql_master
+    options: {}
+
+  root_device_type: instance-store
+  security_groups: 
+  - vtago_production_default
+  - vtago_production_web
+  - vtago_production_production
+  - vtago_production_haproxy
+  - vtago_production_app
+  - vtago_production_passenger
+  - vtago_production_apache
+  - vtago_production_db
+  - vtago_production_mysql_master
+  zone: us-east-1d
+- volumes: {}
+
+  static_ips: {}
+

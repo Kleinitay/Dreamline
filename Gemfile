@@ -18,6 +18,7 @@ gem 'omniauth-facebook'
 gem 'carrierwave'
 gem 'delayed_job_active_record'
 gem 'daemons'
+gem 'fog'
 
 
 # Use unicorn as the web server
@@ -42,3 +43,4 @@ gem 'daemons'
 # group :development, :test do
 #   gem 'webrat'
 # end
+gem "rubber", "1.15.0"

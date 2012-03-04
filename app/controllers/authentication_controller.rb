@@ -12,8 +12,11 @@ class AuthenticationController < ApplicationController
   #end
 
   def get_uid_and_access_token
+    logger.info "rails path =#{Rails.root.to_s}" 
       auth = request.env["omniauth.auth"]
+      logger.info "auth = #{auth}"
       uid = auth['uid']
+     logger.info "uid = #{uid}" 
       token =  auth['credentials']['token']
       session['fb_uid'] = auth['uid']
       session['fb_access_token'] = auth['credentials']['token']
@@ -36,7 +39,8 @@ class AuthenticationController < ApplicationController
           end
         end
       rescue Exception=>e
-        render :text => "Session Has gone away. Please refresh and login again."
+        logger.info "-----------the error:  " + e.to_s
+        flash[:notice] = "Session Has gone away. Please refresh and login again."
         sign_out
       end
     end
